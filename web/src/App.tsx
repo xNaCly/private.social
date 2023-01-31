@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Error from "./screens/Error";
 import Profile from "./screens/Profile";
 import Home from "./screens/Home";
+import "./index.css";
 
 export default function App() {
 	return (
