@@ -1,19 +1,18 @@
 import Navigation from "./components/Navigation";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Error from "./screens/Error";
-import Profile from "./screens/Error";
+import Profile from "./screens/Profile";
 import Home from "./screens/Home";
 
 export default function App() {
 	return (
-		<div>
+		<Router>
+			<Navigation />
 			<Routes>
-				<Route path="/" element={<Navigation />}>
-					<Route index element={<Home />} />
-					<Route path="profile" element={<Profile />} />
-					<Route path="*" element={<Error />} />
-				</Route>
+				<Route index element={<Home />} />
+				<Route path="profile" element={<Profile />} />
+				<Route path="*" element={<Error />} />
 			</Routes>
-		</div>
+		</Router>
 	);
 }
