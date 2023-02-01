@@ -9,11 +9,13 @@ export default function App() {
 	return (
 		<Router>
 			<Navigation />
-			<Routes>
-				<Route index element={<Home />} />
-				<Route path="profile" element={<Profile />} />
-				<Route path="*" element={<Error />} />
-			</Routes>
+			<div className="mx-6">
+				<Routes>
+					<Route index element={<Home />} />
+					<Route path="profile" element={<Profile />} />
+					<Route path="*" element={<Error />} />
+				</Routes>
+			</div>
 		</Router>
 	);
 }
