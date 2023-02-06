@@ -1,4 +1,4 @@
-import { XCircle } from "react-feather";
+import { XCircle, Bell } from "react-feather";
 import { useState, useEffect } from "react";
 
 import Notification from "./Notification";
@@ -54,11 +54,14 @@ export default function NotificationModal({ closeNotificationModal }: any) {
 			onClick={closeNotificationModal}
 		>
 			<div
-				className="bg-white flex flex-col justify-center items-center rounded border p-4 w-1/2"
+				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 w-1/2 shadow-2xl"
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className="flex justify-between items-center w-full">
-					<h1 className="mr-2 text-xl">Notifications</h1>
+					<div className="flex justify-between items-center">
+						<Bell size={22} />
+						<h1 className="mx-2 text-xl">Notifications</h1>
+					</div>
 					<button onClick={closeNotificationModal}>
 						<XCircle size={22} />
 					</button>

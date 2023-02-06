@@ -51,7 +51,7 @@ export default function Navigation() {
 					<button className="m-1 p-3 hover:text-trantlabs">
 						<Send size={22} />
 					</button>
-					<div className="bg-gradient-to-r from-trantlabs to-green-700 cursor-pointer m-1 p-2 px-4 flex justify-center items-center rounded text-white">
+					<div className="bg-trantlabs hover:shadow-lg hover:shadow-trantlabs/40 cursor-pointer m-1 p-2 px-4 flex justify-center items-center rounded text-white">
 						<PlusCircle size={22} className="mr-2" />
 						<span className="text-lg">Upload</span>
 					</div>
