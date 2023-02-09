@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/xnacly/private.social/cdn/handlers"
 	"github.com/xnacly/private.social/cdn/util"
 	"log"
@@ -42,8 +43,11 @@ func main() {
 		MaxAge: 3600,
 	})
 
+	app.Use(logger.New(logger.Config{
+		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
+	}))
+
 	app.Use(func(c *fiber.Ctx) error {
-		log.Printf("[%s] %s from %s", c.Method(), c.Path(), c.IP())
 		return c.Status(404).JSON(util.ApiError{
 			Code:    fiber.ErrNotFound.Code,
 			Message: fiber.ErrNotFound.Message,

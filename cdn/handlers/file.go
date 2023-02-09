@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -12,7 +11,6 @@ import (
 )
 
 func AcceptIncomingFile(c *fiber.Ctx) error {
-	log.Printf("[%s] %s from %s", c.Method(), c.Path(), c.IP())
 	file := c.Params("file")
 
 	if len(file) == 0 {
