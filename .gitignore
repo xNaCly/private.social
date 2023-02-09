@@ -1,0 +1,2 @@
+# ignore virtual file system used to store files uploaded to the cdn
+vfs/
