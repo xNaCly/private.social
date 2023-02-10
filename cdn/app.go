@@ -2,15 +2,20 @@ package main
 
 import (
 	"errors"
+	"fmt"
+	"log"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/xnacly/private.social/cdn/handlers"
 	"github.com/xnacly/private.social/cdn/util"
-	"log"
 )
 
 func main() {
 	log.SetFlags(log.Ldate | log.Ltime)
+	fmt.Print(util.ASCII_ART)
+
+	util.CreateVfsIfNotFound()
 
 	var DefaultErrorHandler = func(c *fiber.Ctx, err error) error {
 		code := fiber.StatusInternalServerError
@@ -37,15 +42,15 @@ func main() {
 		ErrorHandler: DefaultErrorHandler,
 	})
 
+	app.Use(logger.New(logger.Config{
+		TimeFormat: "2006-01-02 15:04:05",
+	}))
+
 	v1 := app.Group("/v1")
 	v1.Post("/upload/:file", handlers.AcceptIncomingFile)
 	v1.Static("/asset", "./vfs", fiber.Static{
 		MaxAge: 3600,
 	})
-
-	app.Use(logger.New(logger.Config{
-		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
-	}))
 
 	app.Use(func(c *fiber.Ctx) error {
 		return c.Status(404).JSON(util.ApiError{

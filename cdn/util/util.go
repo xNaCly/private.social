@@ -2,8 +2,21 @@ package util
 
 import (
 	"math/rand"
+	"os"
 	"time"
 )
+
+// font: ansi shadow
+const ASCII_ART = `
+██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗                    ██████╗██████╗ ███╗   ██╗
+██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝   ██╔════╝██╔═══██╗██╔════╝██║██╔══██╗██║                   ██╔════╝██╔══██╗████╗  ██║
+██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗     ███████╗██║   ██║██║     ██║███████║██║         █████╗    ██║     ██║  ██║██╔██╗ ██║
+██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝     ╚════██║██║   ██║██║     ██║██╔══██║██║         ╚════╝    ██║     ██║  ██║██║╚██╗██║
+██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗██╗███████║╚██████╔╝╚██████╗██║██║  ██║███████╗              ╚██████╗██████╔╝██║ ╚████║
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═╝  ╚═╝╚══════╝               ╚═════╝╚═════╝ ╚═╝  ╚═══╝
+`
+
+const LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 var SUPPORTED_FORMATS = map[string]struct{}{
 	"image/png":  {},
@@ -15,8 +28,6 @@ var SUPPORTED_FORMATS = map[string]struct{}{
 	"video/mp4":  {},
 }
 
-const LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
 func RandomString(length int) string {
 	rand.Seed(time.Now().UnixNano())
 	b := make([]byte, length)
@@ -24,6 +35,12 @@ func RandomString(length int) string {
 		b[i] = LETTERS[rand.Intn(len(LETTERS))]
 	}
 	return string(b)
+}
+
+func CreateVfsIfNotFound() {
+	if _, err := os.Stat("./vfs"); os.IsNotExist(err) {
+		os.Mkdir("./vfs", 0777)
+	}
 }
 
 type ApiError struct {
