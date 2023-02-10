@@ -8,6 +8,7 @@ import (
 var SUPPORTED_FORMATS = map[string]struct{}{
 	"image/png":  {},
 	"image/jpg":  {},
+	"image/jpeg": {},
 	"image/gif":  {},
 	"image/webp": {},
 	"image/heic": {}, // TODO: convert to displayable format, heic cant be rendered by common browsers
