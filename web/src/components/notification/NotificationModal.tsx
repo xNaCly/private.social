@@ -68,7 +68,10 @@ export default function NotificationModal({ closeNotificationModal }: any) {
 				</div>
 				<div className="flex justify-center items-center flex-col w-full p-4">
 					{notifications.map((notification: INotification) => (
-						<Notification data={notification} />
+						<Notification
+							key={notification.id}
+							data={notification}
+						/>
 					))}
 				</div>
 			</div>
