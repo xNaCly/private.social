@@ -4,5 +4,5 @@ export interface INotification {
 	type: "likepost" | "likestory" | "comment" | "follow" | "newpost";
 	author: string;
 	link: string;
-	createdAt: Date;
+	created_at: Date;
 }
