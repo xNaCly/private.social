@@ -24,13 +24,13 @@ export default function Navigation() {
 						<Home size={22} className="mr-2 hover:text-trantlabs" />
 						Feed
 					</Link>
-					<Link
+					{/*<Link
 						className="m-1 p-3 text-lg flex justify-center items-center hover:text-trantlabs"
 						to={"/explore"}
 					>
 						<Grid size={22} className="mr-2" />
 						Explore
-					</Link>
+					</Link>*/}
 					<Link
 						className="m-1 p-3 text-lg flex justify-center items-center hover:text-trantlabs"
 						to={"/profile"}
