@@ -10,9 +10,10 @@ export interface User {
 		posts: number;
 		following: number;
 	};
-    private: boolean;
+	private: boolean;
 	id: number;
 	name: string;
+	display_name: string;
 	link: string;
 	avatar: string;
 	created_at: Date;
