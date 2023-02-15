@@ -10,6 +10,7 @@ export interface User {
 		posts: number;
 		following: number;
 	};
+    private: boolean;
 	id: number;
 	name: string;
 	link: string;
