@@ -16,7 +16,7 @@ export default function Navigation() {
 				/>
 			)}
 			<nav className="flex justify-between items-center p-1 pt-2 mx-4">
-				<div className="flex items-center">
+				<div className="flex items-center justify-center">
 					<Link
 						className="m-1 p-3 text-lg flex justify-center items-center hover:text-trantlabs"
 						to={"/"}
@@ -39,7 +39,7 @@ export default function Navigation() {
 						Profile
 					</Link>
 				</div>
-				<div className="flex justify-center">
+				<div className="flex justify-center items-center">
 					<button
 						className="m-1 p-3 hover:text-trantlabs"
 						onClick={() =>
