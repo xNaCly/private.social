@@ -32,8 +32,6 @@ func main() {
 			Success: false,
 		}
 
-		log.Println(apiErr)
-
 		return c.Status(code).JSON(apiErr)
 	}
 

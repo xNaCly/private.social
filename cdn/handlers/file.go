@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -21,7 +20,7 @@ func AcceptIncomingFile(c *fiber.Ctx) error {
 
 	mimeType := http.DetectContentType(body)
 	if _, ok := util.SUPPORTED_FORMATS[mimeType]; !ok {
-		return fiber.NewError(fiber.StatusBadRequest, "unsupported file format, choose one of: "+fmt.Sprint(util.SUPPORTED_FORMATS))
+		return fiber.NewError(fiber.StatusBadRequest, "unsupported file format, choose one of: "+util.SUPPORTED_FORMATS_STR)
 	}
 
 	if len(body) == 0 {

@@ -3,6 +3,7 @@ package util
 import (
 	"math/rand"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -27,6 +28,14 @@ var SUPPORTED_FORMATS = map[string]struct{}{
 	"image/heic": {}, // TODO: convert to displayable format, heic cant be rendered by common browsers
 	"video/mp4":  {},
 }
+
+var SUPPORTED_FORMATS_STR = func() string {
+	keys := make([]string, 0)
+	for k := range SUPPORTED_FORMATS {
+		keys = append(keys, k)
+	}
+	return strings.Join(keys, ", ")
+}()
 
 func RandomString(length int) string {
 	rand.Seed(time.Now().UnixNano())
