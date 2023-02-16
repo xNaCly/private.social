@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/xnacly/private.social/cdn/handlers"
 	"github.com/xnacly/private.social/cdn/util"
@@ -38,13 +39,15 @@ func main() {
 
 	app := fiber.New(fiber.Config{
 		AppName:      "private.social/cdn",
-		ServerHeader: "private.social - cdn server",
+		ServerHeader: "private.social/cdn",
 		ErrorHandler: DefaultErrorHandler,
 	})
 
 	app.Use(logger.New(logger.Config{
 		TimeFormat: "2006-01-02 15:04:05",
 	}))
+
+	app.Use(cors.New())
 
 	v1 := app.Group("/v1")
 	v1.Post("/upload/:file", handlers.AcceptIncomingFile)

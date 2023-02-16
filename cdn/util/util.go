@@ -43,8 +43,12 @@ func CreateVfsIfNotFound() {
 	}
 }
 
+// hold error feedback for the client response, allows for converting data to json
 type ApiError struct {
-	Success bool   `json:"success"`
-	Code    int    `json:"code"`
+	// indicate if the request was successful or not
+	Success bool `json:"success"`
+	// HTTP status code: 200, 400, 500, etc
+	Code int `json:"code"`
+	// error text associated with the error
 	Message string `json:"message"`
 }
