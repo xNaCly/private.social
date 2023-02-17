@@ -1,4 +1,4 @@
-export interface Post {
+export interface IPost {
 	id: number;
 	data: {
 		comments: number;

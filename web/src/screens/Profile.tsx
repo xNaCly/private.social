@@ -1,5 +1,8 @@
 import { User } from "../models/User";
+import { IPost } from "../models/Post";
 import { Settings, MapPin } from "react-feather";
+
+import Post from "../components/Post";
 
 export default function Profile() {
 	const data: User = {
@@ -22,6 +25,68 @@ export default function Profile() {
 		avatar: "https://avatars.githubusercontent.com/u/47723417?v=4",
 		created_at: new Date(Date.now()),
 	};
+	const posts: IPost[] = [
+		{
+			id: 0,
+			data: {
+				comments: 0,
+				likes: 25,
+				source: "https://avatars.githubusercontent.com/u/47723417?v=4",
+				description: "New picture",
+				website: "https://xnacly.me",
+			},
+			creator_ids: [data.id.toString()],
+			created_at: new Date(),
+		},
+		{
+			id: 1,
+			data: {
+				comments: 0,
+				likes: 25,
+				source: "https://avatars.githubusercontent.com/u/47723417?v=4",
+				description: "New picture",
+				website: "https://xnacly.me",
+			},
+			creator_ids: [data.id.toString()],
+			created_at: new Date(),
+		},
+		{
+			id: 2,
+			data: {
+				comments: 0,
+				likes: 25,
+				source: "https://avatars.githubusercontent.com/u/47723417?v=4",
+				description: "New picture",
+				website: "https://xnacly.me",
+			},
+			creator_ids: [data.id.toString()],
+			created_at: new Date(),
+		},
+		{
+			id: 3,
+			data: {
+				comments: 0,
+				likes: 25,
+				source: "https://avatars.githubusercontent.com/u/47723417?v=4",
+				description: "New picture",
+				website: "https://xnacly.me",
+			},
+			creator_ids: [data.id.toString()],
+			created_at: new Date(),
+		},
+		{
+			id: 3,
+			data: {
+				comments: 0,
+				likes: 25,
+				source: "https://avatars.githubusercontent.com/u/47723417?v=4",
+				description: "New picture",
+				website: "https://xnacly.me",
+			},
+			creator_ids: [data.id.toString()],
+			created_at: new Date(),
+		},
+	];
 	return (
 		<div className="p-8 px-24 flex flex-col items-start justify-center">
 			<div className="flex items-start justify-center w-full">
@@ -78,6 +143,18 @@ export default function Profile() {
 							{data.bio.website}
 						</a>
 					</div>
+				</div>
+			</div>
+			<div className="mt-4 flex items-start justify-center w-full">
+				<div className="grid lg:grid-cols-3 md:grid-cols-2">
+					{posts.map((p) => (
+						<a
+							href={`posts/${p.id}`}
+							className="hover:brightness-75"
+						>
+							<img className="m-2 w-60" src={p.data.source} />
+						</a>
+					))}
 				</div>
 			</div>
 		</div>
