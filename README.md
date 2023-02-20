@@ -8,18 +8,17 @@ Private is the privacy respecting, unique and open source social network. Privat
 
 #### Prod environment:
 
+> Info:
+>
+> requires:
+>
+> - podman / docker
+> - docker-compose
+> - podman / docker service enabled and started with systemctl
+
 ```bash
-git clone https://github.com/xNaCly/webengineering-2.git
+git clone https://github.com/xNaCly/private.social.git
 docker compose up
-```
-
-#### Dev environment
-
-```bash
-git clone https://github.com/xNaCly/webengineering-2.git
-cd web
-yarn
-yarn start
 ```
 
 ### Directory structure
