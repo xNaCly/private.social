@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Private.social/cdn
+  description: The private.social cdn manages uploading and retrieving assets of several image and video types. The cdn does not require authorization and relies on a possible attacker not knowing the directory prefix. Up on creation of the main REST api this will change to only serve files to requests authorized with a valid JWT token.
+  license:
+    name: MIT License
+    url: https://mit-license.org/
+  version: 1.0.11
+servers:
+  - url: http://localhost:8080
+paths:
+  /v1/asset/{prefix}/{filename}:
+    get:
+      tags:
+        - assets
+      parameters: 
+        - name: prefix
+          in: path
+          description: Directory prefix
+          required: true
+          schema:
+            type: string
+            example: cBtMYobImyfLVNpvwlxDSnSmgttBKIaS
+        - name: filename
+          in: path
+          description: Name of the file with extension
+          required: true
+          schema:
+            type: string
+            example: "file.png"
+      summary: Access uploaded files from the cdn
+      description: This endpoint serves the previously uploaded files from a static folder, it is therefore generaly very fast (<4ms Response time). After the first request the asset is cached for 3600 seconds (60min / 1h). Both the `prefix` and the `filename` can be get from the `/upload/` path.
+      responses:
+        200:
+          description: Requested file found and served
+        404:
+          description: Requested file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                code: 404
+                message: Not Found
+
+  /v1/upload/{filename}:
+    post:
+      tags:
+        - assets
+      summary: Upload a file to the cdn
+      description: This endpoint accepts several media types / MIME-Types and saves the given file from the binary data request body with a randomly generated `prefix` on disk. This file is then accessable using the `/asset/` endpoint with the up on uploading returned `path` which contains the `prefix` and the `filename` of the uploaded file.
+      operationId: uploadAsset
+      parameters:
+        - name: filename
+          in: path
+          description: name of the file to upload
+          required: true
+          schema:
+            type: string
+            example: test.png
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          image/jpeg:
+            schema:
+              type: string
+              format: binary
+          image/gif:
+            schema:
+              type: string
+              format: binary
+          image/webp:
+            schema:
+              type: string
+              format: binary
+          image/heic:
+            schema:
+              type: string
+              format: binary
+          video/mp4:
+            schema:
+              type: string
+              format: binary
+          image/png:
+            schema:
+              type: string
+              format: binary
+          image/jpg:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '201':
+          description: Created asset in cdn storage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Invalid input, empty file or unsupported file format / MIME-type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        path: 
+          type: string
+          example: "http://localhost:8080/v1/asset/cBtMYobImyfLVNpvwlxDSnSmgttBKIaS/file.png"
+        status:
+          type: string
+          example: "ok"
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 400
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "unsupported file format, choose one of: image/jpeg, image/gif, image/webp, image/heic, video/mp4, image/png, image/jpg"
