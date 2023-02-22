@@ -1,7 +1,10 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as builder
 WORKDIR /web
 COPY . .
 RUN yarn install
 RUN yarn build
+
+FROM node:lts-alpine
 RUN yarn global add serve
-CMD ["serve", "-s", "dist"]
+COPY --from=builder /web/dist /
+CMD ["serve", "-s", "/dist"]
