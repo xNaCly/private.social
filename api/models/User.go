@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type User struct {
 	Id          string    `json:"id"`
 	Private     bool      `json:"private"`      // if the account is private, impacts the visibility of the user's posts
@@ -10,6 +12,13 @@ type User struct {
 	CreatedAt   string    `json:"created_at"`
 	Bio         UserBio   `json:"bio"`
 	Stats       UserStats `json:"stats"`
+}
+
+func NewUser() *User {
+    usr := User{
+        CreatedAt: time.Now().Unix(),
+    }
+    return &usr
 }
 
 type UserBio struct {

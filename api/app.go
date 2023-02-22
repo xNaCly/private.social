@@ -1,53 +1,31 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-
-	"github.com/xnacly/private.social/api/handlers"
 	"github.com/xnacly/private.social/api/util"
+	"github.com/xnacly/private.social/api/config"
+	"github.com/xnacly/private.social/api/router"
+	"github.com/xnacly/private.social/api/handlers"
+
+    "github.com/gofiber/fiber/v2"
 )
 
+var routes = []router.Route{
+	{
+		Path:        "/",
+		Method:      "GET",
+		Handler:     handlers.Index,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+}
+
 func main() {
-	log.SetFlags(log.Ldate | log.Ltime)
 	fmt.Print(util.ASCII_ART)
 
-	var DefaultErrorHandler = func(c *fiber.Ctx, err error) error {
-		code := fiber.StatusInternalServerError
-
-		var e *fiber.Error
-		if errors.As(err, &e) {
-			code = e.Code
-		}
-
-		apiErr := util.ApiError{
-			Code:    code,
-			Message: err.Error(),
-			Success: false,
-		}
-
-		return c.Status(code).JSON(apiErr)
-	}
-
-	app := fiber.New(fiber.Config{
-		AppName:      "private.social/api",
-		ServerHeader: "private.social/api",
-		ErrorHandler: DefaultErrorHandler,
-	})
-
-	app.Use(logger.New(logger.Config{
-		TimeFormat: "2006-01-02 15:04:05",
-	}))
-
-	app.Use(cors.New())
-
-	v1 := app.Group("/v1")
-	v1.Get("/", handlers.Index)
+    app := config.Setup()
+    router.RegisterRoutes(app, "v1", routes...)
 
 	app.Use(func(c *fiber.Ctx) error {
 		return c.Status(404).JSON(util.ApiError{
