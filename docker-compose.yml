@@ -2,6 +2,8 @@ version: "3.9"
 services:
   api:
     build: ./api
+    environment:
+      - MONGO_URL=
     ports:
       - 8000:8000
   cdn:

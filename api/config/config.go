@@ -16,7 +16,16 @@ func LoadDotEnv() {
 	defer file.Close()
 
 	if err != nil {
-		log.Fatal("failed to open .env ", err)
+		log.Println("failed to open .env '", err, "'using defaults")
+		Config["PROD"] = "true"
+		url := os.Getenv("MONGO_URL")
+		if url == "" {
+			log.Fatal("'MONGO_URL' env not found, exiting")
+		}
+
+		Config["MONGO_URL"] = url
+
+		return
 	}
 
 	scanner := bufio.NewScanner(file)

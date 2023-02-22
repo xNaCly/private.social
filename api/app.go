@@ -33,7 +33,7 @@ func main() {
 
 	config.LoadDotEnv()
 
-	database.Db = database.Connect(config.Config["MONGO_URI"])
+	database.Db = database.Connect(config.Config["MONGO_URL"])
 
 	// TODO: remove test:
 	user := models.User{
