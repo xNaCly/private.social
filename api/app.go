@@ -1,53 +1,65 @@
+// entry point for the REST api
+// contains the main function, the route registration and connecting to the database
+//
+// new routes can be added by appending a new router.Route struct to the routes array.
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
-
+	"github.com/xnacly/private.social/api/config"
+	"github.com/xnacly/private.social/api/database"
 	"github.com/xnacly/private.social/api/handlers"
+	"github.com/xnacly/private.social/api/models"
+	"github.com/xnacly/private.social/api/router"
+	"github.com/xnacly/private.social/api/setup"
 	"github.com/xnacly/private.social/api/util"
+
+	"github.com/gofiber/fiber/v2"
 )
 
+var routes = []router.Route{
+	{
+		Path:        "/",
+		Method:      "GET",
+		Handler:     handlers.Index,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+}
+
 func main() {
-	log.SetFlags(log.Ldate | log.Ltime)
 	fmt.Print(util.ASCII_ART)
 
-	var DefaultErrorHandler = func(c *fiber.Ctx, err error) error {
-		code := fiber.StatusInternalServerError
+	config.LoadDotEnv()
 
-		var e *fiber.Error
-		if errors.As(err, &e) {
-			code = e.Code
-		}
+	database.Db = database.Connect(config.Config["MONGO_URI"])
 
-		apiErr := util.ApiError{
-			Code:    code,
-			Message: err.Error(),
-			Success: false,
-		}
-
-		return c.Status(code).JSON(apiErr)
+	// TODO: remove test:
+	user := models.User{
+		Name:        "user",
+		DisplayName: "user",
+		Link:        "user",
+		Avatar:      "https://xnacly.me/avatar.png",
+		Private:     false,
+		CreatedAt:   util.GetTimeStamp(),
+		Bio: models.UserBio{
+			Text:     "this is the bio",
+			Pronouns: "they/them",
+			Location: "somewhere",
+			Website:  "https://xnacly.me",
+		},
+		Stats: models.UserStats{
+			Followers: 0,
+			Following: 0,
+			Posts:     0,
+		},
 	}
+	database.Db.InsertNewUser(user)
+	// -----------------
 
-	app := fiber.New(fiber.Config{
-		AppName:      "private.social/api",
-		ServerHeader: "private.social/api",
-		ErrorHandler: DefaultErrorHandler,
-	})
-
-	app.Use(logger.New(logger.Config{
-		TimeFormat: "2006-01-02 15:04:05",
-	}))
-
-	app.Use(cors.New())
-
-	v1 := app.Group("/v1")
-	v1.Get("/", handlers.Index)
+	app := setup.Setup()
+	router.RegisterRoutes(app, "v1", routes...)
 
 	app.Use(func(c *fiber.Ctx) error {
 		return c.Status(404).JSON(util.ApiError{
