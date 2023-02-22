@@ -75,7 +75,7 @@ export default function Profile() {
 			created_at: new Date(),
 		},
 		{
-			id: 3,
+			id: 4,
 			data: {
 				comments: 0,
 				likes: 25,
@@ -125,7 +125,7 @@ export default function Profile() {
 						</div>
 					</div>
 					<div className="flex flex-col">
-						<p className="flex my-1 items-center">
+						<div className="flex my-1 items-center">
 							<span className="mr-2">{data.display_name}</span>
 							<span className="mx-2 text-gray-400">
 								{data.bio.pronouns}
@@ -134,7 +134,7 @@ export default function Profile() {
 								<MapPin size={14} className="mr-1" />
 								{data.bio.location}
 							</div>
-						</p>
+						</div>
 						<span className="my-1 max-w-xs">{data.bio.text}</span>
 						<a
 							className="my-1 text-trantlabs hover:text-gray-500"
@@ -151,8 +151,13 @@ export default function Profile() {
 						<a
 							href={`posts/${p.id}`}
 							className="hover:brightness-75"
+							key={p.id}
 						>
-							<img className="m-2 w-60" src={p.data.source} />
+							<img
+								className="m-2 w-60"
+								src={p.data.source}
+								key={p.id}
+							/>
 						</a>
 					))}
 				</div>
