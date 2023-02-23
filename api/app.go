@@ -11,7 +11,6 @@ import (
 	"github.com/xnacly/private.social/api/config"
 	"github.com/xnacly/private.social/api/database"
 	"github.com/xnacly/private.social/api/handlers"
-	"github.com/xnacly/private.social/api/models"
 	"github.com/xnacly/private.social/api/router"
 	"github.com/xnacly/private.social/api/setup"
 	"github.com/xnacly/private.social/api/util"
@@ -32,30 +31,34 @@ func main() {
 	fmt.Print(util.ASCII_ART)
 
 	config.LoadDotEnv()
+	config.LoadConfig()
 
 	database.Db = database.Connect(config.Config["MONGO_URL"])
 
 	// TODO: remove test:
-	user := models.User{
-		Name:        "user",
-		DisplayName: "user",
-		Link:        "user",
-		Avatar:      "https://xnacly.me/avatar.png",
-		Private:     false,
-		CreatedAt:   util.GetTimeStamp(),
-		Bio: models.UserBio{
-			Text:     "this is the bio",
-			Pronouns: "they/them",
-			Location: "somewhere",
-			Website:  "https://xnacly.me",
-		},
-		Stats: models.UserStats{
-			Followers: 0,
-			Following: 0,
-			Posts:     0,
-		},
-	}
-	database.Db.InsertNewUser(user)
+	// user := models.User{
+	// 	Name:        "user",
+	// 	DisplayName: "user",
+	// 	Link:        "user",
+	// 	Avatar:      "https://xnacly.me/avatar.png",
+	// 	Private:     false,
+	// 	CreatedAt:   util.GetTimeStamp(),
+	// 	Bio: models.UserBio{
+	// 		Text:     "this is the bio",
+	// 		Pronouns: "they/them",
+	// 		Location: "somewhere",
+	// 		Website:  "https://xnacly.me",
+	// 	},
+	// 	Stats: models.UserStats{
+	// 		Followers: 0,
+	// 		Following: 0,
+	// 		Posts:     0,
+	// 	},
+	// }
+	// err := database.Db.InsertNewUser(user)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 	// -----------------
 
 	app := setup.Setup()
