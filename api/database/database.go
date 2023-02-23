@@ -44,9 +44,9 @@ func Connect(db_string string) Database {
 	return Database{connection: client, users: client.Database("ps").Collection("users")}
 }
 
-func (db Database) InsertNewUser(user models.User) error {
-	_, err := db.users.InsertOne(context.TODO(), user)
-	return err
+func (db Database) InsertNewUser(user models.User) (*mongo.InsertOneResult, error) {
+	res, err := db.users.InsertOne(context.TODO(), user)
+	return res, err
 }
 
 func (db Database) GetUserById(id string) (models.User, error) {
