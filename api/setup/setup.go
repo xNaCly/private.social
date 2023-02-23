@@ -36,7 +36,7 @@ func Setup() *fiber.App {
 			code = e.Code
 		}
 
-		apiErr := util.ApiError{
+		apiErr := util.ApiResponse{
 			Code:    code,
 			Message: err.Error(),
 			Success: false,

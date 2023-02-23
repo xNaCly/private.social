@@ -51,7 +51,7 @@ func main() {
 	router.RegisterRoutes(app, "v1", routes...)
 
 	app.Use(func(c *fiber.Ctx) error {
-		return c.Status(404).JSON(util.ApiError{
+		return c.Status(404).JSON(util.ApiResponse{
 			Code:    fiber.ErrNotFound.Code,
 			Message: fiber.ErrNotFound.Message,
 			Success: false,
