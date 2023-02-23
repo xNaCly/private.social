@@ -64,6 +64,7 @@ func Register(c *fiber.Ctx) error {
 		Message: "User created successfully",
 		Code:    201,
 		Data: fiber.Map{
+			// TODO: return jwt token instead of id
 			"id": id,
 		},
 	})
@@ -71,5 +72,10 @@ func Register(c *fiber.Ctx) error {
 
 // route to login as a user
 func Login(c *fiber.Ctx) error {
+	// TODO: accept body if not empty
+	// TODO: check if user exists
+	// TODO: check if password matches criteria util.IsPasswordValid
+	// TODO: check if password is correct bcrypt.CompareHashAndPassword
+	// TODO: return jwt token
 	return nil
 }
