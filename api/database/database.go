@@ -2,8 +2,11 @@ package database
 
 import (
 	"context"
+	"errors"
 	"log"
 
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -15,6 +18,7 @@ var Db Database
 
 type Database struct {
 	connection *mongo.Client
+	users      *mongo.Collection
 }
 
 // establishes a connection to the database, failes if the connection cannot be established or the database is not reachable
@@ -37,10 +41,28 @@ func Connect(db_string string) Database {
 	}
 
 	log.Println("Connection to database established")
-	return Database{connection: client}
+	return Database{connection: client, users: client.Database("ps").Collection("users")}
 }
 
 func (db Database) InsertNewUser(user models.User) error {
-	_, err := db.connection.Database("ps").Collection("users").InsertOne(context.Background(), user)
+	_, err := db.users.InsertOne(context.TODO(), user)
 	return err
+}
+
+func (db Database) GetUserById(id string) (models.User, error) {
+	var user models.User
+
+	// returning early saves us 45ms, from 45ms down to 0ms
+	if !primitive.IsValidObjectID(id) {
+		return models.User{}, errors.New("invalid id")
+	}
+
+	obj_id, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return models.User{}, err
+	}
+
+	err = db.users.FindOne(context.TODO(), bson.M{"_id": obj_id}).Decode(&user)
+
+	return user, err
 }
