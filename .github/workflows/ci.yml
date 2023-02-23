@@ -1,0 +1,19 @@
+name: CI
+on: 
+  push:
+    paths:
+      - '**.go'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - name: api ci test
+        run: cd api && go test -v ./...
+      - name: cdn ci test
+        run: cd cdn && go test -v ./...
