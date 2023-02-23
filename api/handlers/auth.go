@@ -34,7 +34,7 @@ func Register(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, cause)
 	}
 
-	bytes, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not hash password, contact the instance operator")
 	}
