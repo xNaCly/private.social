@@ -23,9 +23,9 @@ type Database struct {
 
 // establishes a connection to the database, failes if the connection cannot be established or the database is not reachable
 func Connect(db_string string) Database {
-	log.Println("Establishing connection to database")
+	log.Println("Establishing connection to database...")
 	if len(db_string) == 0 {
-		log.Fatal("Database string is empty, please provide a valid database string")
+		log.Fatal("Database string is empty, please provide a valid database string, exiting...")
 	}
 
 	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(db_string))
@@ -37,7 +37,7 @@ func Connect(db_string string) Database {
 	err = client.Ping(context.Background(), nil)
 
 	if err != nil {
-		log.Fatalln("database is not reachable...: ", err)
+		log.Fatalln("database is not reachable: ", err, "exiting...")
 	}
 
 	log.Println("Connection to database established")
@@ -65,4 +65,17 @@ func (db Database) GetUserById(id string) (models.User, error) {
 	err = db.users.FindOne(context.TODO(), bson.M{"_id": obj_id}).Decode(&user)
 
 	return user, err
+}
+
+func (db Database) GetUserByName(username string) (models.User, error) {
+	var user models.User
+
+	err := db.users.FindOne(context.TODO(), bson.M{"name": username}).Decode(&user)
+
+	return user, err
+}
+
+func (db Database) DoesUserExist(username string) bool {
+	err := db.users.FindOne(context.TODO(), bson.M{"name": username}).Err()
+	return err == nil
 }
