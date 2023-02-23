@@ -7,16 +7,18 @@ import (
 	"strings"
 )
 
-// config dynamically loaded from .env file
+var CONFIG_KEYS = []string{"MONGO_URL"}
+
+// config dynamically loaded from env variables
 var Config map[string]string = make(map[string]string)
 
-// loads key value pairs from a .env file into the Config map, .env must be in the same dir as the executable
+// loads the .env file and sets the environment variables defined in it
 func LoadDotEnv() {
 	file, err := os.Open(".env")
 	defer file.Close()
 
 	if err != nil {
-		log.Fatal("failed to open .env ", err)
+		return
 	}
 
 	scanner := bufio.NewScanner(file)
@@ -31,12 +33,20 @@ func LoadDotEnv() {
 		nl := strings.Split(l, "=")
 
 		if len(nl) == 2 {
-			Config[nl[0]] = nl[1]
+			os.Setenv(nl[0], nl[1])
 			log.Printf("loaded variable '%s' with value '%s'\n", nl[0], nl[1])
 		}
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func LoadConfig() {
+	for _, key := range CONFIG_KEYS {
+		if val, ok := os.LookupEnv(key); ok {
+			Config[key] = val
+		}
 	}
 }
