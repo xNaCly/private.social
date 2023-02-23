@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-var CONFIG_KEYS = []string{"MONGO_URL"}
+var CONFIG_KEYS = []string{"MONGO_URL", "JWT_SECRET"}
 
 // config dynamically loaded from env variables
 var Config map[string]string = make(map[string]string)
@@ -34,7 +34,6 @@ func LoadDotEnv() {
 
 		if len(nl) == 2 {
 			os.Setenv(nl[0], nl[1])
-			log.Printf("loaded variable '%s' with value '%s'\n", nl[0], nl[1])
 		}
 	}
 
@@ -46,7 +45,10 @@ func LoadDotEnv() {
 func LoadConfig() {
 	for _, key := range CONFIG_KEYS {
 		if val, ok := os.LookupEnv(key); ok {
+			log.Printf("loaded config key '%s' with value '%s' from env", key, val)
 			Config[key] = val
+		} else {
+			log.Fatalf("config key '%s' not found in env, exiting...", key)
 		}
 	}
 }
