@@ -16,9 +16,10 @@ import (
 	"github.com/xnacly/private.social/api/util"
 
 	"github.com/gofiber/fiber/v2"
+	jwtware "github.com/gofiber/jwt/v3"
 )
 
-var routes = []router.Route{
+var unauthenticatedRoutes = []router.Route{
 	{
 		Path:        "/auth/register",
 		Method:      "POST",
@@ -28,9 +29,12 @@ var routes = []router.Route{
 	{
 		Path:        "/auth/login",
 		Method:      "POST",
-		Handler:     handlers.Register,
+		Handler:     handlers.Login,
 		Middlewares: []func(*fiber.Ctx) error{},
 	},
+}
+
+var routes = []router.Route{
 	{
 		Path:        "/user/:id",
 		Method:      "GET",
@@ -48,6 +52,14 @@ func main() {
 	database.Db = database.Connect(config.Config["MONGO_URL"])
 
 	app := setup.Setup()
+	log.Println("Registering unauthenticated routes...")
+	router.RegisterRoutes(app, "v1", unauthenticatedRoutes...)
+
+	app.Use(jwtware.New(jwtware.Config{
+		SigningKey: []byte(config.Config["JWT_SECRET"]),
+	}))
+
+	log.Println("Registering authenticated routes...")
 	router.RegisterRoutes(app, "v1", routes...)
 
 	app.Use(func(c *fiber.Ctx) error {
@@ -58,5 +70,6 @@ func main() {
 		})
 	})
 
+	log.Println("Starting the app...")
 	log.Fatal(app.Listen(":8000"))
 }
