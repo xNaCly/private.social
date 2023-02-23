@@ -7,7 +7,9 @@ import (
 	"strings"
 )
 
-// config dynamically loaded from .env file
+var CONFIG_KEYS = []string{"MONGO_URL"}
+
+// config dynamically loaded from env variables
 var Config map[string]string = make(map[string]string)
 
 // loads the .env file and sets the environment variables defined in it
@@ -38,5 +40,13 @@ func LoadDotEnv() {
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func LoadConfig() {
+	for _, key := range CONFIG_KEYS {
+		if val, ok := os.LookupEnv(key); ok {
+			Config[key] = val
+		}
 	}
 }
