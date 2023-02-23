@@ -88,13 +88,13 @@ export default function Profile() {
 		},
 	];
 	return (
-		<div className="p-8 px-24 flex flex-col items-start justify-center">
+		<div className="p-8 px-24 flex flex-col items-start justify-center w-full">
 			<div className="flex items-start justify-center w-full">
 				<img
 					src={data.avatar}
-					className="rounded-full w-40 cursor-pointer"
+					className="rounded-full w-60 cursor-pointer"
 				/>
-				<div className="ml-8 mt-2 flex flex-col items-start">
+				<div className="ml-8 mt-2 mb-6 flex flex-col items-start">
 					<div className="flex items-center">
 						<h3 className="text-xl">{data.name}</h3>
 						<button className="hover:bg-gray-300 mx-3 px-3 py-1 flex justify-center rounded bg-gray-200 flex items-center transition-all">
@@ -105,13 +105,13 @@ export default function Profile() {
 						</button>
 					</div>
 					<div className="flex my-4">
-						<div className="flex mr-4 items-center">
+						<div className="flex mr-8 items-center">
 							<h3 className="font-bold mr-1">
 								{data.stats.posts}
 							</h3>
 							<p>Posts</p>
 						</div>
-						<div className="flex mr-4 items-center">
+						<div className="flex mr-8 items-center">
 							<h3 className="font-bold mr-1">
 								{data.stats.followers}
 							</h3>
@@ -135,7 +135,7 @@ export default function Profile() {
 								{data.bio.location}
 							</div>
 						</div>
-						<span className="my-1 max-w-xs">{data.bio.text}</span>
+						<span className="my-1 max-w-lg">{data.bio.text}</span>
 						<a
 							className="my-1 text-trantlabs hover:text-gray-500"
 							href={data.bio.website}
@@ -146,7 +146,10 @@ export default function Profile() {
 				</div>
 			</div>
 			<div className="mt-4 flex items-start justify-center w-full">
-				<div className="grid lg:grid-cols-3 md:grid-cols-2">
+				<div
+					className="grid lg:grid-cols-3 md:grid-cols-2 pt-8"
+					style={{ borderTopWidth: "1px" }}
+				>
 					{posts.map((p) => (
 						<a
 							href={`posts/${p.id}`}
@@ -154,7 +157,7 @@ export default function Profile() {
 							key={p.id}
 						>
 							<img
-								className="m-2 w-60"
+								className="m-2 w-80"
 								src={p.data.source}
 								key={p.id}
 							/>

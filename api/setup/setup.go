@@ -4,11 +4,12 @@ import (
 	"errors"
 	"log"
 
-	"github.com/xnacly/private.social/api/util"
-
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+
+	"github.com/xnacly/private.social/api/util"
 )
 
 // sets up the app and returns it
@@ -24,8 +25,11 @@ import (
 // - setting up the logger middleware
 //
 // - setting up the cors middleware
+//
+// - setting up the jwt middleware
 func Setup() *fiber.App {
 	log.SetFlags(log.Ldate | log.Ltime)
+	log.Println("Setting up the app...")
 
 	var DefaultErrorHandler = func(c *fiber.Ctx, err error) error {
 		code := fiber.StatusInternalServerError
@@ -35,7 +39,7 @@ func Setup() *fiber.App {
 			code = e.Code
 		}
 
-		apiErr := util.ApiError{
+		apiErr := util.ApiResponse{
 			Code:    code,
 			Message: err.Error(),
 			Success: false,
@@ -49,6 +53,8 @@ func Setup() *fiber.App {
 		ServerHeader: "private.social/api",
 		ErrorHandler: DefaultErrorHandler,
 	})
+
+	app.Use(cache.New())
 
 	app.Use(logger.New(logger.Config{
 		TimeFormat: "2006-01-02 15:04:05",

@@ -4,8 +4,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type CreateUser struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type User struct {
-	Id          string             `bson:"_id,omitempty" json:"id"`
+	Id          primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Password    string             `bson:"password" json:"-"`
 	Private     bool               `bson:"private" json:"private"`           // if the account is private, impacts the visibility of the user's posts
 	Name        string             `bson:"name" json:"name"`                 // the username of the user
 	DisplayName string             `bson:"display_name" json:"display_name"` // the users changeable name which is displayed to other users

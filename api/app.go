@@ -16,13 +16,29 @@ import (
 	"github.com/xnacly/private.social/api/util"
 
 	"github.com/gofiber/fiber/v2"
+	jwtware "github.com/gofiber/jwt/v3"
 )
+
+var unauthenticatedRoutes = []router.Route{
+	{
+		Path:        "/auth/register",
+		Method:      "POST",
+		Handler:     handlers.Register,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+	{
+		Path:        "/auth/login",
+		Method:      "POST",
+		Handler:     handlers.Login,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+}
 
 var routes = []router.Route{
 	{
-		Path:        "/",
+		Path:        "/user/:id",
 		Method:      "GET",
-		Handler:     handlers.Index,
+		Handler:     handlers.GetUserById,
 		Middlewares: []func(*fiber.Ctx) error{},
 	},
 }
@@ -35,42 +51,25 @@ func main() {
 
 	database.Db = database.Connect(config.Config["MONGO_URL"])
 
-	// TODO: remove test:
-	// user := models.User{
-	// 	Name:        "user",
-	// 	DisplayName: "user",
-	// 	Link:        "user",
-	// 	Avatar:      "https://xnacly.me/avatar.png",
-	// 	Private:     false,
-	// 	CreatedAt:   util.GetTimeStamp(),
-	// 	Bio: models.UserBio{
-	// 		Text:     "this is the bio",
-	// 		Pronouns: "they/them",
-	// 		Location: "somewhere",
-	// 		Website:  "https://xnacly.me",
-	// 	},
-	// 	Stats: models.UserStats{
-	// 		Followers: 0,
-	// 		Following: 0,
-	// 		Posts:     0,
-	// 	},
-	// }
-	// err := database.Db.InsertNewUser(user)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// -----------------
-
 	app := setup.Setup()
+	log.Println("Registering unauthenticated routes...")
+	router.RegisterRoutes(app, "v1", unauthenticatedRoutes...)
+
+	app.Use(jwtware.New(jwtware.Config{
+		SigningKey: []byte(config.Config["JWT_SECRET"]),
+	}))
+
+	log.Println("Registering authenticated routes...")
 	router.RegisterRoutes(app, "v1", routes...)
 
 	app.Use(func(c *fiber.Ctx) error {
-		return c.Status(404).JSON(util.ApiError{
+		return c.Status(404).JSON(util.ApiResponse{
 			Code:    fiber.ErrNotFound.Code,
 			Message: fiber.ErrNotFound.Message,
 			Success: false,
 		})
 	})
 
+	log.Println("Starting the app...")
 	log.Fatal(app.Listen(":8000"))
 }

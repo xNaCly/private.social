@@ -1,9 +1,27 @@
 version: "3.9"
 services:
+  db:
+    hostname: db
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    command: mongod --quiet
+    networks:
+      - local
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: root
   api:
     build: ./api
+    depends_on:
+      - db
+    networks:
+      - local
     env_file:
       - ./ps.env
+    environment:
+      MONGO_URL: mongodb://admin:root@db:27017/
     ports:
       - 8000:8000
   cdn:
@@ -12,5 +30,11 @@ services:
       - 8080:8080
   web:
     build: ./web
+    depends_on:
+      - api
+      - cdn
     ports:
       - 3000:3000
+
+networks:
+  local: {}

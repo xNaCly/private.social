@@ -4,6 +4,6 @@
 
 ```bash
 cd web
-yarn
-yarn dev
+pnpm i
+pnpm dev
 ```
