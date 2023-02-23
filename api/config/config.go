@@ -10,21 +10,12 @@ import (
 // config dynamically loaded from .env file
 var Config map[string]string = make(map[string]string)
 
-// loads key value pairs from a .env file into the Config map, .env must be in the same dir as the executable
+// loads the .env file and sets the environment variables defined in it
 func LoadDotEnv() {
 	file, err := os.Open(".env")
 	defer file.Close()
 
 	if err != nil {
-		log.Println("failed to open .env '", err, "'using defaults")
-		Config["PROD"] = "true"
-		url := os.Getenv("MONGO_URL")
-		if url == "" {
-			log.Fatal("'MONGO_URL' env not found, exiting")
-		}
-
-		Config["MONGO_URL"] = url
-
 		return
 	}
 
@@ -40,7 +31,7 @@ func LoadDotEnv() {
 		nl := strings.Split(l, "=")
 
 		if len(nl) == 2 {
-			Config[nl[0]] = nl[1]
+			os.Setenv(nl[0], nl[1])
 			log.Printf("loaded variable '%s' with value '%s'\n", nl[0], nl[1])
 		}
 	}
