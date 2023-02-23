@@ -7,6 +7,7 @@ import (
 	"github.com/xnacly/private.social/api/util"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
@@ -49,6 +50,8 @@ func Setup() *fiber.App {
 		ServerHeader: "private.social/api",
 		ErrorHandler: DefaultErrorHandler,
 	})
+
+	app.Use(cache.New())
 
 	app.Use(logger.New(logger.Config{
 		TimeFormat: "2006-01-02 15:04:05",
