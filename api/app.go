@@ -20,9 +20,21 @@ import (
 
 var routes = []router.Route{
 	{
-		Path:        "/",
+		Path:        "/auth/register",
+		Method:      "POST",
+		Handler:     handlers.Register,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+	{
+		Path:        "/auth/login",
+		Method:      "POST",
+		Handler:     handlers.Register,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+	{
+		Path:        "/user/:id",
 		Method:      "GET",
-		Handler:     handlers.Index,
+		Handler:     handlers.GetUserById,
 		Middlewares: []func(*fiber.Ctx) error{},
 	},
 }
@@ -34,32 +46,6 @@ func main() {
 	config.LoadConfig()
 
 	database.Db = database.Connect(config.Config["MONGO_URL"])
-
-	// TODO: remove test:
-	// user := models.User{
-	// 	Name:        "user",
-	// 	DisplayName: "user",
-	// 	Link:        "user",
-	// 	Avatar:      "https://xnacly.me/avatar.png",
-	// 	Private:     false,
-	// 	CreatedAt:   util.GetTimeStamp(),
-	// 	Bio: models.UserBio{
-	// 		Text:     "this is the bio",
-	// 		Pronouns: "they/them",
-	// 		Location: "somewhere",
-	// 		Website:  "https://xnacly.me",
-	// 	},
-	// 	Stats: models.UserStats{
-	// 		Followers: 0,
-	// 		Following: 0,
-	// 		Posts:     0,
-	// 	},
-	// }
-	// err := database.Db.InsertNewUser(user)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// -----------------
 
 	app := setup.Setup()
 	router.RegisterRoutes(app, "v1", routes...)
