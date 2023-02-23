@@ -4,6 +4,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type CreateUser struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type User struct {
 	Id          primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	Password    string             `bson:"password" json:"-"`

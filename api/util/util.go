@@ -1,10 +1,16 @@
 package util
 
 import (
+	"fmt"
+	"github.com/gofiber/fiber/v2"
+	"strings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+const MIN_PASSWORD_LEN = 10
+const SYMBOLS = "!@#$%^&*()_+-=[]{};':\",./<>?"
 
 const ASCII_ART = `
 ██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗                    █████╗ ██████╗ ██╗
@@ -26,4 +32,35 @@ type ApiResponse struct {
 
 func GetTimeStamp() primitive.DateTime {
 	return primitive.NewDateTimeFromTime(time.Now())
+}
+
+// returns "", true if password valid, else returns cause for password invalidity, false
+//
+// - needs to contain at least MIN_PASSWORD_LEN characters
+//
+// - needs to contain at least one number
+//
+// - needs to contain at least one symbol
+//
+// - needs to contain at least one uppercase letter
+//
+// - cant be the same as the username
+//
+// - cant contain the username
+func IsPasswordValid(username string, password string) (string, bool) {
+	if len(password) < MIN_PASSWORD_LEN {
+		return fmt.Sprintf("password not long enough, min %d characters required", MIN_PASSWORD_LEN), false
+	} else if username == password {
+		return "password cannot be the same as the username", false
+	} else if strings.Contains(username, password) {
+		return "password cannot include the username", false
+	} else if !strings.ContainsAny(password, "0123456789") {
+		return "password must contain at least one number", false
+	} else if !strings.ContainsAny(password, SYMBOLS) {
+		return fmt.Sprintf("password must contain at least one of the following symbols: '%s'", SYMBOLS), false
+	} else if !strings.ContainsAny(password, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+		return "password must contain at least one uppercase letter", false
+	}
+
+	return "", true
 }
