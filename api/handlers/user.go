@@ -7,6 +7,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+func GetMe(c *fiber.Ctx) error {
+	user := c.Locals("dbUser").(models.User)
+	return c.JSON(util.ApiResponse{
+		Code:    fiber.StatusOK,
+		Message: "requested user found",
+		Success: true,
+		Data:    fiber.Map{"user": user},
+	})
+
+}
+
 func GetUserById(c *fiber.Ctx) error {
 	id := c.Params("id")
 

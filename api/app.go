@@ -36,6 +36,12 @@ var unauthenticatedRoutes = []router.Route{
 
 var routes = []router.Route{
 	{
+		Path:        "/user/me",
+		Method:      "GET",
+		Handler:     handlers.GetMe,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+	{
 		Path:        "/user/:id",
 		Method:      "GET",
 		Handler:     handlers.GetUserById,
