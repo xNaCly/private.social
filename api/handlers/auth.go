@@ -83,6 +83,7 @@ func Register(c *fiber.Ctx) error {
 		Code:    201,
 		Data: fiber.Map{
 			"token": t,
+			"id":    id,
 		},
 	})
 }
@@ -142,6 +143,7 @@ func Login(c *fiber.Ctx) error {
 		Code:    200,
 		Data: fiber.Map{
 			"token": t,
+			"id":    dbUser.Id,
 		},
 	})
 }

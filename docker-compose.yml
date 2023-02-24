@@ -30,9 +30,6 @@ services:
       - 8080:8080
   web:
     build: ./web
-    depends_on:
-      - api
-      - cdn
     ports:
       - 3000:3000
 
