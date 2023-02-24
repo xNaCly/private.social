@@ -30,12 +30,6 @@ func TestObjectIdsMatch(t *testing.T) {
 	MustBeTrue(t, z)
 }
 
-func TestSliceContainsObjectId(t *testing.T) {
-	x := primitive.NewObjectID()
-	y := []primitive.ObjectID{x}
-	MustBeTrue(t, util.SliceContainsObjectId(y, x))
-}
-
 func TestIsPasswordValid(t *testing.T) {
 	// too short
 	_, valid := util.IsPasswordValid("test", "tes")

@@ -92,14 +92,3 @@ func GetCurrentUser(c *fiber.Ctx) (models.User, error) {
 
 	return user, nil
 }
-
-// returns true if id is found in the slice, otherwise false
-func SliceContainsObjectId(slice []primitive.ObjectID, id primitive.ObjectID) bool {
-	for _, v := range slice {
-		if v == id {
-			return true
-		}
-	}
-
-	return false
-}
