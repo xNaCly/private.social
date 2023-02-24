@@ -1,5 +1,7 @@
 openapi: 3.0.3
 info:
+  contact:
+    email: teo@xnacly.me
   title: Private.social/cdn
   description: The private.social cdn manages uploading and retrieving assets of several image and video types. The cdn does not require authorization and relies on a possible attacker not knowing the directory prefix. Up on creation of the main REST api this will change to only serve files to requests authorized with a valid JWT token.
   license:
@@ -11,9 +13,10 @@ servers:
 paths:
   /v1/asset/{prefix}/{filename}:
     get:
+      operationId: getAsset
       tags:
         - assets
-      parameters: 
+      parameters:
         - name: prefix
           in: path
           description: Directory prefix
@@ -31,14 +34,14 @@ paths:
       summary: Access uploaded files from the cdn
       description: This endpoint serves the previously uploaded files from a static folder, it is therefore generaly very fast (<4ms Response time). After the first request the asset is cached for 3600 seconds (60min / 1h). Both the `prefix` and the `filename` can be get from the `/upload/` path.
       responses:
-        200:
+        "200":
           description: Requested file found and served
-        404:
+        "404":
           description: Requested file not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
               example:
                 success: false
                 code: 404
@@ -92,24 +95,24 @@ paths:
               format: binary
         required: true
       responses:
-        '201':
+        "201":
           description: Created asset in cdn storage
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
-        '400':
+                $ref: "#/components/schemas/ApiResponse"
+        "400":
           description: Invalid input, empty file or unsupported file format / MIME-type
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     ApiResponse:
       type: object
       properties:
-        path: 
+        path:
           type: string
           example: "http://localhost:8080/v1/asset/cBtMYobImyfLVNpvwlxDSnSmgttBKIaS/file.png"
         status:
@@ -128,3 +131,8 @@ components:
         message:
           type: string
           example: "unsupported file format, choose one of: image/jpeg, image/gif, image/webp, image/heic, video/mp4, image/png, image/jpg"
+
+tags:
+  - name: assets
+    description: all requests regarding assets
+
