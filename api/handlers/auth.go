@@ -56,8 +56,9 @@ func Register(c *fiber.Ctx) error {
 		Bio: models.UserBio{
 			Text: "Hi! I'm using private.social :^)",
 		},
-		Stats:   models.UserStats{},
-		Private: true,
+		Stats:       models.UserStats{},
+		Private:     true,
+		FollowerIds: []string{},
 	}
 
 	id, err := database.Db.InsertNewUser(dbUser)

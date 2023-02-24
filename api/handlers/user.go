@@ -43,12 +43,14 @@ func GetUserById(c *fiber.Ctx) error {
 
 	user, err := database.Db.GetUserById(id)
 
-	if !util.ObjectIdsMatch(loggedInUser.Id, user.Id) && !util.SliceContainsObjectId(user.FollowerIds, loggedInUser.Id) {
-		return c.Status(403).JSON(util.ApiResponse{
-			Code:    fiber.ErrForbidden.Code,
-			Message: "You are not allowed to view this user",
-			Success: false,
-		})
+	if user.Private {
+		if !util.ObjectIdsMatch(loggedInUser.Id, user.Id) && !database.Db.IsIdInUsersFollowing(user.Id, loggedInUser.Id) {
+			return c.Status(403).JSON(util.ApiResponse{
+				Code:    fiber.ErrForbidden.Code,
+				Message: "You are not allowed to view this user",
+				Success: false,
+			})
+		}
 	}
 
 	if err != nil {
