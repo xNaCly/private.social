@@ -2,6 +2,7 @@ package tests
 
 import (
 	"github.com/xnacly/private.social/api/util"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
 )
 
@@ -15,6 +16,24 @@ func MustBeFalse(t *testing.T, condition bool, message string) {
 	if condition {
 		t.Error(message)
 	}
+}
+
+func TestGetTimeStamp(t *testing.T) {
+	x := util.GetTimeStamp()
+	MustBeTrue(t, x > 0)
+}
+
+func TestObjectIdsMatch(t *testing.T) {
+	x, _ := primitive.ObjectIDFromHex("63f87dc175161e47e4b61274")
+	y, _ := primitive.ObjectIDFromHex("63f87dc175161e47e4b61274")
+	z := util.ObjectIdsMatch(x, y)
+	MustBeTrue(t, z)
+}
+
+func TestSliceContainsObjectId(t *testing.T) {
+	x := primitive.NewObjectID()
+	y := []primitive.ObjectID{x}
+	MustBeTrue(t, util.SliceContainsObjectId(y, x))
 }
 
 func TestIsPasswordValid(t *testing.T) {
