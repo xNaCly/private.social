@@ -5,6 +5,7 @@ module.exports = {
 		extend: {
 			colors: {
 				trantlabs: "#00ad69",
+				"trantlabs-darker": "#00824f",
 			},
 		},
 	},
