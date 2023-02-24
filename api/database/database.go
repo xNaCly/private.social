@@ -49,6 +49,13 @@ func (db Database) InsertNewUser(user models.User) (*mongo.InsertOneResult, erro
 	return res, err
 }
 
+// findOne in mongoDb by Id
+//
+// 1. checks if the id is valid, otherwise err (saves a lot of execution time)
+//
+// 2. checks if the id can be parsed to an ObjectID, otherwise err
+//
+// 3. searches for the user in the database, not found = err
 func (db Database) GetUserById(id string) (models.User, error) {
 	var user models.User
 
