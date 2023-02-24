@@ -87,3 +87,23 @@ func (db Database) DoesUserExist(username string) bool {
 	err := db.users.FindOne(context.TODO(), bson.M{"name": username}).Err()
 	return err == nil
 }
+
+func (db Database) IsIdInUsersFollowing(userid primitive.ObjectID, searchid primitive.ObjectID) bool {
+	var user models.User
+	sId, err := searchid.MarshalText()
+
+	if err != nil {
+		return false
+	}
+
+	err = db.users.FindOne(context.TODO(), bson.M{
+		"_id": userid,
+		"follower_ids": bson.M{
+			"$elemMatch": bson.M{
+				"$eq": string(sId),
+			},
+		},
+	}).Decode(&user)
+
+	return err == nil
+}
