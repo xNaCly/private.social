@@ -44,9 +44,10 @@ func Connect(db_string string) Database {
 	return Database{connection: client, users: client.Database("ps").Collection("users")}
 }
 
-func (db Database) InsertNewUser(user models.User) (*mongo.InsertOneResult, error) {
+func (db Database) InsertNewUser(user models.User) (primitive.ObjectID, error) {
 	res, err := db.users.InsertOne(context.TODO(), user)
-	return res, err
+	r := res.InsertedID.(primitive.ObjectID)
+	return r, err
 }
 
 // findOne in mongoDb by Id
