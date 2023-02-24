@@ -2,8 +2,6 @@ import { User } from "../models/User";
 import { IPost } from "../models/Post";
 import { Settings, MapPin } from "react-feather";
 
-import Post from "../components/Post";
-
 export default function Profile() {
 	const data: User = {
 		bio: {
