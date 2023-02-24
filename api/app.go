@@ -57,6 +57,20 @@ func main() {
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte(config.Config["JWT_SECRET"]),
+		SuccessHandler: func(c *fiber.Ctx) error {
+			user, err := util.GetCurrentUser(c)
+
+			if err != nil {
+				return c.Status(fiber.StatusUnauthorized).JSON(util.ApiResponse{
+					Success: false,
+					Message: "Invalid token",
+					Code:    fiber.StatusUnauthorized,
+				})
+			}
+
+			c.Locals("dbUser", user)
+			return c.Next()
+		},
 	}))
 
 	log.Println("Registering authenticated routes...")
