@@ -2,9 +2,13 @@ package util
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
 	"strings"
 	"time"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
+	"github.com/xnacly/private.social/api/database"
+	"github.com/xnacly/private.social/api/models"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -63,4 +67,39 @@ func IsPasswordValid(username string, password string) (string, bool) {
 	}
 
 	return "", true
+}
+
+// returns true if the string representation of id matches the string representation id1
+func ObjectIdsMatch(id primitive.ObjectID, id1 primitive.ObjectID) bool {
+	return id.String() == id1.String()
+}
+
+// gets the current user from the id encoded in the requests jwt token
+func GetCurrentUser(c *fiber.Ctx) (models.User, error) {
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	id := claims["id"].(string)
+
+	if id == "" {
+		return models.User{}, fiber.NewError(fiber.StatusUnauthorized, "invalid token")
+	}
+
+	user, err := database.Db.GetUserById(id)
+
+	if err != nil {
+		return models.User{}, err
+	}
+
+	return user, nil
+}
+
+// returns true if id is found in the slice, otherwise false
+func SliceContainsObjectId(slice []primitive.ObjectID, id primitive.ObjectID) bool {
+	for _, v := range slice {
+		if v == id {
+			return true
+		}
+	}
+
+	return false
 }
