@@ -7,7 +7,6 @@ import (
 	"github.com/xnacly/private.social/api/database"
 	"github.com/xnacly/private.social/api/models"
 	"github.com/xnacly/private.social/api/util"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -59,7 +58,7 @@ func Register(c *fiber.Ctx) error {
 		},
 		Stats:       models.UserStats{},
 		Private:     true,
-		FollowerIds: []primitive.ObjectID{},
+		FollowerIds: []string{},
 	}
 
 	id, err := database.Db.InsertNewUser(dbUser)
