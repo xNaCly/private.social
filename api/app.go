@@ -77,6 +77,13 @@ func main() {
 			c.Locals("dbUser", user)
 			return c.Next()
 		},
+		ErrorHandler: func(c *fiber.Ctx, err error) error {
+			return c.Status(fiber.StatusUnauthorized).JSON(util.ApiResponse{
+				Success: false,
+				Message: err.Error(),
+				Code:    fiber.StatusUnauthorized,
+			})
+		},
 	}))
 
 	log.Println("Registering authenticated routes...")
