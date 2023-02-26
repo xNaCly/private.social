@@ -1,6 +1,12 @@
 import Navigation from "./components/Navigation";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
+import { useState } from "react";
+import { getToken } from "./util/util";
 
 import Error from "./screens/Error";
 import Signup from "./screens/Signup";
@@ -20,27 +26,38 @@ export default function App() {
 	return (
 		<Router>
 			<div className="mx-6">
-				{!bearer ? (
-					<Routes>
-						<Route
-							index
-							element={<Login bearerUpdater={updateBearer} />}
-						/>
-						<Route
-							path="/signup"
-							element={<Signup bearerUpdater={updateBearer} />}
-						/>
-					</Routes>
-				) : (
-					<>
-						<Navigation />
-						<Routes>
+				{bearer && <Navigation />}
+				<Routes>
+					{!bearer ? (
+						<>
+							<Route
+								index
+								element={<Login bearerUpdater={updateBearer} />}
+							/>
+							<Route
+								path="/signup"
+								element={
+									<Signup bearerUpdater={updateBearer} />
+								}
+							/>
+							<Route path="*" element={<Error />} />
+						</>
+					) : (
+						<>
 							<Route index element={<Home />} />
 							<Route path="profile" element={<Profile />} />
+							<Route
+								path="login"
+								element={<Navigate to="/" replace />}
+							/>
+							<Route
+								path="signup"
+								element={<Navigate to="/" replace />}
+							/>
 							<Route path="*" element={<Error />} />
-						</Routes>
-					</>
-				)}
+						</>
+					)}
+				</Routes>
 			</div>
 		</Router>
 	);
