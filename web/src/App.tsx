@@ -11,25 +11,7 @@ import Home from "./screens/Home";
 import "./index.css";
 
 export default function App() {
-	console.info(`
-┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                                          │
-│   ██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗        │
-│   ██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝   ██╔════╝██╔═══██╗██╔════╝██║██╔══██╗██║        │
-│   ██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗     ███████╗██║   ██║██║     ██║███████║██║        │
-│   ██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝     ╚════██║██║   ██║██║     ██║██╔══██║██║        │
-│   ██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗██╗███████║╚██████╔╝╚██████╗██║██║  ██║███████╗   │
-│   ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═╝  ╚═╝╚══════╝   │
-│                                                                                                          │
-│   The private, selfhostable and customizable social network - https://github.com/xnacly/private.social   │
-└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-`);
-	const [bearer, setBearer] = useState<string | null>(null);
-
-	useEffect(() => {
-		let token = localStorage.getItem("bearer");
-		if (!token) setBearer(token);
-	}, []);
+	const [bearer, setBearer] = useState<string | null>(getToken());
 
 	function updateBearer(bearer: string | null) {
 		setBearer(bearer);
