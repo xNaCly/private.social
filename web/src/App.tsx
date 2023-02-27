@@ -5,7 +5,7 @@ import {
 	Route,
 	Navigate,
 } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getToken, isBackendAvailable } from "./util/util";
 
 import Error from "./screens/Error";
@@ -16,15 +16,19 @@ import Home from "./screens/Home";
 
 import "./index.css";
 
-let backendAvailable = await isBackendAvailable();
-console.log(backendAvailable);
-
 export default function App() {
 	const [bearer, setBearer] = useState<string | null>(getToken());
+	const [backendAvailable, setBackendAvailable] = useState<boolean>(true);
 
 	function updateBearer(bearer: string | null) {
 		setBearer(bearer);
 	}
+
+	useEffect(() => {
+		(async () => {
+			setBackendAvailable(await isBackendAvailable());
+		})();
+	}, []);
 
 	return (
 		<>
@@ -51,7 +55,10 @@ export default function App() {
 											/>
 										}
 									/>
-									<Route path="*" element={<Error />} />
+									<Route
+										path="*"
+										element={<Navigate to="/" replace />}
+									/>
 								</>
 							) : (
 								<>
