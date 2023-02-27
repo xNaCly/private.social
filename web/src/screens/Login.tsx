@@ -27,7 +27,7 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 		passwordRef?.current?.classList.remove("border-red-300");
 
 		let asyncfun = async () => {
-			let res = await xfetch(ROUTES.register, {
+			let res = await xfetch(ROUTES.login, {
 				body: { username, password },
 				method: "POST",
 			});
