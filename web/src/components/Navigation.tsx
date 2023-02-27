@@ -18,7 +18,7 @@ export default function Navigation() {
 			)}
 			<nav className="flex justify-between items-center p-1 pt-2 mx-4">
 				<div className="flex items-center justify-center">
-					{/*<NavLink
+					<NavLink
 						className={({ isActive }) => {
 							return `m-1 p-3 text-lg flex justify-center items-center hover:bg-gray-200 rounded ${
 								isActive ? "text-trantlabs" : ""
@@ -28,7 +28,7 @@ export default function Navigation() {
 					>
 						<Home size={22} className="mr-2" />
 						Feed
-					</NavLink>*/}
+					</NavLink>
 					<NavLink
 						className={({ isActive }) => {
 							return `m-1 p-3 text-lg flex justify-center items-center hover:bg-gray-200 rounded ${
