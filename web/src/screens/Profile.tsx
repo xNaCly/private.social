@@ -3,7 +3,7 @@ import { ROUTES, xfetch } from "../util/fetch";
 import { getToken, removeToken } from "../util/util";
 import { useState, useEffect } from "react";
 import { IPost } from "../models/Post";
-import { Settings, MapPin, CameraOff } from "react-feather";
+import { Settings, MapPin, CameraOff, User as UserIcon } from "react-feather";
 
 export default function Profile() {
 	const [user, setUser] = useState<User>();
@@ -28,10 +28,16 @@ export default function Profile() {
 	return (
 		<div className="p-8 px-24 flex flex-col items-start justify-center w-full">
 			<div className="flex items-start justify-center w-full">
-				<img
-					src={user?.avatar}
-					className="rounded-full w-60 cursor-pointer"
-				/>
+				{user?.avatar ? (
+					<img
+						src={user?.avatar}
+						className="rounded-full w-60 h-60 cursor-pointer"
+					/>
+				) : (
+					<div className="rounded-full w-60 h-60 cursor-pointer flex justify-center items-center bg-gray-100 text-gray-400">
+						<UserIcon size={48} />
+					</div>
+				)}
 				<div className="ml-8 mt-2 mb-6 flex flex-col items-start">
 					<div className="flex items-center">
 						<h3 className="text-xl">{user?.name}</h3>
