@@ -89,7 +89,6 @@ func (db Database) DoesUserExist(username string) bool {
 }
 
 func (db Database) IsIdInUsersFollowing(userid primitive.ObjectID, searchid primitive.ObjectID) bool {
-	var user models.User
 	sId, err := searchid.MarshalText()
 
 	if err != nil {
@@ -103,7 +102,7 @@ func (db Database) IsIdInUsersFollowing(userid primitive.ObjectID, searchid prim
 				"$eq": string(sId),
 			},
 		},
-	}).Decode(&user)
+	}).Err()
 
 	return err == nil
 }

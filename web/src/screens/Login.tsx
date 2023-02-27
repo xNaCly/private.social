@@ -11,9 +11,9 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 	const passwordRef = useRef(null);
 	const [error, setError] = useState("");
 
-	function updateToken(data: object) {
+	function updateToken(res: object) {
 		//@ts-expect-error: token unknown on data, should be there because the error is handled before
-		let token = data.token;
+		let token = res.data.token;
 		setToken(token);
 		bearerUpdater(token);
 	}
@@ -25,25 +25,28 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 		usernameRef?.current?.classList.remove("border-red-300");
 		//@ts-expect-error
 		passwordRef?.current?.classList.remove("border-red-300");
+
 		let asyncfun = async () => {
-			let { data, error } = await xfetch(ROUTES.login, {
+			let res = await xfetch(ROUTES.register, {
 				body: { username, password },
 				method: "POST",
 			});
 
-			if (error) {
-				setError(error);
-				if (error.toLowerCase().includes("username"))
+			let err = res.message;
+
+			if (!res.success) {
+				setError(err);
+				if (err.toLowerCase().includes("username"))
 					//@ts-expect-error
 					usernameRef?.current?.classList.add("border-red-300");
-				if (error.toLowerCase().includes("password"))
+				if (err.toLowerCase().includes("password"))
 					//@ts-expect-error
 					passwordRef?.current?.classList.add("border-red-300");
 				return;
 			}
 
 			console.info("User registered...");
-			updateToken(data);
+			updateToken(res);
 		};
 
 		asyncfun();
