@@ -21,6 +21,12 @@ import (
 
 var unauthenticatedRoutes = []router.Route{
 	{
+		Path:        "/ping",
+		Method:      "GET",
+		Handler:     handlers.Ping,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+	{
 		Path:        "/auth/register",
 		Method:      "POST",
 		Handler:     handlers.Register,
