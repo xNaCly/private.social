@@ -7,13 +7,12 @@ export default defineConfig({
 		port: 3000,
 		proxy: {
 			"/api": {
-				target: "http://localhost:8000/",
-				secure: false,
-				configure: (proxy, _options) => {
-					proxy.on("error", (err, _req, _res) => {
-						console.log("proxy error", err, _req.url);
-					});
-				},
+				target: "http://127.0.0.1:8000/",
+				rewrite: (path) => path.replace(/^\/api/, ""),
+			},
+			"/cdn": {
+				target: "http://127.0.0.1:8080/",
+				rewrite: (path) => path.replace(/^\/cdn/, ""),
 			},
 		},
 	},
