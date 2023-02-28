@@ -54,9 +54,9 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 
 	return (
 		<>
-			<div className="flex items-center justify-center m-auto h-screen w-full">
+			<div className="flex items-center justify-center m-auto h-screen w-full transition-all">
 				<div
-					className="p-4 px-8 rounded border max-w-sm"
+					className="p-4 px-8 rounded border border-gray-300 max-w-sm shadow-xl"
 					style={{ minWidth: "24rem" }}
 				>
 					<div className="my-4 flex flex-col justify-center items-center">
@@ -74,12 +74,12 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 						<div className="my-2 flex flex-col">
 							<label
 								htmlFor="username"
-								className="font-bold text-sm text-gray-50 text-gray-600"
+								className="font-bold text-gray-50 text-gray-600"
 							>
 								Username:
 							</label>
 							<input
-								className="border rounded p-1 mt-1 outline-trantlabs outline-1"
+								className="border rounded p-2 mt-1 outline-trantlabs outline-1"
 								name="username"
 								type="text"
 								placeholder="Username"
@@ -90,12 +90,12 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 						<div className="mt-4 flex flex-col">
 							<label
 								htmlFor="password"
-								className="font-bold text-sm text-gray-50 text-gray-600"
+								className="font-bold text-gray-50 text-gray-600"
 							>
 								Password:
 							</label>
 							<input
-								className="border rounded p-1 mt-1 outline-trantlabs outline-1"
+								className="border rounded p-2 mt-1 outline-trantlabs outline-1"
 								name="password"
 								type={passwordVisible ? "text" : "password"}
 								placeholder="Password"
@@ -110,16 +110,17 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 							>
 								Sign up instead
 							</Link>
-							<div>
+							<div className="flex items-center justify-center">
 								<label
 									htmlFor="viewPassword"
-									className="text-sm text-gray-500 mr-1"
+									className="text-sm text-gray-500 mr-1 cursor-pointer select-none"
 								>
 									View Password
 								</label>
 								<input
 									type="checkbox"
 									id="viewPassword"
+									className="text-gray-500 cursor-pointer"
 									onClick={() =>
 										setPasswordVisible(!passwordVisible)
 									}
@@ -128,7 +129,7 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 						</div>
 						<div>
 							<button
-								className="mt-4 bg-trantlabs rounded p-2 mt-4 w-full text-white font-bold hover:bg-trantlabs-darker"
+								className="mt-8 bg-trantlabs rounded p-2 mt-4 w-full text-white font-bold hover:bg-trantlabs-darker"
 								onClick={() => login()}
 							>
 								Sign-up

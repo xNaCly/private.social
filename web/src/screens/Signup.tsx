@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 export default function Signup({ bearerUpdater }: { bearerUpdater: any }) {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [passwordVisible, setPasswordVisible] = useState(false);
 	const usernameRef = useRef(null);
 	const passwordRef = useRef(null);
 	const [error, setError] = useState("");
@@ -54,11 +55,11 @@ export default function Signup({ bearerUpdater }: { bearerUpdater: any }) {
 	return (
 		<>
 			<div
-				className="flex items-center justify-center m-auto h-screen w-full"
+				className="flex items-center justify-center m-auto h-screen w-full transition-all"
 				style={{ minWidth: "24rem" }}
 			>
 				<div
-					className="p-4 px-8 rounded border max-w-sm"
+					className="p-4 px-8 rounded border border-gray-300 max-w-sm shadow-xl"
 					style={{ minWidth: "24rem" }}
 				>
 					<div className="my-4 flex flex-col justify-center items-center">
@@ -76,12 +77,12 @@ export default function Signup({ bearerUpdater }: { bearerUpdater: any }) {
 						<div className="my-2 flex flex-col">
 							<label
 								htmlFor="username"
-								className="font-bold text-sm text-gray-50 text-gray-600"
+								className="font-bold text-gray-50 text-gray-600"
 							>
 								Username:
 							</label>
 							<input
-								className="border rounded p-1 mt-1 outline-trantlabs outline-1"
+								className="border rounded p-2 mt-1 outline-trantlabs outline-1"
 								name="username"
 								type="text"
 								placeholder="Username"
@@ -92,20 +93,20 @@ export default function Signup({ bearerUpdater }: { bearerUpdater: any }) {
 						<div className="my-4 flex flex-col">
 							<label
 								htmlFor="password"
-								className="font-bold text-sm text-gray-50 text-gray-600"
+								className="font-bold text-gray-50 text-gray-600"
 							>
 								Password:
 							</label>
 							<input
-								className="border rounded p-1 mt-1 outline-trantlabs outline-1"
+								className="border rounded p-2 mt-1 outline-trantlabs outline-1"
 								name="password"
-								type="password"
+								type={passwordVisible ? "text" : "password"}
 								placeholder="Password"
 								onChange={(e) => setPassword(e.target.value)}
 								ref={passwordRef}
 							></input>
 						</div>
-						<div className="mt-4 rounded border p-2 bg-gray-100 border-gray-300">
+						<div className="mt-4 rounded border p-2 bg-slate-100 border-gray-300">
 							<h3 className="font-bold">
 								Password Requirements:
 							</h3>
@@ -122,13 +123,29 @@ export default function Signup({ bearerUpdater }: { bearerUpdater: any }) {
 								<li>can't contain the username</li>
 							</ul>
 						</div>
-						<div className="mt-1">
+						<div className="mt-1 mb-3 flex justify-between items-center">
 							<Link
 								to="/"
 								className="text-sm text-trantlabs hover:text-trantlabs-darker"
 							>
 								Login instead
 							</Link>
+							<div className="flex items-center justify-center">
+								<label
+									htmlFor="viewPassword"
+									className="text-sm text-gray-500 mr-1 cursor-pointer select-none"
+								>
+									View Password
+								</label>
+								<input
+									type="checkbox"
+									id="viewPassword"
+									className="text-gray-500 cursor-pointer"
+									onClick={() =>
+										setPasswordVisible(!passwordVisible)
+									}
+								/>
+							</div>
 						</div>
 						<div>
 							<button
