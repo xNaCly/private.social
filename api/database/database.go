@@ -106,3 +106,8 @@ func (db Database) IsIdInUsersFollowing(userid primitive.ObjectID, searchid prim
 
 	return err == nil
 }
+
+func (db Database) UpdateUserById(id primitive.ObjectID, update models.UpdateUser) bool {
+	_, err := db.users.UpdateOne(context.TODO(), bson.M{"_id": id}, bson.M{"$set": update})
+	return err == nil
+}

@@ -9,6 +9,13 @@ type CreateUser struct {
 	Password string `json:"password"`
 }
 
+type UpdateUser struct {
+	Private     bool    `bson:"private" json:"private"`           // if the account is private, impacts the visibility of the user's posts
+	DisplayName string  `bson:"display_name" json:"display_name"` // the users changeable name which is displayed to other users
+	Avatar      string  `bson:"avatar" json:"avatar"`             // the users avatar, preferably sourced from the cdn
+	Bio         UserBio `bson:"bio" json:"bio"`
+}
+
 type User struct {
 	Id          primitive.ObjectID `bson:"_id,omitempty" json:"id"`
 	Password    string             `bson:"password" json:"-"`

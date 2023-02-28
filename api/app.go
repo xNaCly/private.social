@@ -10,7 +10,6 @@ import (
 
 	"github.com/xnacly/private.social/api/config"
 	"github.com/xnacly/private.social/api/database"
-	"github.com/xnacly/private.social/api/handlers"
 	"github.com/xnacly/private.social/api/router"
 	"github.com/xnacly/private.social/api/setup"
 	"github.com/xnacly/private.social/api/util"
@@ -18,42 +17,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
 )
-
-var unauthenticatedRoutes = []router.Route{
-	{
-		Path:        "/ping",
-		Method:      "GET",
-		Handler:     handlers.Ping,
-		Middlewares: []func(*fiber.Ctx) error{},
-	},
-	{
-		Path:        "/auth/register",
-		Method:      "POST",
-		Handler:     handlers.Register,
-		Middlewares: []func(*fiber.Ctx) error{},
-	},
-	{
-		Path:        "/auth/login",
-		Method:      "POST",
-		Handler:     handlers.Login,
-		Middlewares: []func(*fiber.Ctx) error{},
-	},
-}
-
-var routes = []router.Route{
-	{
-		Path:        "/user/me",
-		Method:      "GET",
-		Handler:     handlers.GetMe,
-		Middlewares: []func(*fiber.Ctx) error{},
-	},
-	{
-		Path:        "/user/:id",
-		Method:      "GET",
-		Handler:     handlers.GetUserById,
-		Middlewares: []func(*fiber.Ctx) error{},
-	},
-}
 
 func main() {
 	fmt.Print(util.ASCII_ART)
@@ -65,7 +28,7 @@ func main() {
 
 	app := setup.Setup()
 	log.Println("Registering unauthenticated routes...")
-	router.RegisterRoutes(app, "v1", unauthenticatedRoutes...)
+	router.RegisterRoutes(app, "v1", router.UnauthenticatedRoutes...)
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: []byte(config.Config["JWT_SECRET"]),
@@ -93,7 +56,7 @@ func main() {
 	}))
 
 	log.Println("Registering authenticated routes...")
-	router.RegisterRoutes(app, "v1", routes...)
+	router.RegisterRoutes(app, "v1", router.Routes...)
 
 	app.Use(func(c *fiber.Ctx) error {
 		return c.Status(404).JSON(util.ApiResponse{
