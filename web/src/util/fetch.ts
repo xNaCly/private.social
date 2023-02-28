@@ -1,4 +1,3 @@
-import { api as api_url } from "../config.json";
 import { ApiResponse } from "../models/Api";
 
 export const ROUTES = {
@@ -7,6 +6,8 @@ export const ROUTES = {
 	ping: "/ping",
 	me: "/user/me",
 };
+
+const api_url = "/api/v1";
 
 export async function xfetch(
 	path: string,
