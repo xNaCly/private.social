@@ -5,4 +5,6 @@ export default function Edit({
 }: {
 	user: User;
 	updateUser: Function;
-}) {}
+}) {
+	return <></>;
+}
