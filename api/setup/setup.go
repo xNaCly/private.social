@@ -54,13 +54,21 @@ func Setup() *fiber.App {
 		ErrorHandler: DefaultErrorHandler,
 	})
 
+	app.Use(cors.New(cors.Config{
+		AllowMethods:     "",
+		Next:             nil,
+		AllowOrigins:     "*",
+		AllowHeaders:     "",
+		AllowCredentials: false,
+		ExposeHeaders:    "",
+		MaxAge:           0,
+	}))
+
 	app.Use(cache.New())
 
 	app.Use(logger.New(logger.Config{
 		TimeFormat: "2006-01-02 15:04:05",
 	}))
-
-	app.Use(cors.New())
 
 	return app
 }
