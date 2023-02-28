@@ -6,18 +6,17 @@ services:
     restart: always
     ports:
       - 27017:27017
-    command: mongod --quiet
-    networks:
-      - local
+    command: mongod > /dev/null
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - database:/data/db
   api:
     build: ./api
+    hostname: api
     depends_on:
       - db
-    networks:
-      - local
     env_file:
       - ./ps.env
     environment:
@@ -26,12 +25,16 @@ services:
       - 8000:8000
   cdn:
     build: ./cdn
+    hostname: cdn
     ports:
       - 8080:8080
   web:
     build: ./web
+    depends_on:
+      - api
+      - cdn
     ports:
-      - 3000:3000
+      - 80:3000
 
-networks:
-  local: {}
+volumes:
+  database:
