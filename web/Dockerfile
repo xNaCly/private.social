@@ -5,8 +5,6 @@ RUN npm install -g pnpm
 RUN pnpm install
 RUN pnpm build
 
-# TODO: Use a lighter base image, serve using nginx
-FROM node:lts-alpine
-RUN yarn global add serve
-COPY --from=builder /web/dist /dist
-CMD ["serve", "-s", "/dist"]
+FROM nginx:stable-alpine
+COPY --from=builder /web/dist /data/www
+COPY ./nginx.conf /etc/nginx/nginx.conf
