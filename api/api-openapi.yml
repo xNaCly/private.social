@@ -1,0 +1,282 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: teo@xnacly.me
+  title: Private.social/api
+  description: "The private.social api allows for user and post managment (add, update, remove). <br><br> All routes except routes tagged with meta or auth can only be used after authenticating using the Authentication request header. The token can be get from either /auth/register or /auth/login."
+  license:
+    name: MIT License
+    url: https://mit-license.org/
+  version: 1.0.11
+
+servers:
+  - url: http://localhost:8000
+
+paths:
+  /v1/auth/register:
+    post:
+      operationId: registerUser
+      tags:
+        - auth 
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/UserCreate'   
+      summary: Register a new User with creds
+      description: "Register a user with username and password. Returns users token and id on success. <br><br> - Username can't be shorter than 5 chars <br> - Password must be 10chars long <br> - Password must have 1 number <br> - Password must have 1 symbol <br> - Password must have one uppercase symbol <br> - Password can't contain the username."
+      responses:
+        "200":
+          description: "If no error occured while registering the user this response will be returned"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                code: 200
+                message:  "User was created successfully"
+                data: 
+                  token: "**************************"
+                  id: "*****************************"
+        "400":
+          description: "This response happens if: body cant be parsed, username or password missing from request body, user with username already exists or password doesnt match the above criteria"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 400
+                message: "User already exists, choose another username"
+                data: null
+        "500":
+          description: "This response happens if: password couldn't be hashed, user couldn't be inserted or jwt couldn't be signed"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 500
+                message: "Could not hash password, contact the instance operator"
+                data: null
+  /v1/auth/login:
+    post:
+      operationId: loginUser
+      tags:
+        - auth 
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/UserCreate'   
+      summary: Login with creds
+      description: "Login username and password. Returns users token and id on success. <br><br> - Username can't be shorter than 5 chars <br> - Password must be 10chars long <br> - Password must have 1 number <br> - Password must have 1 symbol <br> - Password must have one uppercase symbol <br> - Password can't contain the username."
+      responses:
+        "200":
+          description: "If no error occured while logging in this response will be returned"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                code: 200
+                message:  "User logged in successfully"
+                data: 
+                  token: "**************************"
+                  id: "*****************************"
+        "400":
+          description: "This response happens if: body cant be parsed, username or password missing from request body, user with username already exists or password doesnt match the above criteria"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 400
+                message: "User does not exist"
+                data: null
+        "401":
+          description: "This response happens if the provided password does not match the hash in the database"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 401
+                message: "Invalid password"
+                data: null
+        "500":
+          description: "This response happens if: jwt couldn't be signed"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 500
+                message: "Could not sign JWT, contact the instance operator"
+                data: null
+  /v1/ping:
+    get:
+      operationId: ping
+      tags:
+        - meta
+      security: []
+      description: "Ping request to allow the client to check if the api is online"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                code: 200
+                message: "pong"
+                data: null
+  /v1/user/me:
+    get:
+      operationId: userMe
+      tags:
+        - user
+      description: "Access the User object for the currently logged in user"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponseUser'
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+components:
+  responses:
+    UnauthorizedError:
+      description: "Invalid or missing access token"
+      content:
+        application/json:
+          schema: 
+            $ref: '#/components/schemas/ApiResponse'
+          example:
+            success: false
+            code: 401
+            message: "Missing or malformed JWT"
+            data: null
+
+  schemas:
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "tester"
+        password:
+          type: string
+          example: "Secretpassword1!"
+    ApiResponseUser:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: "user registered"
+        data:
+          type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/UserObject'
+          example: null
+    UserObject:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: "63fe751bb1572ff80c4f98b8"
+        private:
+            type: boolean
+            example: false
+        name:
+            type: string
+            example: "tester1"
+        display_name:
+            type: string
+            example: "tester"
+        link:
+            type: string
+            example: ""
+        avatar: 
+            type: string
+            example: "https://avatars.githubusercontent.com/u/47723417?v=4"
+        created_at:
+            type: string
+            example: "2023-02-28T22:41:47.236+01:00"
+        bio:
+          text: 
+                type: string
+                example: "this is my biography, lol"
+          pronouns: 
+                type: string
+                example: "he/him"
+          location: 
+                type: string
+                example: "Germany"
+          website: 
+                type: string
+                example: "https://xnacly.me"
+        stats:
+          followers: 
+                type: integer
+                example: 0
+          following: 
+                type: integer
+                example: 0
+          posts:
+                type: integer
+                example: 0
+        follower_ids: 
+            type: array
+            example: []
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: "user registered"
+        data:
+          type: object
+          example: null
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: [] 
+
+tags:
+  - name: auth
+    description: routes to authenticate to the API
+  - name: meta
+    description: routes which can be used without authentication
+  - name: user
+    description: user managment
