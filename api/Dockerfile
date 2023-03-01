@@ -1,7 +1,6 @@
 FROM alpine:latest as builder
 WORKDIR /api
 COPY . .
-RUN apk add --no-cache ca-certificates
 RUN apk add --no-cache go
 RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o api_app
 
