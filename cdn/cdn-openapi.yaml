@@ -3,7 +3,7 @@ info:
   contact:
     email: teo@xnacly.me
   title: Private.social/cdn
-  description: The private.social cdn manages uploading and retrieving assets of several image and video types. The cdn does not require authorization and relies on a possible attacker not knowing the directory prefix. Up on creation of the main REST api this will change to only serve files to requests authorized with a valid JWT token.
+  description: The private.social cdn manages uploading and retrieving assets of several image and video types. The cdn does not require authorization and relies on a possible attacker not knowing the directory prefix.
   license:
     name: MIT License
     url: https://mit-license.org/
@@ -135,4 +135,3 @@ components:
 tags:
   - name: assets
     description: all requests regarding assets
-
