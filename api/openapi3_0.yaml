@@ -156,7 +156,100 @@ paths:
                 $ref: '#/components/schemas/ApiResponseUser'
         "401":
           $ref: '#/components/responses/UnauthorizedError'
+    put:
+      operationId: userMePut
+      tags:
+        - user
+      description: "Update fields in the user bio as well as user.private, user.avatar and user.display_name"
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/ApiRequestUpdateUser'
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: true
+                code: 200
+                message: "requested user updated"
+                data: null
+        "400":
+          description: "Happens if request body is empty or the display_name is too short"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 400
+                message: "display name must be at least 5 characters long"
+                data: null
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
 
+  /v1/user/{userId}:
+    get:
+      tags:
+        - user
+      description: get a User by id, requesting user must follow the requested user to access the users data
+      parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+          example: "63fe751bb1572ff80c4f98b8"
+        description: The ID of the requested user
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponseUser'
+        "400":
+          description: "Happens if the id parameter is empty"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 400
+                message: "id param is empty"
+                data: null
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+        "403":
+          description: "Happens if the logged in user is not following the requested user"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 403
+                message: "You are not allowed to view this user"
+                data: null
+        "404":
+          description: "Happens if the requested user is not found"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ApiResponse'
+              example:
+                success: false
+                code: 404
+                message: "not found"
+                data: null
+        
+
+      
 components:
   responses:
     UnauthorizedError:
@@ -181,6 +274,33 @@ components:
         password:
           type: string
           example: "Secretpassword1!"
+    ApiRequestUpdateUser:
+      type: object
+      properties:
+        private:
+          type: boolean
+          example: true
+        display_name:
+          type: string
+          example: "tester"
+        avatar:
+          type: string
+          example: "https://avatars.githubusercontent.com/u/47723417?v=4"
+        bio:
+          type: object
+          properties:
+            text:
+              type: string
+              example: "example bio"
+            pronouns:
+              type: string
+              example: "they/them"
+            location:
+              type: string
+              example: "Germany"
+            website:
+              type: string
+              example: "https://xnacly.me"
     ApiResponseUser:
       type: object
       properties:
