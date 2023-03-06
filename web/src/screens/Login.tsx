@@ -132,7 +132,7 @@ export default function Login({ bearerUpdater }: { bearerUpdater: any }) {
 								className="mt-8 bg-trantlabs rounded p-2 mt-4 w-full text-white font-bold hover:bg-trantlabs-darker"
 								onClick={() => login()}
 							>
-								Sign-up
+								Login
 							</button>
 						</div>
 					</div>

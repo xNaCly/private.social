@@ -12,6 +12,7 @@ export default function Profile() {
 	const [editModalOpen, setEditModalOpen] = useState(false);
 
 	useEffect(() => {
+		if (!getToken()) window.location.reload();
 		if (!user) {
 			let res = async () => {
 				let { data } = await xfetch(ROUTES.me, {
@@ -19,6 +20,7 @@ export default function Profile() {
 				});
 				if (data == null) {
 					removeToken();
+					window.location.reload();
 					return;
 				}
 				setUser(data.user as User);
