@@ -2,85 +2,95 @@
 
 ## Idea
 
-Private.social is intended as a truly private and secure social network, which gives the power to the user:
+Private.social is designed to be a truly private and secure social network that empowers users to:
 
-- Creating an account does not require an email or a telephone number.
-  - an email can be added to the account optionally to allow for
-    resetting the accounts password
-- All Accounts are set to visibility private by default
-  (only followers can see profile data and posts from a private account)
-- All API interactions are secured with jwt tokens
-- Passwords are stored in the database hashed with bcrypt
-- Password requirements:
-  - min 10 chars
-  - one symbol
-  - one uppercase char
-  - one number
+- Create an account without requiring an email address or phone number.
+  - Optionally add an email address to the account to enable resetting the account password.
+- Set all accounts to private visibility by default.
+  (Only followers can view profile data and posts from a private account.)
+- Secure all API interactions with JWT tokens.
+- Store passwords in the database hashed with bcrypt.
+- Enforce password requirements:
+  - Minimum of 10 characters.
+  - At least one symbol.
+  - At least one uppercase character.
+  - At least one number.
 
-Non privacy related features:
+Non-privacy related features:
 
-- Selfhostable api, cdn and web
-- Chronologial sorted Home view
+- Self-hostable API, CDN, and web.
+- Home view sorted chronologically.
 - Posts:
-  - likes
-    - private (only the creators see the like amount)
-    - disable (no one can like the post)
-  - comments
-    - restricted (only followers can comment)
-    - mention only (only mentioned users can comment)
-    - disable (no one can comment)
-  - caption
-  - collaborate together on posts
-- Profile
-  - biography
-    - text biography
-    - custom pronouns
-    - profile picture
-    - profile banner
-    - website
-    - location
-  - customize profile using css
+  - Likes:
+    - Private (only the creators can see the number of likes).
+    - Disable (no one can like the post).
+  - Comments:
+    - Restricted (only followers can comment).
+    - Mention-only (only mentioned users can comment).
+    - Disable (no one can comment).
+  - Caption.
+  - Collaboration on posts.
+- Profile:
+  - Biography:
+    - Text biography.
+    - Custom pronouns.
+    - Profile picture.
+    - Profile banner.
+    - Website.
+    - Location.
+  - Customize profile using CSS.
 
 Mental health related features:
 
-- Likes and comments can be restricted and disabled
-- Users can be blocked, muted and reported
-- Posts can be reported
+- Likes and comments can be restricted and disabled.
+- Users can be blocked, muted, and reported.
+- Posts can be reported.
 
 ## Motivation
 
-Private.social development started in the 4th semester of our
-applied computer science bachelor and was created by the following four people:
+Private.social was developed during the 4th semester of our applied computer science bachelor's program by the following four individuals:
 
 - [xnacly](https://github.com/xnacly)
 - [ellirynbw](https://github.com/ellirynbw)
 - [derPhilosoff](https://github.com/derPhilosoff)
 - [Nosch](https://github.com/noschnosch)
 
-The task of the examination of the above-mentioned semester was to create and
-document an application which uses at least two micro services.
-One had to be programmed by our group and one could be
-any publicly available online web service. To receive a mark better than good a
-group had to create either a frontend web application or a mobile application.
-Furthermore the specification tasks the groups with documenting application interfaces
-with openAPI and record what member of the group did what task.
+The objective of the semester's examination was to create and document an application that utilizes at least two microservices.
+One microservice had to be programmed by our group, while the other could be any publicly available online web service.
+To earn a mark higher than "good," the group had to create either a frontend web application or a mobile application.
+The task also required the groups to document the application interfaces with OpenAPI and keep track of which member was responsible for which task.
 
-Private.social uses two micro services programmed by ourself:
+At Private.social, we utilize three microservices that we programmed ourselves:
 
-- **api**: to allow the web frontend to interact with the database
-- **cdn**: to store assets
-- **web**: the web interface
+- **api**: This service allows the web frontend to interact with the database.
+- **cdn**: This service is responsible for storing assets.
+- **web**: This service governs the web interface.
 
-And one microservice as a database:
+We also utilize one microservice as a database:
 
-- **mongo**: the database to store all user and post data
+- **mongo**: This service is responsible for storing all user and post data.
+
+In addition, we use one external service:
+
+- **[ui.avatars](https://ui-avatars.com/)**: This service is used to provide new users with a default profile picture.
+
+### Task distribution
+
+| Teammember   | Task |
+| ------------ | ---- |
+| xnacly       |      |
+| ellirynbw    |      |
+| derPhilosoff |      |
+| Nosch        |      |
 
 ### Directory structure
 
-- `web/`: react.js front end
-- `api/`: go application interface
-- `cdn/`: go content delivery network (serves pictures and videos)
-- `docs/`: documentation
+This project is structured into four main directories:
+
+- `web/`: This folder contains the front-end portion of the application, which is built with React.js.
+- `api/`: This directory contains the back-end of the application, which is built with Go.
+- `cdn/`: This folder contains the content delivery network of the application, which is built with Go. The CDN serves pictures and videos.
+- `docs/`: This folder contains the documentation for the project.
 
 ## Getting started
 
@@ -88,13 +98,20 @@ And one microservice as a database:
 
 #### Info
 
-- The docker-compose config spins up the api, cdn, web and a mongo container.
-- The web app is built for production and served using nginx.
-- The mongo image uses a volume and is therefore persistent
-- The api is exposed on port 8000, the cdn at 8080 and the web at 80.
-- Nginx reverse proxy is used to map:
-  - localhost/api to localhost:8000
-  - localhost/cdn to localhost:8080
+The docker-compose configuration file provided in this project is designed to spin up four containers: api, cdn, web, and mongodb.
+
+Each container serves a specific purpose, with the web app built for production and served through nginx.
+
+The mongo database container is configured to use a volume, making the data stored in the container persistent.
+
+The api container is set to listen on port 8000, while the cdn is set to listen on port 8080, and the web app is set to listen on port 80.
+
+Nginx reverse proxy is used to map requests from the web to the appropriate container.
+
+For example, when a request is made to localhost/api, the nginx reverse proxy maps the request to the api container running on localhost:8000.
+Similarly, when a request is made to localhost/cdn, the nginx reverse proxy maps the request to the cdn container running on localhost:8080.
+
+This docker-compose configuration file is an efficient way to manage multiple containers, with each container running a specific service. The use of volumes ensures that data is persistent and can be used across multiple container instances.
 
 #### Image sizes
 
@@ -106,11 +123,13 @@ And one microservice as a database:
 
 #### Docker compose
 
-requires:
+To successfully run the application, the following dependencies must be installed on your system:
 
-- docker
-- docker-compose
-- docker service enabled and started with systemctl
+- [Docker](https://www.docker.com/), which is an open-source platform for building, shipping, and running applications in containers.
+- [Docker-compose](https://docs.docker.com/compose/), a tool for defining and running multi-container Docker applications.
+- You must make sure that the Docker service is enabled and started as a deamon. This will ensure that the service is running in the background and can be accessed by the application.
+
+It is important to note that Docker and Docker-compose are widely used in the software development industry due to their ability to simplify the process of building and deploying applications. Additionally, they provide a consistent environment across different systems, making it easier to test and debug applications.
 
 ```bash
 git clone https://github.com/xNaCly/private.social.git
@@ -120,7 +139,7 @@ mv ps.env.example ps.env
 docker compose up
 ```
 
-Now navigate to http://localhost and check if there is no error displayed.
+Now navigate to http://localhost and use the application.
 
 ##### Configuration
 
@@ -184,15 +203,28 @@ volumes:
 
 #### Docker images
 
-To reduce the amount of space the docker images occupy we split the image
-creation into two steps:
+To reduce the amount of space the docker images occupy we split the image creation into two steps:
 
 1. Build the service
 2. Move the build executable to a scratch docker image
 
+Splitting the image creation into these two stages provides a number of benefits, including greater control over the resulting image size and the ability to optimize the build process for each stage. By building the service first and then moving the executable to a separate image, developers can ensure that the final image is as small as possible while still containing all of the necessary components.
+
+Overall, the decision to split the image creation process into two stages is a key strategy for reducing the amount of space occupied by docker images while also ensuring that the images are optimized for performance and ease of use.
+
 ##### Docker API
 
-The cdn is a simple go application with some dependencies:
+The Api is writting in go using the [go fiber](https://gofiber.io/) http server library. It also makes heavy use of the go [mongodb](https://www.mongodb.com/docs/drivers/go/current/) database driver for the database interactions.
+
+The api allows the frontend to interact with the database in a secure way. At the point of writing this the Api supports the following actions:
+
+- registering to private.social
+- logging into private.social
+- ping request via `/v1/ping`
+- getting user data
+- updating logged in user data
+
+The REST api is well documented in the [openapi3_0.yaml](/api/openapi3_0) file.
 
 ```Dockerfile
 # use alpine as the first step images
@@ -219,7 +251,8 @@ CMD ["./api_app"]
 
 ##### Docker CDN
 
-The cdn uses almost the same Dockerfile as the api.
+The cdn uses almost the same Dockerfile as the Api. It is also written in go and uses the [go fiber](https://gofiber.io/) http server library.
+It does however not require a database connection.
 
 ```Dockerfile
 # use alpine as the first step images
@@ -246,10 +279,10 @@ CMD ["./cdn_app"]
 
 ##### Docker WEB
 
-Due to my missing knowledge of nginx
-i tried to statically serve the react production build using [serve](https://www.npmjs.com/package/serve),
-which requires node to run.
-Even the `node:lts-alpine` image is 200mb in size, which is way to big for my liking.
+Unfortunately, due to our lack of experience with nginx, We some challenges when trying to serve the react production build statically.
+
+In order to overcome this, I opted to use the serve package available on npm, which requires node to run.
+Although this is a viable solution, I must say that I was quite taken aback by the size of the `node:lts-alpine` image, which is a whopping 200mb in size!
 
 ```Dockerfile
 # use the offical node alpine image to build the react app
@@ -272,11 +305,11 @@ COPY --from=builder /web/dist /data/www
 COPY ./nginx.conf /etc/nginx/nginx.conf
 ```
 
-Splitting the image creation reduced the image size from 200mb to 20mb (-90%)
+I was able to significantly reduce the size of the image from 200mb to a mere 20mb, which translates to a reduction of 90%! This was done by splitting the image creation process into smaller, more manageable parts. Similar to the process i described before.
 
-After familiarizing myself with nginx i used it to properly configure the application.
+Once I had familiarized myself with nginx, I utilized it to properly configure the application.
 
-The nginx config is used to serve the web app and reverse proxy api and cdn:
+The nginx configuration file plays a critical role in serving the web app and reverse proxy api and cdn.
 
 ```nginx
 events {}
@@ -343,4 +376,4 @@ go run .
 
 ### Access
 
-Navigate to http://localhost:3000 and if a login box is displayed everything works as intended.
+To ensure that everything is working properly, please navigate to http://localhost:3000. If a login box is displayed, you can be confident that everything is functioning as it should
