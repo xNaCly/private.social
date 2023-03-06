@@ -5,3 +5,15 @@ export interface ApiResponse {
 	code: string;
 	data: any | null;
 }
+
+export interface ApiUpdateUserRequest {
+	private: boolean;
+	display_name: string;
+	avatar: string;
+	bio: {
+		text: string;
+		pronouns: string;
+		location: string;
+		website: string;
+	};
+}
