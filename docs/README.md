@@ -76,12 +76,12 @@ In addition, we use one external service:
 
 ### Task distribution
 
-| Teammember   | Task |
-| ------------ | ---- |
-| xnacly       |      |
-| ellirynbw    |      |
-| derPhilosoff |      |
-| Nosch        |      |
+| Teammember   | Task                                                       |
+| ------------ | ---------------------------------------------------------- |
+| xnacly       | web and api implementation                                 |
+| ellirynbw    | Docker, Nginx and mongodb setup                            |
+| derPhilosoff | API database wrapper, config and util packages and testing |
+| Nosch        | CDN, docs and web design                                   |
 
 ### Directory structure
 
