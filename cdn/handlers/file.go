@@ -49,6 +49,6 @@ func AcceptIncomingFile(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"status": "ok",
-		"path":   c.BaseURL() + "/v1/asset/" + pathToFile,
+		"path":   "/v1/asset/" + pathToFile,
 	})
 }
