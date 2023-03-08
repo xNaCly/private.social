@@ -26,10 +26,11 @@ func main() {
 			code = e.Code
 		}
 
-		apiErr := util.ApiError{
+		apiErr := util.ApiResponse{
 			Code:    code,
 			Message: err.Error(),
 			Success: false,
+			Data:    nil,
 		}
 
 		return c.Status(code).JSON(apiErr)
@@ -54,7 +55,7 @@ func main() {
 	})
 
 	app.Use(func(c *fiber.Ctx) error {
-		return c.Status(404).JSON(util.ApiError{
+		return c.Status(404).JSON(util.ApiResponse{
 			Code:    fiber.ErrNotFound.Code,
 			Message: fiber.ErrNotFound.Message,
 			Success: false,

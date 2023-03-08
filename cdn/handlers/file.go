@@ -47,8 +47,12 @@ func AcceptIncomingFile(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "couldn't save file: '"+err.Error()+"'")
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"status": "ok",
-		"path":   "/v1/asset/" + pathToFile,
+	return c.Status(fiber.StatusCreated).JSON(util.ApiResponse{
+		Code:    fiber.StatusCreated,
+		Message: "file uploaded successfully",
+		Success: true,
+		Data: fiber.Map{
+			"path": "/v1/asset/" + pathToFile,
+		},
 	})
 }

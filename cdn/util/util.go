@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 // font: ansi shadow
@@ -53,11 +55,9 @@ func CreateVfsIfNotFound() {
 }
 
 // hold error feedback for the client response, allows for converting data to json
-type ApiError struct {
-	// indicate if the request was successful or not
-	Success bool `json:"success"`
-	// HTTP status code: 200, 400, 500, etc
-	Code int `json:"code"`
-	// error text associated with the error
-	Message string `json:"message"`
+type ApiResponse struct {
+	Success bool      `json:"success"` // indicate if the request was successful or not
+	Code    int       `json:"code"`    // HTTP status code: 200, 400, 500, etc
+	Message string    `json:"message"` // error text associated with the error
+	Data    fiber.Map `json:"data"`    // additional data to send to the client
 }
