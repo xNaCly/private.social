@@ -6,11 +6,11 @@ import { getToken } from "../../util/util";
 export default function Edit({
 	user,
 	updateUser,
-	closeNotificationModal,
+	closeSettingsModal,
 }: {
 	user: User;
-	updateUser: any;
-	closeNotificationModal: any;
+	updateUser: (u: User) => void;
+	closeSettingsModal: () => void;
 }) {
 	const [bioText, setBioText] = useState(user.bio.text);
 	const [displayName, setDisplayName] = useState(user.display_name);
@@ -39,26 +39,22 @@ export default function Edit({
 			...user,
 			...reqBody,
 		});
-		closeNotificationModal();
+		closeSettingsModal();
 	}
 
 	return (
 		<div
-			className="backdrop-blur fixed z-1 top-0 left-0 min-w-full min-h-full flex justify-center items-center"
-			onClick={closeNotificationModal}
+			className="fixed z-1 top-0 left-0 min-w-full min-h-full flex justify-center items-center bg-gray-900 bg-opacity-70"
+			onClick={closeSettingsModal}
 		>
 			<div
 				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 w-1/2 shadow-2xl max-w-lg"
 				onClick={(e) => e.stopPropagation()}
 			>
-				<div className="flex justify-between items-center w-full">
-					<div className="flex justify-between items-center">
-						<Settings size={22} />
-						<h1 className="mx-2 text-xl">Edit Profile</h1>
-					</div>
-					<button onClick={closeNotificationModal}>
-						<XCircle size={22} />
-					</button>
+				<div className="flex justify-center items-center w-full">
+					<h1 className="my-2 mt-4 text-2xl select-none">
+						Edit Profile
+					</h1>
 				</div>
 				<div className="flex justify-center items-center flex-col w-full p-4">
 					<div className="flex flex-col w-full my-2">
@@ -136,12 +132,18 @@ export default function Edit({
 							placeholder={user.bio.website}
 						/>
 					</div>
-					<div className="flex flex-col w-full my-2">
+					<div className="flex w-full my-2">
 						<button
-							className="mt-4 bg-trantlabs rounded p-2 mt-4 w-full text-white font-bold hover:bg-trantlabs-darker"
+							className="mt-4 mr-1 bg-trantlabs rounded p-2 mt-4 w-full text-white font-bold hover:bg-trantlabs-darker"
 							onClick={() => update()}
 						>
 							Save
+						</button>
+						<button
+							className="bg-gray-500 hover:bg-red-500 text-white mt-4 ml-1 rounded p-2 mt-4 w-full font-bold"
+							onClick={() => closeSettingsModal()}
+						>
+							Close
 						</button>
 					</div>
 				</div>
