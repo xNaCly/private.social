@@ -28,6 +28,8 @@ services:
     hostname: cdn
     ports:
       - 8080:8080
+    volumes:
+      - cdn:/vfs
   web:
     build: ./web
     depends_on:
@@ -38,3 +40,4 @@ services:
 
 volumes:
   database:
+  cdn:
