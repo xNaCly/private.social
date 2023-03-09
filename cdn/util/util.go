@@ -1,6 +1,7 @@
 package util
 
 import (
+	"encoding/base64"
 	"math/rand"
 	"os"
 	"strings"
@@ -46,6 +47,10 @@ func RandomString(length int) string {
 		b[i] = LETTERS[rand.Intn(len(LETTERS))]
 	}
 	return string(b)
+}
+
+func EncodeFileName(fileName string) string {
+	return base64.StdEncoding.EncodeToString([]byte(fileName))
 }
 
 func CreateVfsIfNotFound() {
