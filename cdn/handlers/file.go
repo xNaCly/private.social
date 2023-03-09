@@ -28,7 +28,8 @@ func AcceptIncomingFile(c *fiber.Ctx) error {
 	}
 
 	fileFolder := util.RandomString(32) + "/"
-	pathToFile := fileFolder + filepath.Base(file)
+	file = util.EncodeFileName(filepath.Base(file))
+	pathToFile := fileFolder + file
 
 	err := os.Mkdir("./vfs/"+fileFolder, 0777)
 	if err != nil {
