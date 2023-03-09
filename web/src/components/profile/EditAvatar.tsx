@@ -39,7 +39,7 @@ export default function EditAvatar({
 					avatar: path,
 				});
 			};
-			f1();
+			f1().then(() => window.location.reload());
 			closeEditAvatarModal();
 		}
 	}
