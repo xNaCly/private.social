@@ -8,6 +8,15 @@ export const ROUTES = {
 	upload: "/cdn/v1/upload",
 };
 
+/**
+ * xfetch is a simplified wrapper around fetch, it stringifies the body, adds the token to the Authorization http header and makes the given request specified by method. It awaits the response and awaits the json of the response. Default timeout is 5000ms.
+ * @param {string} path - The path to the endpoint
+ * @param {object} options - The options to pass to fetch
+ * - options.method: The HTTP method to use
+ * - options.body: The body to send to the endpoint. If the body is an object, it will be stringified
+ * - options.token: The token to send to the endpoint, xfetch will automatically add the Bearer prefix to the Authorization header
+ * @returns {Promise<ApiResponse>} - the promise of json
+ */
 export async function xfetch(
 	path: string,
 	options: { body?: {}; method?: string; token?: string } = {}
