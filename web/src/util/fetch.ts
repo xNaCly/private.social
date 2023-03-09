@@ -1,19 +1,18 @@
-import { ApiResponse } from "../models/Api";
+import { ApiResponse, UploadAvatarResponse } from "../models/Api";
 
 export const ROUTES = {
-	register: "/auth/register",
-	login: "/auth/login",
-	ping: "/ping",
-	me: "/user/me",
+	register: "/api/v1/auth/register",
+	login: "/api/v1/auth/login",
+	ping: "/api/v1/ping",
+	me: "/api/v1/user/me",
+	upload: "/cdn/v1/upload",
 };
-
-const api_url = "/api/v1";
 
 export async function xfetch(
 	path: string,
 	options: { body?: {}; method?: string; token?: string } = {}
 ): Promise<ApiResponse> {
-	let response = await fetch(`${api_url}${path}`, {
+	let response = await fetch(path, {
 		body: options.body ? JSON.stringify(options.body) : null,
 		method: options.method ?? "GET",
 		signal: AbortSignal.timeout(5000),
@@ -26,4 +25,15 @@ export async function xfetch(
 	let json = await response.json();
 
 	return json;
+}
+
+export async function uploadCdn(file: File): Promise<UploadAvatarResponse> {
+	let request = await fetch(`${ROUTES.upload}/${file.name}`, {
+		method: "POST",
+		body: file,
+		headers: {
+			"Content-Type": file.type,
+		},
+	});
+	return await request.json();
 }
