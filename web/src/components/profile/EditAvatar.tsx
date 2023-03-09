@@ -3,11 +3,6 @@ import { ApiUpdateUserRequest } from "../../models/Api";
 import { xfetch, ROUTES, uploadCdn } from "../../util/fetch";
 import { getToken } from "../../util/util";
 
-// TODO: prompt:
-// TITLE: Change Profile Photo
-// OPTIONS: - upload Photo
-// OPTIONS: - remove current photo
-// OPTIONS: - cancel
 export default function EditAvatar({
 	user,
 	updateUser,
