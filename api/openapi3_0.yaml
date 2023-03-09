@@ -17,13 +17,13 @@ paths:
     post:
       operationId: registerUser
       tags:
-        - auth 
+        - auth
       security: []
       requestBody:
         content:
           application/json:
-            schema: 
-              $ref: '#/components/schemas/UserCreate'   
+            schema:
+              $ref: "#/components/schemas/UserCreate"
       summary: Register a new User with creds
       description: "Register a user with username and password. Returns users token and id on success. <br><br> - Username can't be shorter than 5 chars <br> - Password must be 10chars long <br> - Password must have 1 number <br> - Password must have 1 symbol <br> - Password must have one uppercase symbol <br> - Password can't contain the username."
       responses:
@@ -31,21 +31,21 @@ paths:
           description: "If no error occured while registering the user this response will be returned"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: true
                 code: 200
-                message:  "User was created successfully"
-                data: 
+                message: "User was created successfully"
+                data:
                   token: "**************************"
                   id: "*****************************"
         "400":
           description: "This response happens if: body cant be parsed, username or password missing from request body, user with username already exists or password doesnt match the above criteria"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 400
@@ -55,8 +55,8 @@ paths:
           description: "This response happens if: password couldn't be hashed, user couldn't be inserted or jwt couldn't be signed"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 500
@@ -66,13 +66,13 @@ paths:
     post:
       operationId: loginUser
       tags:
-        - auth 
+        - auth
       security: []
       requestBody:
         content:
           application/json:
-            schema: 
-              $ref: '#/components/schemas/UserCreate'   
+            schema:
+              $ref: "#/components/schemas/UserCreate"
       summary: Login with creds
       description: "Login username and password. Returns users token and id on success. <br><br> - Username can't be shorter than 5 chars <br> - Password must be 10chars long <br> - Password must have 1 number <br> - Password must have 1 symbol <br> - Password must have one uppercase symbol <br> - Password can't contain the username."
       responses:
@@ -80,21 +80,21 @@ paths:
           description: "If no error occured while logging in this response will be returned"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: true
                 code: 200
-                message:  "User logged in successfully"
-                data: 
+                message: "User logged in successfully"
+                data:
                   token: "**************************"
                   id: "*****************************"
         "400":
           description: "This response happens if: body cant be parsed, username or password missing from request body, user with username already exists or password doesnt match the above criteria"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 400
@@ -104,8 +104,8 @@ paths:
           description: "This response happens if the provided password does not match the hash in the database"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 401
@@ -115,8 +115,8 @@ paths:
           description: "This response happens if: jwt couldn't be signed"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 500
@@ -134,8 +134,8 @@ paths:
           description: ""
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: true
                 code: 200
@@ -152,10 +152,10 @@ paths:
           description: ""
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponseUser'
+              schema:
+                $ref: "#/components/schemas/ApiResponseUser"
         "401":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
     put:
       operationId: userMePut
       tags:
@@ -164,15 +164,15 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: 
-              $ref: '#/components/schemas/ApiRequestUpdateUser'
+            schema:
+              $ref: "#/components/schemas/ApiRequestUpdateUser"
       responses:
         "200":
           description: ""
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: true
                 code: 200
@@ -182,15 +182,15 @@ paths:
           description: "Happens if request body is empty or the display_name is too short"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 400
                 message: "display name must be at least 5 characters long"
                 data: null
         "401":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
 
   /v1/user/{userId}:
     get:
@@ -198,39 +198,39 @@ paths:
         - user
       description: get a User by id, requesting user must follow the requested user to access the users data
       parameters:
-      - in: path
-        name: userId
-        required: true
-        schema:
-          type: string
-          example: "63fe751bb1572ff80c4f98b8"
-        description: The ID of the requested user
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            example: "63fe751bb1572ff80c4f98b8"
+          description: The ID of the requested user
       responses:
         "200":
           description: ""
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponseUser'
+              schema:
+                $ref: "#/components/schemas/ApiResponseUser"
         "400":
           description: "Happens if the id parameter is empty"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 400
                 message: "id param is empty"
                 data: null
         "401":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "403":
           description: "Happens if the logged in user is not following the requested user"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 403
@@ -240,24 +240,89 @@ paths:
           description: "Happens if the requested user is not found"
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/ApiResponse'
+              schema:
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 404
                 message: "not found"
                 data: null
-        
 
-      
+  /v1/post/:
+    post:
+      operationId: newPost
+      tags:
+        - posts
+      description: Create a new post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiRequestCreatePost"
+      responses:
+        "201":
+          description: Happens if the post was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponseCreatePost"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /v1/post/me:
+    get:
+      operationId: getPosts
+      tags:
+        - posts
+      description: Get all posts from the currently logged in user
+      responses:
+        "200":
+          description: Happens if the posts were successfully fetched
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiResponsePosts"
+              example:
+                success: true
+                code: 200
+                message: posts fetched successfully
+                data:
+                  posts:
+                    - id: "6409f2b5fcd9eb53e6ea8998"
+                      url: "https://xnacly.me"
+                      description: "my first post 💀"
+                      created_at: "2023-03-09T15:52:37.243+01:00"
+                      like_amount: 0
+                      comment_amount: 0
+                      author: "6409ed8a15354c8c8b918a45"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
+  /v1/post/{postId}:
+    delete:
+      operationId: deletePost
+      tags:
+        - posts
+      description: Remove a post using its id
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            type: string
+            example: "63fe751bb1572ff80c4f98b8"
+          description: The ID of the post to delete
+      responses:
+       "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        
 components:
   responses:
     UnauthorizedError:
       description: "Invalid or missing access token"
       content:
         application/json:
-          schema: 
-            $ref: '#/components/schemas/ApiResponse'
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
           example:
             success: false
             code: 401
@@ -301,6 +366,32 @@ components:
             website:
               type: string
               example: "https://xnacly.me"
+    ApiRequestCreatePost:
+      type: object
+      properties:
+        url:
+          type: string
+          example: "/cdn/v1/asset/tqMQgvTzgFEMWzZnfqJIYGXErzsJDMuK/bm9kaGJ3LnBuZw"
+        description:
+          type: string
+          example: "hello world from paris"
+    ApiResponsePosts:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: "Posts fetched successfully"
+        data:
+          type: object
+          properties:
+            posts:
+              $ref: "#/components/schemas/PostObject"
     ApiResponseUser:
       type: object
       properties:
@@ -317,58 +408,106 @@ components:
           type: object
           properties:
             user:
-              $ref: '#/components/schemas/UserObject'
+              $ref: "#/components/schemas/UserObject"
           example: null
+    ApiResponseCreatePost:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: "post created"
+        data:
+          type: object
+          example:
+            post_id: "6409f2b5fcd9eb53e6ea8998"
+          
+    PostObject:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            example: 6409ee70e07e227657c35157
+          url:
+            type: string
+            example: "/cdn/assets/102819sjaisjak/dkjadja9o10"
+          description:
+            type: string
+            example: "my first post"
+          created_at:
+            type: string
+            example: "2023-03-09T15:52:37.243+01:00"
+          like_amount:
+            type: number
+            example: 0
+          comment_amount:
+            type: number
+            example: 0
+          author:
+            type: string
+            example: "2023-03-09T15:52:37.243+01:00"
+
     UserObject:
       type: object
       properties:
-        id: 
+        id:
           type: string
           example: "63fe751bb1572ff80c4f98b8"
         private:
-            type: boolean
-            example: false
+          type: boolean
+          example: false
         name:
-            type: string
-            example: "tester1"
+          type: string
+          example: "tester1"
         display_name:
-            type: string
-            example: "tester"
+          type: string
+          example: "tester"
         link:
-            type: string
-            example: ""
-        avatar: 
-            type: string
-            example: "https://avatars.githubusercontent.com/u/47723417?v=4"
+          type: string
+          example: ""
+        avatar:
+          type: string
+          example: "https://avatars.githubusercontent.com/u/47723417?v=4"
         created_at:
-            type: string
-            example: "2023-02-28T22:41:47.236+01:00"
+          type: string
+          example: "2023-02-28T22:41:47.236+01:00"
         bio:
-          text: 
-                type: string
-                example: "this is my biography, lol"
-          pronouns: 
-                type: string
-                example: "he/him"
-          location: 
-                type: string
-                example: "Germany"
-          website: 
-                type: string
-                example: "https://xnacly.me"
+          properties:
+            text:
+              type: string
+              example: "this is my biography, lol"
+            pronouns:
+              type: string
+              example: "he/him"
+            location:
+              type: string
+              example: "Germany"
+            website:
+              type: string
+              example: "https://xnacly.me"
         stats:
-          followers: 
-                type: integer
-                example: 0
-          following: 
-                type: integer
-                example: 0
-          posts:
-                type: integer
-                example: 0
-        follower_ids: 
-            type: array
-            example: []
+          properties:
+            followers:
+              type: integer
+              example: 0
+            following:
+              type: integer
+              example: 0
+            posts:
+              type: integer
+              example: 0
+        follower_ids:
+          type: array
+          items:
+            type: string
+          example: []
     ApiResponse:
       type: object
       properties:
@@ -391,7 +530,7 @@ components:
       bearerFormat: JWT
 
 security:
-  - bearerAuth: [] 
+  - bearerAuth: []
 
 tags:
   - name: auth
@@ -400,3 +539,5 @@ tags:
     description: routes which can be used without authentication
   - name: user
     description: user managment
+  - name: posts
+    description: create and delete posts

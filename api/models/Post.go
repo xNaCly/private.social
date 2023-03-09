@@ -1,17 +1,20 @@
 package models
 
-type Post struct {
-	Id         string   `json:"id"`
-	Data       PostData `json:"data"`
-	CreatorIds []string `json:"creator_id"`
-	CreatedAt  string   `json:"created_at"`
-	PostData   PostData `json:"post_data"`
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+type CreatePost struct {
+	Url         string `bson:"url" json:"url"`
+	Description string `bson:"description" json:"description"`
 }
 
-type PostData struct {
-	Comments    int    `json:"comments"`
-	Likes       int    `json:"likes"`
-	Source      string `json:"source"`
-	Description string `json:"description"`
-	Website     string `json:"website"`
+type Post struct {
+	Id            primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Url           string             `bson:"url" json:"url"`
+	Description   string             `bson:"description" json:"description"`
+	CreatedAt     primitive.DateTime `bson:"created_at" json:"created_at"`
+	LikeAmount    int                `bson:"like_amount" json:"like_amount"`
+	CommentAmount int                `bson:"comment_amount" json:"comment_amount"`
+	Author        primitive.ObjectID `bson:"author" json:"author"`
 }

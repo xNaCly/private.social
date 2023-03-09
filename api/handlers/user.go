@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Get data for the currently logged in user
 func GetMe(c *fiber.Ctx) error {
 	user := c.Locals("dbUser").(models.User)
 	return c.JSON(util.ApiResponse{
@@ -19,6 +20,7 @@ func GetMe(c *fiber.Ctx) error {
 
 }
 
+// Get data for a user by id
 func GetUserById(c *fiber.Ctx) error {
 	id := c.Params("id")
 
@@ -69,6 +71,7 @@ func GetUserById(c *fiber.Ctx) error {
 	})
 }
 
+// update the currently logged in user
 func UpdateMe(c *fiber.Ctx) error {
 	if len(c.Body()) == 0 {
 		return c.Status(400).JSON(util.ApiResponse{

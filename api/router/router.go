@@ -54,6 +54,24 @@ var Routes = []Route{
 		Handler:     handlers.GetUserById,
 		Middlewares: []func(*fiber.Ctx) error{},
 	},
+	{
+		Path:        "/post/",
+		Method:      "POST",
+		Handler:     handlers.CreatePost,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+	{
+		Path:        "/post/me",
+		Method:      "GET",
+		Handler:     handlers.GetPosts,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+	{
+		Path:        "/post/:id",
+		Method:      "DELETE",
+		Handler:     handlers.DeletePost,
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
 }
 
 // registers all router.Route structs in the routes to the app grouped by the groupPrefix
