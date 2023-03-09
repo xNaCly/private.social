@@ -4,12 +4,21 @@ import { getToken, removeToken } from "../util/util";
 import { useState, useEffect } from "react";
 import { IPost } from "../models/Post";
 import Edit from "../components/profile/Edit";
+import EditAvatar from "../components/profile/EditAvatar";
 import { MapPin, CameraOff, User as UserIcon } from "react-feather";
+
+// TODO: restrictions:
+// - username: max 30chars
+// - display name: max 30chars
+// - bio: max 160chars
+// - pronouns: max 15chars
+// - location: max 30chars
 
 export default function Profile() {
 	const [user, setUser] = useState<User>();
 	const [posts, setPosts] = useState<IPost[]>([]);
-	const [editModalOpen, setEditModalOpen] = useState(false);
+	const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+	const [editAvatarModalOpen, setEditAvatarModalOpen] = useState(false);
 
 	useEffect(() => {
 		if (!getToken()) window.location.reload();
@@ -31,30 +40,39 @@ export default function Profile() {
 
 	return (
 		<>
-			{editModalOpen && user && (
+			{settingsModalOpen && user && (
 				<Edit
 					user={user}
 					updateUser={(u: User) => setUser(u)}
-					closeNotificationModal={() => setEditModalOpen(false)}
+					closeSettingsModal={() => setSettingsModalOpen(false)}
+				/>
+			)}
+			{editAvatarModalOpen && user && (
+				<EditAvatar
+					user={user}
+					updateUser={(u: User) => setUser(u)}
+					closeEditAvatarModal={() => setEditAvatarModalOpen(false)}
 				/>
 			)}
 			<div className="p-8 px-24 flex flex-col items-start justify-center w-full">
 				<div className="flex items-start justify-center w-full">
-					{user?.avatar ? (
-						<img
-							src={user?.avatar}
-							className="rounded-full w-60 h-60 cursor-pointer"
-						/>
-					) : (
-						<div className="rounded-full w-60 h-60 cursor-pointer flex justify-center items-center bg-gray-100 text-gray-400">
-							<UserIcon size={48} />
-						</div>
-					)}
+					<div onClick={() => setEditAvatarModalOpen(true)}>
+						{user?.avatar ? (
+							<img
+								src={user?.avatar}
+								className="rounded-full w-60 h-60 cursor-pointer border"
+							/>
+						) : (
+							<div className="border rounded-full w-60 h-60 cursor-pointer flex justify-center items-center bg-gray-100 text-gray-400">
+								<UserIcon size={48} />
+							</div>
+						)}
+					</div>
 					<div className="ml-8 mt-2 mb-6 flex flex-col items-start">
 						<div className="flex items-center">
-							<h3 className="text-xl">{user?.name}</h3>
+							<h3 className="text-2xl">{user?.name}</h3>
 							<button
-								onClick={() => setEditModalOpen(true)}
+								onClick={() => setSettingsModalOpen(true)}
 								className="hover:bg-gray-300 mx-3 px-3 py-1 flex justify-center rounded bg-gray-200 flex items-center transition-all"
 							>
 								Edit Profile
@@ -83,7 +101,7 @@ export default function Profile() {
 						<div className="flex flex-col">
 							<div className="flex my-1 items-center">
 								<span className="mr-2">
-									{user?.display_name}
+									@{user?.display_name}
 								</span>
 								<span className="mx-2 text-gray-400">
 									{user?.bio.pronouns}
@@ -98,12 +116,15 @@ export default function Profile() {
 							<span className="my-1 max-w-lg">
 								{user?.bio.text}
 							</span>
-							<a
-								className="my-1 text-trantlabs hover:text-gray-500"
-								href={user?.bio.website}
-							>
-								{user?.bio.website}
-							</a>
+							<span>
+								<a
+									className="my-1 text-trantlabs hover:text-gray-500"
+									href={user?.bio.website}
+									target="_blank"
+								>
+									{user?.bio.website}
+								</a>
+							</span>
 						</div>
 					</div>
 				</div>

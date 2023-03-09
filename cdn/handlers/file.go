@@ -28,7 +28,8 @@ func AcceptIncomingFile(c *fiber.Ctx) error {
 	}
 
 	fileFolder := util.RandomString(32) + "/"
-	pathToFile := fileFolder + filepath.Base(file)
+	file = util.EncodeFileName(filepath.Base(file))
+	pathToFile := fileFolder + file
 
 	err := os.Mkdir("./vfs/"+fileFolder, 0777)
 	if err != nil {
@@ -47,8 +48,12 @@ func AcceptIncomingFile(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "couldn't save file: '"+err.Error()+"'")
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
-		"status": "ok",
-		"path":   c.BaseURL() + "/v1/asset/" + pathToFile,
+	return c.Status(fiber.StatusCreated).JSON(util.ApiResponse{
+		Code:    fiber.StatusCreated,
+		Message: "file uploaded successfully",
+		Success: true,
+		Data: fiber.Map{
+			"path": "/v1/asset/" + pathToFile,
+		},
 	})
 }

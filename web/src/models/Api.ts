@@ -17,3 +17,9 @@ export interface ApiUpdateUserRequest {
 		website: string;
 	};
 }
+
+export interface UploadAvatarResponse extends ApiResponse {
+	data: {
+		path: string;
+	};
+}

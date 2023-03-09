@@ -41,11 +41,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/ApiResponse"
               example:
                 success: false
                 code: 404
                 message: Not Found
+                data: null
 
   /v1/upload/{filename}:
     post:
@@ -106,31 +107,30 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/ApiResponse"
+              example:
+                success: false
+                code: 400
+                message: "Invalid input, empty file or unsupported file format / MIME-type"
+                data: null
 components:
   schemas:
     ApiResponse:
       type: object
       properties:
-        path:
-          type: string
-          example: "http://localhost:8080/v1/asset/cBtMYobImyfLVNpvwlxDSnSmgttBKIaS/file.png"
-        status:
-          type: string
-          example: "ok"
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-          example: 400
         success:
           type: boolean
-          example: false
+          example: true
+        code:
+          type: integer
+          example: 200
         message:
           type: string
-          example: "unsupported file format, choose one of: image/jpeg, image/gif, image/webp, image/heic, video/mp4, image/png, image/jpg"
+          example: "file uploaded successfully"
+        data:
+          type: object
+          example:
+            path: /v1/asset/zLlQhJnuIubDMANpYeskwgAtgiZhiBSN/ufo361.png
 
 tags:
   - name: assets
