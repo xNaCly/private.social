@@ -16,7 +16,6 @@ func CreatePost(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid post data")
 	}
 
-	log.Println(incomingPost)
 	if len(incomingPost.Url) == 0 {
 		return fiber.NewError(fiber.StatusBadRequest, "Url is required")
 	} else if len(incomingPost.Description) == 0 {
