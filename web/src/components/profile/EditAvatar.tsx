@@ -1,5 +1,5 @@
-import { User } from "../../models/User";
-import { ApiUpdateUserRequest } from "../../models/Api";
+import { IUser } from "../../models/User";
+import { IUpdateUserRequest } from "../../models/Api";
 import { xfetch, ROUTES, uploadCdn } from "../../util/fetch";
 import { getToken } from "../../util/util";
 
@@ -8,8 +8,8 @@ export default function EditAvatar({
 	updateUser,
 	closeEditAvatarModal,
 }: {
-	user: User;
-	updateUser: (u: User) => void;
+	user: IUser;
+	updateUser: (u: IUser) => void;
 	closeEditAvatarModal: () => void;
 }) {
 	function uploadPhoto(e: EventTarget) {
@@ -30,9 +30,8 @@ export default function EditAvatar({
 						body: {
 							...user,
 							avatar: path,
-						} as ApiUpdateUserRequest,
+						} as IUpdateUserRequest,
 					});
-					console.log(res);
 				}
 				updateUser({
 					...user,
@@ -46,15 +45,14 @@ export default function EditAvatar({
 
 	function removePhoto() {
 		let f = async () => {
-			let res = await xfetch(ROUTES.me, {
+			await xfetch(ROUTES.me, {
 				method: "PUT",
 				token: getToken() || "",
 				body: {
 					...user,
 					avatar: "",
-				} as ApiUpdateUserRequest,
+				} as IUpdateUserRequest,
 			});
-			console.log(res);
 		};
 		f();
 		updateUser({

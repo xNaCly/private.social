@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Bell, Send, PlusCircle, User, Grid, Home } from "react-feather";
+import { PlusCircle, User, Home } from "react-feather";
 import { NavLink } from "react-router-dom";
 import NotificationModal from "./notification/NotificationModal";
 

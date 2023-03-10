@@ -1,4 +1,4 @@
-import { ApiResponse, UploadAvatarResponse } from "../models/Api";
+import { IResponse, IUploadAvatarResponse } from "../models/Api";
 
 export const ROUTES = {
 	register: "/api/v1/auth/register",
@@ -20,7 +20,7 @@ export const ROUTES = {
 export async function xfetch(
 	path: string,
 	options: { body?: {}; method?: string; token?: string } = {}
-): Promise<ApiResponse> {
+): Promise<IResponse> {
 	let response = await fetch(path, {
 		body: options.body ? JSON.stringify(options.body) : null,
 		method: options.method ?? "GET",
@@ -36,7 +36,7 @@ export async function xfetch(
 	return json;
 }
 
-export async function uploadCdn(file: File): Promise<UploadAvatarResponse> {
+export async function uploadCdn(file: File): Promise<IUploadAvatarResponse> {
 	let request = await fetch(`${ROUTES.upload}/${file.name}`, {
 		method: "POST",
 		body: file,

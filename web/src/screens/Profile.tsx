@@ -1,4 +1,4 @@
-import { User } from "../models/User";
+import { IUser } from "../models/User";
 import { ROUTES, xfetch } from "../util/fetch";
 import { getToken, removeToken } from "../util/util";
 import { useState, useEffect } from "react";
@@ -15,7 +15,7 @@ import { MapPin, CameraOff, User as UserIcon } from "react-feather";
 // - location: max 30chars
 
 export default function Profile() {
-	const [user, setUser] = useState<User>();
+	const [user, setUser] = useState<IUser>();
 	const [posts, setPosts] = useState<IPost[]>([]);
 	const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 	const [editAvatarModalOpen, setEditAvatarModalOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function Profile() {
 					window.location.reload();
 					return;
 				}
-				setUser(data.user as User);
+				setUser(data.user as IUser);
 			};
 			res();
 		}
@@ -43,14 +43,14 @@ export default function Profile() {
 			{settingsModalOpen && user && (
 				<Edit
 					user={user}
-					updateUser={(u: User) => setUser(u)}
+					updateUser={(u: IUser) => setUser(u)}
 					closeSettingsModal={() => setSettingsModalOpen(false)}
 				/>
 			)}
 			{editAvatarModalOpen && user && (
 				<EditAvatar
 					user={user}
-					updateUser={(u: User) => setUser(u)}
+					updateUser={(u: IUser) => setUser(u)}
 					closeEditAvatarModal={() => setEditAvatarModalOpen(false)}
 				/>
 			)}

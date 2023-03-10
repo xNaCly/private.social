@@ -1,5 +1,4 @@
-import { User } from "../../models/User";
-import { XCircle, Settings } from "react-feather";
+import { IUser } from "../../models/User";
 import { useState } from "react";
 import { xfetch, ROUTES } from "../../util/fetch";
 import { getToken } from "../../util/util";
@@ -8,8 +7,8 @@ export default function Edit({
 	updateUser,
 	closeSettingsModal,
 }: {
-	user: User;
-	updateUser: (u: User) => void;
+	user: IUser;
+	updateUser: (u: IUser) => void;
 	closeSettingsModal: () => void;
 }) {
 	const [bioText, setBioText] = useState(user.bio.text);
