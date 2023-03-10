@@ -36,6 +36,17 @@ export default function Profile() {
 			};
 			res();
 		}
+		let res = async () => {
+			let { data } = await xfetch(ROUTES.posts, {
+				token: getToken() || "",
+			});
+			if (data == null) {
+				return;
+			} else {
+				setPosts(data?.posts as IPost[]);
+			}
+		};
+		res();
 	}, []);
 
 	return (
@@ -157,7 +168,8 @@ export default function Profile() {
 								>
 									<img
 										className="m-2 w-80"
-										src={p.data.source}
+										src={p.url}
+										alt={p.description}
 										key={p.id}
 									/>
 								</a>

@@ -1,12 +1,9 @@
 export interface IPost {
-	id: number;
-	data: {
-		comments: number;
-		likes: number;
-		source: string;
-		description: string;
-		website: string;
-	};
-	creator_ids: string[];
+	id: string;
+	url: string;
+	description: string;
 	created_at: Date;
+	like_amount: number;
+	comment_amount: number;
+	author: string;
 }
