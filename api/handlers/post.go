@@ -84,7 +84,6 @@ func GetPostById(c *fiber.Ctx) error {
 	})
 }
 
-// TODO: does not delete successfully, i really fucking hate mongodb
 func DeletePost(c *fiber.Ctx) error {
 	user := c.Locals("dbUser").(models.User)
 	postid := c.Params("id")
