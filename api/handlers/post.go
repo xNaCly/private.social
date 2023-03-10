@@ -63,7 +63,27 @@ func GetPosts(c *fiber.Ctx) error {
 	})
 }
 
-// TODO: does not delete successfully, i really fucking hate mongodb
+func GetPostById(c *fiber.Ctx) error {
+	postid := c.Params("id")
+	if len(postid) == 0 {
+		return fiber.NewError(fiber.StatusBadRequest, "Post id is required")
+	}
+
+	user := c.Locals("dbUser").(models.User)
+	post, err := database.Db.GetPostById(postid, user.Id)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, "Post not found")
+	}
+
+	return c.Status(fiber.StatusOK).JSON(util.ApiResponse{
+		Code:    fiber.StatusOK,
+		Success: true,
+		Data:    fiber.Map{"post": post},
+		Message: "Post fetched successfully",
+	})
+}
+
 func DeletePost(c *fiber.Ctx) error {
 	user := c.Locals("dbUser").(models.User)
 	postid := c.Params("id")
