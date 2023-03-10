@@ -5,7 +5,9 @@ export const ROUTES = {
 	login: "/api/v1/auth/login",
 	ping: "/api/v1/ping",
 	me: "/api/v1/user/me",
+	user: "/api/v1/user/",
 	posts: "/api/v1/post/me",
+	post: "/api/v1/post/",
 	upload: "/cdn/v1/upload",
 };
 
