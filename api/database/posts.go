@@ -79,7 +79,7 @@ func (db Database) DeletePostById(id string, author_id primitive.ObjectID) error
 		return errors.New("invalid id")
 	}
 
-	res, err := db.posts.DeleteOne(context.TODO(), bson.M{"_id": obj_id, "author": id})
+	res, err := db.posts.DeleteOne(context.TODO(), bson.M{"_id": obj_id, "author": author_id})
 	if err != nil {
 		return err
 	} else if res.DeletedCount == 0 {
