@@ -6,7 +6,6 @@ import (
 	"github.com/xnacly/private.social/api/util"
 
 	"github.com/gofiber/fiber/v2"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"sort"
 )
 
@@ -55,8 +54,12 @@ func GetPosts(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, "Something went wrong while fetching the posts")
 	}
 
+	// ISSUE: time.Compare is not working as expected in the docker image as well as in the workflow env
+	// documentation says its in go 1.20 but even after updating the go version in the docker image it still doesn't work
+	// go changelogs: https://tip.golang.org/doc/go1.20#time
+	// INFO: switched from posts[a].CreatedAt.Time().Compare(posts[b].CreatedAt.Time()) to posts[a].CreatedAt.Time().Unix() > posts[b].CreatedAt.Time().Unix()
 	sort.Slice(posts, func(a, b int) bool {
-		return primitive.DateTime(posts[a].CreatedAt.Time().Compare(posts[b].CreatedAt.Time())) == 0
+		return posts[a].CreatedAt.Time().Unix() > posts[b].CreatedAt.Time().Unix()
 	})
 
 	return c.Status(fiber.StatusOK).JSON(util.ApiResponse{
