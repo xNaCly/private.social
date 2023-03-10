@@ -1,10 +1,13 @@
-import { ApiResponse, UploadAvatarResponse } from "../models/Api";
+import { IResponse, IUploadAvatarResponse } from "../models/Api";
 
 export const ROUTES = {
 	register: "/api/v1/auth/register",
 	login: "/api/v1/auth/login",
 	ping: "/api/v1/ping",
 	me: "/api/v1/user/me",
+	user: "/api/v1/user/",
+	posts: "/api/v1/post/me",
+	post: "/api/v1/post/",
 	upload: "/cdn/v1/upload",
 };
 
@@ -20,7 +23,7 @@ export const ROUTES = {
 export async function xfetch(
 	path: string,
 	options: { body?: {}; method?: string; token?: string } = {}
-): Promise<ApiResponse> {
+): Promise<IResponse> {
 	let response = await fetch(path, {
 		body: options.body ? JSON.stringify(options.body) : null,
 		method: options.method ?? "GET",
@@ -36,7 +39,7 @@ export async function xfetch(
 	return json;
 }
 
-export async function uploadCdn(file: File): Promise<UploadAvatarResponse> {
+export async function uploadCdn(file: File): Promise<IUploadAvatarResponse> {
 	let request = await fetch(`${ROUTES.upload}/${file.name}`, {
 		method: "POST",
 		body: file,

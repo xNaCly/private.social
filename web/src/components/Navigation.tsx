@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Bell, Send, PlusCircle, User, Grid, Home } from "react-feather";
+import { PlusCircle, User, Home } from "react-feather";
 import { NavLink } from "react-router-dom";
 import NotificationModal from "./notification/NotificationModal";
 
@@ -20,8 +19,10 @@ export default function Navigation() {
 				<div className="flex items-center justify-center">
 					<NavLink
 						className={({ isActive }) => {
-							return `m-1 p-3 text-lg flex justify-center items-center hover:bg-gray-200 rounded ${
-								isActive ? "text-trantlabs" : ""
+							return `m-1 p-3 text-lg flex justify-center items-center rounded ${
+								isActive
+									? "text-trantlabs hover:text-trantlabs-darker"
+									: "hover:text-gray-600"
 							}`;
 						}}
 						to={"/"}
@@ -31,8 +32,10 @@ export default function Navigation() {
 					</NavLink>
 					<NavLink
 						className={({ isActive }) => {
-							return `m-1 p-3 text-lg flex justify-center items-center hover:bg-gray-200 rounded ${
-								isActive ? "text-trantlabs" : ""
+							return `m-1 p-3 text-lg flex justify-center items-center rounded ${
+								isActive
+									? "text-trantlabs hover:text-trantlabs-darker"
+									: "hover:text-gray-600"
 							}`;
 						}}
 						to={"/profile"}

@@ -1,5 +1,4 @@
-import { User } from "../../models/User";
-import { XCircle, Settings } from "react-feather";
+import { IUser } from "../../models/User";
 import { useState } from "react";
 import { xfetch, ROUTES } from "../../util/fetch";
 import { getToken } from "../../util/util";
@@ -8,8 +7,8 @@ export default function Edit({
 	updateUser,
 	closeSettingsModal,
 }: {
-	user: User;
-	updateUser: (u: User) => void;
+	user: IUser;
+	updateUser: (u: IUser) => void;
 	closeSettingsModal: () => void;
 }) {
 	const [bioText, setBioText] = useState(user.bio.text);
@@ -48,7 +47,7 @@ export default function Edit({
 			onClick={closeSettingsModal}
 		>
 			<div
-				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 w-1/2 shadow-2xl max-w-lg"
+				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 lg:w-1/2 w-3/4 shadow-2xl max-w-lg"
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className="flex justify-center items-center w-full">

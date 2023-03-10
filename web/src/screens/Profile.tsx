@@ -1,4 +1,4 @@
-import { User } from "../models/User";
+import { IUser } from "../models/User";
 import { ROUTES, xfetch } from "../util/fetch";
 import { getToken, removeToken } from "../util/util";
 import { useState, useEffect } from "react";
@@ -6,6 +6,7 @@ import { IPost } from "../models/Post";
 import Edit from "../components/profile/Edit";
 import EditAvatar from "../components/profile/EditAvatar";
 import { MapPin, CameraOff, User as UserIcon } from "react-feather";
+import { Link } from "react-router-dom";
 
 // TODO: restrictions:
 // - username: max 30chars
@@ -15,7 +16,7 @@ import { MapPin, CameraOff, User as UserIcon } from "react-feather";
 // - location: max 30chars
 
 export default function Profile() {
-	const [user, setUser] = useState<User>();
+	const [user, setUser] = useState<IUser>();
 	const [posts, setPosts] = useState<IPost[]>([]);
 	const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 	const [editAvatarModalOpen, setEditAvatarModalOpen] = useState(false);
@@ -32,10 +33,21 @@ export default function Profile() {
 					window.location.reload();
 					return;
 				}
-				setUser(data.user as User);
+				setUser(data.user as IUser);
 			};
 			res();
 		}
+		let res = async () => {
+			let { data } = await xfetch(ROUTES.posts, {
+				token: getToken() || "",
+			});
+			if (data == null) {
+				return;
+			} else {
+				setPosts(data?.posts as IPost[]);
+			}
+		};
+		res();
 	}, []);
 
 	return (
@@ -43,32 +55,32 @@ export default function Profile() {
 			{settingsModalOpen && user && (
 				<Edit
 					user={user}
-					updateUser={(u: User) => setUser(u)}
+					updateUser={(u: IUser) => setUser(u)}
 					closeSettingsModal={() => setSettingsModalOpen(false)}
 				/>
 			)}
 			{editAvatarModalOpen && user && (
 				<EditAvatar
 					user={user}
-					updateUser={(u: User) => setUser(u)}
+					updateUser={(u: IUser) => setUser(u)}
 					closeEditAvatarModal={() => setEditAvatarModalOpen(false)}
 				/>
 			)}
-			<div className="p-8 px-24 flex flex-col items-start justify-center w-full">
+			<div className="p-8 lg:px-24 md:px-12 px-0 flex flex-col items-start justify-center w-full">
 				<div className="flex items-start justify-center w-full">
 					<div onClick={() => setEditAvatarModalOpen(true)}>
 						{user?.avatar ? (
 							<img
 								src={user?.avatar}
-								className="rounded-full w-60 h-60 cursor-pointer border"
+								className="rounded-full md:w-40 md:h-40 h-20 w-20 cursor-pointer border aspect-square"
 							/>
 						) : (
-							<div className="border rounded-full w-60 h-60 cursor-pointer flex justify-center items-center bg-gray-100 text-gray-400">
+							<div className="border rounded-full md:w-40 md:h-40 h-20 w-20 cursor-pointer flex justify-center items-center bg-gray-100 text-gray-400 aspect-square">
 								<UserIcon size={48} />
 							</div>
 						)}
 					</div>
-					<div className="ml-8 mt-2 mb-6 flex flex-col items-start">
+					<div className="lg:ml-8 ml-2 mt-2 mb-6 flex flex-col items-start">
 						<div className="flex items-center">
 							<h3 className="text-2xl">{user?.name}</h3>
 							<button
@@ -79,13 +91,13 @@ export default function Profile() {
 							</button>
 						</div>
 						<div className="flex my-4">
-							<div className="flex mr-8 items-center">
+							<div className="flex mr-4 items-center">
 								<h3 className="font-bold mr-1">
 									{user?.stats.posts}
 								</h3>
 								<p>Posts</p>
 							</div>
-							<div className="flex mr-8 items-center">
+							<div className="flex mr-4 items-center">
 								<h3 className="font-bold mr-1">
 									{user?.stats.followers}
 								</h3>
@@ -128,12 +140,10 @@ export default function Profile() {
 						</div>
 					</div>
 				</div>
-				<div className="mt-4 flex items-start justify-center w-full">
+				<div className="flex justify-center w-full"></div>
+				<div className="flex items-start justify-center w-full">
 					{!posts.length ? (
-						<div
-							className="flex flex-col justify-center items-center pt-8 w-1/2"
-							style={{ borderTopWidth: "1px" }}
-						>
+						<div className="flex flex-col justify-center items-center w-1/2">
 							<div className="flex flex-col justify-center items-center my-60">
 								<CameraOff
 									size={32}
@@ -146,21 +156,21 @@ export default function Profile() {
 						</div>
 					) : (
 						<div
-							className="grid lg:grid-cols-3 md:grid-cols-2 pt-8 w-1/2"
-							style={{ borderTopWidth: "1px" }}
+							className="pt-8 grid grid-cols-3 mt-6 lg:w-3/4 xl:w-1/2 w-full lg:px-8 lg:gap-8 md:gap-4 sm:gap-2 gap-1 place-items-center"
+							style={{
+								borderTopWidth: "1px",
+								gridTemplateRows: "auto",
+							}}
 						>
 							{posts.map((p) => (
-								<a
-									href={`posts/${p.id}`}
-									className="hover:brightness-75"
-									key={p.id}
-								>
+								<Link to={`/post/${p.id}`}>
 									<img
-										className="m-2 w-80"
-										src={p.data.source}
+										className="lg:w-80 md:w-60 min-w-40 min-h-40 cursor-pointer hover:saturate-0"
+										src={p.url}
+										alt={p.description}
 										key={p.id}
 									/>
-								</a>
+								</Link>
 							))}
 						</div>
 					)}
