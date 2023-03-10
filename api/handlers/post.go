@@ -62,6 +62,10 @@ func GetPosts(c *fiber.Ctx) error {
 		return posts[a].CreatedAt.Time().Unix() > posts[b].CreatedAt.Time().Unix()
 	})
 
+	if posts == nil {
+		posts = []models.Post{}
+	}
+
 	return c.Status(fiber.StatusOK).JSON(util.ApiResponse{
 		Code:    fiber.StatusOK,
 		Success: true,
