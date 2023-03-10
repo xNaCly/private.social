@@ -47,7 +47,7 @@ export default function Edit({
 			onClick={closeSettingsModal}
 		>
 			<div
-				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 w-1/2 shadow-2xl max-w-lg"
+				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 lg:w-1/2 w-3/4 shadow-2xl max-w-lg"
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className="flex justify-center items-center w-full">

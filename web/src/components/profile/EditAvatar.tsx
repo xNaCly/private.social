@@ -69,7 +69,7 @@ export default function EditAvatar({
 				onClick={closeEditAvatarModal}
 			>
 				<div
-					className="bg-white flex flex-col justify-center items-center rounded-md border w-1/2 shadow-2xl max-w-lg"
+					className="bg-white flex flex-col justify-center items-center rounded-md border lg:w-1/2 w-3/4 shadow-2xl max-w-lg"
 					onClick={(e) => e.stopPropagation()}
 				>
 					<div className="flex flex-col justify-center items-center w-full">

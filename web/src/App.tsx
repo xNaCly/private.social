@@ -1,4 +1,3 @@
-import Navigation from "./components/Navigation";
 import {
 	BrowserRouter as Router,
 	Routes,
@@ -8,10 +7,12 @@ import {
 import { useState, useEffect } from "react";
 import { getToken, isBackendAvailable } from "./util/util";
 
+import Navigation from "./components/Navigation";
 import Error from "./screens/Error";
 import Signup from "./screens/Signup";
 import Login from "./screens/Login";
 import Profile from "./screens/Profile";
+import Post from "./screens/Post";
 import Home from "./screens/Home";
 
 import "./index.css";
@@ -34,7 +35,7 @@ export default function App() {
 		<>
 			{backendAvailable ? (
 				<Router>
-					<div className="mx-6">
+					<div className="lg:mx-6 md:mx-6 sm:mx-0">
 						{bearer && <Navigation />}
 						<Routes>
 							{!bearer ? (
@@ -66,6 +67,10 @@ export default function App() {
 									<Route
 										path="profile"
 										element={<Profile />}
+									/>
+									<Route
+										path="post/:postId"
+										element={<Post />}
 									/>
 									<Route
 										path="login"

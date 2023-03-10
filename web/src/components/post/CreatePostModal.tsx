@@ -1,5 +1,3 @@
-export default function CreatePostModal({
-	updatePosts,
-}: {
-	updatePosts: any;
-}) {}
+export default function CreatePostModal() {
+	return <></>;
+}
