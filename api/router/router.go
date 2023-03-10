@@ -87,4 +87,5 @@ func RegisterRoutes(app *fiber.App, groupPrefix string, routes ...Route) {
 		group.Add(route.Method, route.Path, append(route.Middlewares, route.Handler)...)
 		log.Printf("Registered route: [%s] %s%s\n", route.Method, groupPrefix, route.Path)
 	}
+	log.Printf("Registered '%d' routes\n", len(routes))
 }
