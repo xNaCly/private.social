@@ -4,9 +4,10 @@ import (
 	"github.com/xnacly/private.social/api/database"
 	"github.com/xnacly/private.social/api/models"
 	"github.com/xnacly/private.social/api/util"
-	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"sort"
 )
 
 func CreatePost(c *fiber.Ctx) error {
@@ -54,6 +55,10 @@ func GetPosts(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, "Something went wrong while fetching the posts")
 	}
 
+	sort.Slice(posts, func(a, b int) bool {
+		return primitive.DateTime(posts[a].CreatedAt.Time().Compare(posts[b].CreatedAt.Time())) == 0
+	})
+
 	return c.Status(fiber.StatusOK).JSON(util.ApiResponse{
 		Code:    fiber.StatusOK,
 		Success: true,
@@ -62,6 +67,7 @@ func GetPosts(c *fiber.Ctx) error {
 	})
 }
 
+// currently a user can only view his own posts :skull:
 func GetPostById(c *fiber.Ctx) error {
 	postid := c.Params("id")
 	if len(postid) == 0 {
