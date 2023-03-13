@@ -52,10 +52,10 @@ Mental health related features:
 
 Private.social was developed during the 4th semester of our applied computer science bachelor's program by the following four individuals:
 
-- [xnacly](https://github.com/xnacly)
-- [ellirynbw](https://github.com/ellirynbw)
-- [derPhilosoff](https://github.com/derPhilosoff)
-- [Nosch](https://github.com/noschnosch)
+- [9525469](https://github.com/xnacly)
+- [9197785](https://github.com/ellirynbw)
+- [8478190](https://github.com/derPhilosoff)
+- [1823169](https://github.com/noschnosch)
 
 The objective of the semester's examination was to create and document an application that utilizes at least two microservices.
 One microservice had to be programmed by our group, while the other could be any publicly available online web service.
@@ -157,7 +157,7 @@ If everything worked out as intended, the cdn returns the default `ApiResponse` 
   "code": 201,
   "message": "file uploaded successfully",
   "data": {
-    "path": "/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx"
+    "path": "/v1/asset/PXKjmgzuhCKOsxcFMxnEpZqSpTKTqNEF/dGVzdC5wbmdx"
   }
 }
 ```
@@ -166,7 +166,7 @@ To request the uploaded asset, simply concatenate the returned path and the path
 
 ```js
 "http://localhost:8080" +
-  "/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx";
+  "/v1/asset/PXKjmgzuhCKOsxcFMxnEpZqSpTKTqNEF/dGVzdC5wbmdx";
 ```
 
 The result, viewed in the browser:
