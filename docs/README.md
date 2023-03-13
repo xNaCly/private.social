@@ -83,7 +83,7 @@ In addition, we use one external service:
 | derPhilosoff | Docs, API database wrapper, config package |
 | Nosch        | CDN, docs and web design                   |
 
-### Directory structure
+### Repo structure
 
 This project is structured into four main directories:
 
@@ -91,6 +91,138 @@ This project is structured into four main directories:
 - `api/`: This directory contains the back-end of the application, which is built with Go.
 - `cdn/`: This folder contains the content delivery network of the application, which is built with Go. The CDN serves pictures and videos.
 - `docs/`: This folder contains the documentation for the project.
+
+### Project structures
+
+The following chapter is a short summary of the projects directories and what path contains what part of the business logic.
+
+#### CDN
+
+The cdn is started via `go run .` which downloads all the dependencies the go compiler needs to create a executable.
+After starting, the cdn checks if the directory `./vfs` exists, if not it creates the directory.
+The next step is a custom error handler which returns a `ApiResponse` go structure to the user, which translated to the following json object:
+
+```json
+{
+  "success": false,
+  "code": 404,
+  "message": "Not Found",
+  "data": null
+}
+```
+
+This structure supports errors (as showcased above) and successful responses, such as:
+
+```json
+{
+  "success": true,
+  "code": 201,
+  "message": "file uploaded successfully",
+  "data": {
+    "path": "/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx"
+  }
+}
+```
+
+This response structure is also used in the `api` project to keep things consistent.
+
+The cdn uses and registers the [cors](https://docs.gofiber.io/api/middleware/cors/), [cache](https://docs.gofiber.io/api/middleware/cache/) and [logger](https://docs.gofiber.io/api/middleware/logger/) middleware, all provided by the [fiber](https://gofiber.io/) web server framework.
+The first one is used to insure cross origin resource sharing, the second one is used to aggressively cache assets uploaded to the cdn and the third allows for verbose event logging, which is incredibly helpful for debugging.
+
+After the middlewares are registered, the cdn groups the two available routes using the `v1` group, which enables the routing using a prefix.
+This is useful for versioning and supporting outdated routes, while innovating.
+
+The first of the two routes is used to upload a file `/v1/upload/:file`.
+It only accepts incoming requests if the `file` parameter and the request body are not empty. After a request was made, the cdn first determines the MIME type of the incoming binary request body and checks if it's a supported MIME type:
+
+- image/png
+- image/jpg
+- image/jpeg
+- image/gif
+- image/webp
+- image/heic
+- video/mp4
+
+If this isn't the case, the cdn responds with an error in the format of the `ApiResponse` go structure.
+If the mime type is supported, the cdn creates a random directory prefix and creates a new directory with this name.
+To prevent vulnerabilities caused by file paths in the request parameter which try to escape the `vfs` directory, we use a go std lib function to only get the base of the filename.
+This escaped filename is now converted to its base64 representation and stored as a file in the previously created directory.
+If everything worked out as intended, the cdn returns the default `ApiResponse` structure with the data containing a `path` key value pair pointing to the uploaded assets:
+
+```json
+{
+  "success": true,
+  "code": 201,
+  "message": "file uploaded successfully",
+  "data": {
+    "path": "/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx"
+  }
+}
+```
+
+To request the uploaded asset, simply concatenate the returned path and the path the cdn is currently hosted at:
+
+```js
+"http://localhost:8080" +
+  "/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx";
+```
+
+The result, viewed in the browser:
+
+![cdn-asset-screenshot.png](assets/cdn-asset-screenshot.png)
+
+The second available handler is bound to the `v1/asset` path and is a statically hosted directory mounted to the `vfs` directory.
+Its cached with a max-age of 3600 seconds (60 min / 1h) and returns a 404 `ApiResponse` structure:
+
+```json
+{
+  "success": false,
+  "code": 404,
+  "message": "Not Found",
+  "data": null
+}
+```
+
+Directory content overview:
+
+```text
+drwxr-xr-x    - teo 10 Mar 14:47 .
+.rw-r--r-- 1.3k teo  9 Mar 11:56 ├── app.go
+.rw-r--r-- 4.5k teo  9 Mar 16:30 ├── cdn-openapi.yaml
+.rw-r--r--  208 teo  6 Mar 10:35 ├── Dockerfile
+.rw-r--r--  896 teo  6 Mar 10:35 ├── go.mod
+.rw-r--r-- 6.3k teo  6 Mar 10:35 ├── go.sum
+drwxr-xr-x    - teo  9 Mar 11:56 ├── handlers
+.rw-r--r-- 1.5k teo  9 Mar 11:56 │  └── file.go
+.rw-r--r--  106 teo  6 Mar 10:35 ├── Readme.md
+drwxr-xr-x    - teo 13 Mar 08:49 ├── tests
+.rw-r--r--  401 teo  6 Mar 10:35 │  └── util_test.go
+drwxr-xr-x    - teo  9 Mar 11:56 ├── util
+.rw-r--r-- 3.6k teo  9 Mar 11:56 │  └── util.go
+drwxr-xr-x    - teo 13 Mar 08:49 └── vfs
+```
+
+- app.go
+  - main entry point, contains middlewares and restful server setup
+  - bounds the upload handler to POST /v1/upload
+  - serves the `vfs` directory statically with a max-age of 3600
+- documentation
+  - cdn-openapi.yaml
+  - Readme .md
+- Dockerfile
+- dependency managment for go
+  - go.sum
+  - go.mod
+- handlers
+  - the handlers which are able to interact with the fiber context
+- tests
+  - contains unit tests
+- util
+  - utility module for structs and small helper methods
+- vfs
+  - directory the cdn creates to store uploaded assets in
+
+####
 
 ## Getting started
 
