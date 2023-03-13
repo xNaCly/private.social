@@ -186,6 +186,9 @@ services:
     hostname: cdn
     ports:
       - 8080:8080
+    # what volume and path to persist data to
+    volumes:
+      - cdn:/vfs
   web:
     # source Dockerfile from ./cdn/Dockerfile
     build: ./web
@@ -198,7 +201,9 @@ services:
 
 volumes:
   # define persistent volume for the database
-  `bdatabase:
+  database:
+  # define persistent volume for the cdn
+  cdn:
 ```
 
 #### Docker images
@@ -326,17 +331,23 @@ http {
         # localhost/api should be proxied to the container api with port 8000
         location /api {
             proxy_pass http://api:8000;
+            # remove '/api/' from the url
+            rewrite /api/(.*) /$1 break;
         }
 
         # localhost/cdn should be proxied to the container cdn with port 8080
         location /cdn {
             proxy_pass http://cdn:8080;
+            # remove '/cdn/' from the url
+            rewrite /cdn/(.*) /$1 break;
         }
 
         # serve the files at /data/www at localhost port 3000
         location / {
             root /data/www;
             index index.html;
+            # if error 404 occurs, redirect user to index.html
+            error_page 404 =200 /index.html
         }
     }
 }
