@@ -183,7 +183,7 @@ Its cached with a max-age of 3600 seconds (60 min / 1h) and returns a 404 `ApiRe
 }
 ```
 
-Directory content overview:
+##### Directory content overview:
 
 ```text
 drwxr-xr-x    - teo 10 Mar 14:47 .
@@ -202,27 +202,161 @@ drwxr-xr-x    - teo  9 Mar 11:56 ├── util
 drwxr-xr-x    - teo 13 Mar 08:49 └── vfs
 ```
 
-- app.go
-  - main entry point, contains middlewares and restful server setup
-  - bounds the upload handler to POST /v1/upload
-  - serves the `vfs` directory statically with a max-age of 3600
-- documentation
-  - cdn-openapi.yaml
-  - Readme .md
-- Dockerfile
-- dependency managment for go
-  - go.sum
-  - go.mod
-- handlers
-  - the handlers which are able to interact with the fiber context
-- tests
-  - contains unit tests
-- util
-  - utility module for structs and small helper methods
-- vfs
-  - directory the cdn creates to store uploaded assets in
+- app.go:
 
-####
+  This is the main entry point of the application, and contains middlewares and restful server setup. It is responsible for setting up the different routes that the CDN will expose, and for binding the upload handler to POST /v1/upload. Additionally, it serves the vfs directory statically with a max-age of 3600.
+
+- Documentation:
+
+  The directory includes a CDN OpenAPI specification file, which describes the different endpoints of the CDN, and a Readme file, which provides information on how to use the CDN.
+
+- Dockerfile:
+
+  This file is used to build a Docker image of the application. This is useful for deployment purposes, as it allows the application to be easily packaged and deployed on different platforms.
+
+- Dependency management for Go:
+
+  go.sum and go.mod.
+  These files are used to manage the different dependencies required by the application.
+
+- Handlers:
+
+  This folder contains different handlers that are responsible for handling the different requests made to the CDN. The handlers are able to interact with the Fiber context, and act as routes for the CDN.
+
+- Tests:
+
+  This folder contains unit tests for the util module.
+
+- Util:
+
+  This folder contains a utility module for structs and small helper methods.
+
+- Vfs:
+
+  This folder contains the directory that the CDN creates to store uploaded assets in.
+
+#### API
+
+In a nutshell the api is the layer between the web interface and the database with a bit of access security.
+The API is secured with usage of [JWT](https://www.rfc-editor.org/rfc/rfc7519) and is at the point of writing in no way complete for all features described at [idea](#idea).
+
+##### Directory content overview:
+
+```text
+drwxr-xr-x    - teo 10 Mar 14:45 .
+.rw-r--r--  106 teo  6 Mar 17:06 ├── .env
+.rw-r--r--   23 teo  6 Mar 10:35 ├── .env.example
+.rw-r--r-- 1.8k teo  6 Mar 10:35 ├── app.go
+drwxr-xr-x    - teo  6 Mar 10:35 ├── config
+.rw-r--r--  951 teo  6 Mar 10:35 │  └── config.go
+drwxr-xr-x    - teo 10 Mar 08:00 ├── database
+.rw-r--r-- 1.2k teo  9 Mar 16:30 │  ├── database.go
+.rw-r--r-- 2.3k teo 10 Mar 08:00 │  ├── posts.go
+.rw-r--r-- 2.4k teo  9 Mar 16:30 │  └── users.go
+.rw-r--r--  208 teo  6 Mar 10:35 ├── Dockerfile
+.rw-r--r-- 1.5k teo  6 Mar 10:35 ├── go.mod
+.rw-r--r--  11k teo  6 Mar 10:35 ├── go.sum
+drwxr-xr-x    - teo 10 Mar 15:10 ├── handlers
+.rw-r--r-- 4.5k teo  7 Mar 13:02 │  ├── auth.go
+.rw-r--r--  314 teo  9 Mar 16:30 │  ├── ping.go
+.rw-r--r-- 3.5k teo 10 Mar 15:10 │  ├── post.go
+.rw-r--r-- 2.8k teo  9 Mar 16:30 │  └── user.go
+drwxr-xr-x    - teo  9 Mar 16:30 ├── models
+.rw-r--r--  424 teo  9 Mar 16:30 │  ├── General.go
+.rw-r--r--  716 teo  9 Mar 16:30 │  ├── Post.go
+.rw-r--r-- 2.2k teo  6 Mar 10:35 │  └── User.go
+.rw-r--r--  17k teo  9 Mar 16:30 ├── openapi3_0.yaml
+.rw-r--r--  873 teo  6 Mar 10:35 ├── Readme.md
+drwxr-xr-x    - teo 10 Mar 14:39 ├── router
+.rw-r--r-- 2.5k teo 10 Mar 14:39 │  └── router.go
+drwxr-xr-x    - teo  6 Mar 10:35 ├── setup
+.rw-r--r-- 1.4k teo  6 Mar 10:35 │  └── setup.go
+drwxr-xr-x    - teo  6 Mar 10:35 ├── tests
+.rw-r--r--  418 teo  6 Mar 10:35 │  ├── config_test.go
+.rw-r--r-- 1.6k teo  6 Mar 10:35 │  └── util_test.go
+
+drwxr-xr-x    - teo  6 Mar 10:35 └── util
+.rw-r--r-- 4.8k teo  6 Mar 10:35    └── util.go
+```
+
+The project is structured as follows:
+
+- app.go:
+
+  This is the main entry point of the application, similar to the CDN. It is responsible for starting the server, and setting up the different routes that the API will expose.
+
+- Documentation:
+
+  The project includes an OpenAPI specification file, which describes the different endpoints of the API, and a Readme file, which provides information on how to use the API.
+
+- Dockerfile:
+
+  This file is used to build a Docker image of the application. This is useful for deployment purposes, as it allows the application to be easily packaged and deployed on different platforms.
+
+- Configuration:
+
+  The project includes a .env file, which contains environment variables used by the application, and a .env.example file, which serves as an example of how to set up the environment variables.
+
+- Dependency management for Go:
+
+  go.sum and go.mod.
+  These files are used to manage the different dependencies required by the application.
+
+- Handlers: This folder contains different handlers that are responsible for handling the different requests made to the API. The handlers are able to interact with the Fiber context, and act as routes for the API. The handlers include:
+
+  - auth.go: Contains all routes used for authentication to the API.
+  - ping.go: Contains the ping route, which is used to check if the API is online.
+  - post.go: Contains uploading, viewing all posts by the logged in user, viewing a post by its ID, and deleting a post by its ID.
+  - user.go: Contains viewing the currently logged in user, viewing a user by their ID, and updating the currently logged in user.
+
+- Config:
+
+  This folder contains a module that is responsible for loading a dot env file, setting the defined environment variables in the process that the Go application is running in, and afterwards loading these environment variables in a config hashmap.
+
+- Database:
+
+  This folder contains a module that is responsible for interacting with MongoDB. It includes a wrapper for creating the connection, managing users and posts.
+
+- Models:
+
+  This folder contains structures for users, posts, and utility. These structures are used to encode from BSON to Go structures to JSON.
+
+- Tests:
+
+  This folder contains tests for utility functions and the config module.
+
+- Util:
+
+  This folder contains utility functions such as getting a timestamp for MongoDB, comparing object IDs, and getting the current user from the JWT token.
+
+## Technology choices
+
+### Frontend
+
+React is an incredibly powerful and versatile JavaScript library that has revolutionized the way we think about building dynamic user interfaces.
+As a developer with experience using React, I believe that it is the best choice for building modern web applications, particularly when combined with TypeScript and a fast and lightweight bundler like Vite.
+
+One of the main advantages of React is its flexibility and scalability.
+React provides a simple and intuitive way to manage the state of a web application, which makes it easy to build complex and dynamic user interfaces that can handle a wide range of different use cases.
+Additionally, React's component-based architecture allows developers to easily reuse code across different parts of an application, which can save a lot of time and effort when building large-scale projects.
+
+Another key advantage of React is its extensive support for TypeScript, a popular and powerful superset of JavaScript that adds type checking and other features to the language.
+With TypeScript, developers can catch errors and bugs before they ever make it into production, which can help to improve the stability and reliability of a web application. And with Vite, a fast and lightweight bundler that supports TypeScript out of the box, developers can enjoy lightning-fast build times and a streamlined development experience that helps to reduce development time and increase productivity.
+
+In my experience, React has been an incredibly powerful tool for building modern web applications, and its support for TypeScript and the Vite bundler has only made it more versatile and efficient.
+
+### Backend
+
+When it comes to building high-performance, scalable, and reliable APIs and CDNs, there are few options better than Go.
+As someone who was eager to learn and use Go for backend development, I believe that it is the perfect choice for building fast, efficient, and secure web applications, especially when paired with a modern HTTP server framework like Go Fiber.
+
+One of the key advantages of Go is its incredible speed and performance.
+Because Go is a compiled language, it can handle a high volume of requests with very low overhead, making it ideal for building APIs and CDNs that need to respond quickly and efficiently to user requests.
+Additionally, Go's built-in concurrency and parallelism features make it easy to write scalable code that can handle high traffic loads without slowing down.
+
+Finally, as someone who has experience working with JWT and a dislike for Java and a belief that JavaScript can be too slow, Go offers a refreshing alternative that is both fast and reliable. With its focus on performance and efficiency, Go can handle large amounts of data and requests with ease, while still providing the flexibility and scalability that developers need to build modern web applications.
+
+Given my desire to learn and utilize Go for backend development, and the advantages of using Go as outlined above, it makes sense for me and my team to adopt Go as our primary backend language for building the API and the CDN.
 
 ## Getting started
 
@@ -502,6 +636,46 @@ mv .env.example .env
 go run .
 ```
 
+```text
+██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗                    █████╗ ██████╗ ██╗
+██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝   ██╔════╝██╔═══██╗██╔════╝██║██╔══██╗██║                   ██╔══██╗██╔══██╗██║
+██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗     ███████╗██║   ██║██║     ██║███████║██║         █████╗    ███████║██████╔╝██║
+██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝     ╚════██║██║   ██║██║     ██║██╔══██║██║         ╚════╝    ██╔══██║██╔═══╝ ██║
+██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗██╗███████║╚██████╔╝╚██████╗██║██║  ██║███████╗              ██║  ██║██║     ██║
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═╝  ╚═╝╚══════╝              ╚═╝  ╚═╝╚═╝     ╚═╝
+2023/03/13 09:58:08 loaded config key 'MONGO_URL' with value 'mongodb+srv://***********************************************************' from env
+2023/03/13 09:58:08 loaded config key 'JWT_SECRET' with value 'JWT_SECRET' from env
+2023/03/13 09:58:08 Establishing connection to database...
+2023/03/13 09:58:09 Connection to database established
+2023/03/13 09:58:09 loaded tables 'users', 'posts'
+2023/03/13 09:58:09 Setting up the app...
+2023/03/13 09:58:09 Registering unauthenticated routes...
+2023/03/13 09:58:09 Registered route: [GET] v1/ping
+2023/03/13 09:58:09 Registered route: [POST] v1/auth/register
+2023/03/13 09:58:09 Registered route: [POST] v1/auth/login
+2023/03/13 09:58:09 Registered '3' routes
+2023/03/13 09:58:09 Registering authenticated routes...
+2023/03/13 09:58:09 Registered route: [GET] v1/user/me
+2023/03/13 09:58:09 Registered route: [PUT] v1/user/me
+2023/03/13 09:58:09 Registered route: [GET] v1/user/:id
+2023/03/13 09:58:09 Registered route: [POST] v1/post/
+2023/03/13 09:58:09 Registered route: [GET] v1/post/me
+2023/03/13 09:58:09 Registered route: [DELETE] v1/post/:id
+2023/03/13 09:58:09 Registered route: [GET] v1/post/:id
+2023/03/13 09:58:09 Registered '7' routes
+2023/03/13 09:58:09 Starting the app...
+
+ ┌───────────────────────────────────────────────────┐
+ │                private.social/api                 │
+ │                   Fiber v2.42.0                   │
+ │               http://127.0.0.1:8000               │
+ │       (bound on host 0.0.0.0 and port 8000)       │
+ │                                                   │
+ │ Handlers ............ 15  Processes ........... 1 │
+ │ Prefork ....... Disabled  PID ............. 84468 │
+ └───────────────────────────────────────────────────┘
+```
+
 #### WEB
 
 ```bash
@@ -510,11 +684,45 @@ pnpm i
 pnpm dev
 ```
 
+Outputs:
+
+```
+
+  VITE v4.1.4  ready in 344 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
+
+```
+
 #### CDN
 
 ```bash
 cd cdn
 go run .
+```
+
+Outputs:
+
+```text
+
+██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗                    ██████╗██████╗ ███╗   ██╗
+██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝   ██╔════╝██╔═══██╗██╔════╝██║██╔══██╗██║                   ██╔════╝██╔══██╗████╗  ██║
+██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗     ███████╗██║   ██║██║     ██║███████║██║         █████╗    ██║     ██║  ██║██╔██╗ ██║
+██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝     ╚════██║██║   ██║██║     ██║██╔══██║██║         ╚════╝    ██║     ██║  ██║██║╚██╗██║
+██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗██╗███████║╚██████╔╝╚██████╗██║██║  ██║███████╗              ╚██████╗██████╔╝██║ ╚████║
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═╝  ╚═╝╚══════╝               ╚═════╝╚═════╝ ╚═╝  ╚═══╝
+
+ ┌───────────────────────────────────────────────────┐
+ │                private.social/cdn                 │
+ │                   Fiber v2.42.0                   │
+ │               http://127.0.0.1:8080               │
+ │       (bound on host 0.0.0.0 and port 8080)       │
+ │                                                   │
+ │ Handlers ............. 5  Processes ........... 1 │
+ │ Prefork ....... Disabled  PID ............. 83839 │
+ └───────────────────────────────────────────────────┘
 ```
 
 ### Access
