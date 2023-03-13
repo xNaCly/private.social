@@ -169,7 +169,7 @@ To request the uploaded asset, simply concatenate the returned path and the path
 
 The result, viewed in the browser:
 
-![cdn-asset-screenshot.png](assets/cdn-asset-screenshot.png)
+![cdn asset screenshot](assets/cdn-asset-screenshot.png)
 
 The second available handler is bound to the `v1/asset` path and is a statically hosted directory mounted to the `vfs` directory.
 Its cached with a max-age of 3600 seconds (60 min / 1h) and returns a 404 `ApiResponse` structure:

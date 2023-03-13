@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="private.social">Private.social</h1>
+<h2 id="idea">Idea</h2>
+<p>Private.social is designed to be a truly private and secure social
+network that empowers users to:</p>
+<ul class="task-list">
+<li><input type="checkbox" checked="" />Create an account without
+requiring an email address or phone number.
+<ul class="task-list">
+<li><input type="checkbox" />Optionally add an email address to the
+account to enable resetting the account password.</li>
+</ul></li>
+<li><input type="checkbox" checked="" />Set all accounts to private
+visibility by default. (Only followers can view profile data and posts
+from a private account.)</li>
+<li><input type="checkbox" checked="" />Secure all API interactions with
+JWT tokens.</li>
+<li><input type="checkbox" checked="" />Store passwords in the database
+hashed with bcrypt.</li>
+<li><input type="checkbox" checked="" />Enforce password requirements:
+<ul class="task-list">
+<li><input type="checkbox" checked="" />Minimum of 10 characters.</li>
+<li><input type="checkbox" checked="" />At least one symbol.</li>
+<li><input type="checkbox" checked="" />At least one uppercase
+character.</li>
+<li><input type="checkbox" checked="" />At least one number.</li>
+</ul></li>
+</ul>
+<p>Non-privacy related features:</p>
+<ul class="task-list">
+<li><input type="checkbox" checked="" />Self-hostable API, CDN, and
+web.</li>
+<li><input type="checkbox" />Home view sorted chronologically.</li>
+<li><input type="checkbox" checked="" />Posts:
+<ul class="task-list">
+<li><input type="checkbox" />Likes:
+<ul class="task-list">
+<li><input type="checkbox" />Private (only the creators can see the
+number of likes).</li>
+<li><input type="checkbox" />Disable (no one can like the post).</li>
+</ul></li>
+<li><input type="checkbox" />Comments:
+<ul class="task-list">
+<li><input type="checkbox" />Restricted (only followers can
+comment).</li>
+<li><input type="checkbox" />Mention-only (only mentioned users can
+comment).</li>
+<li><input type="checkbox" />Disable (no one can comment).</li>
+</ul></li>
+<li><input type="checkbox" checked="" />Caption.</li>
+<li><input type="checkbox" />Collaboration on posts.</li>
+</ul></li>
+<li><input type="checkbox" checked="" />Profile:
+<ul class="task-list">
+<li><input type="checkbox" checked="" />Biography:
+<ul class="task-list">
+<li><input type="checkbox" checked="" />Text biography.</li>
+<li><input type="checkbox" />Custom pronouns.</li>
+<li><input type="checkbox" checked="" />Profile picture.</li>
+<li><input type="checkbox" />Profile banner.</li>
+<li><input type="checkbox" checked="" />Website.</li>
+<li><input type="checkbox" checked="" />Location.</li>
+</ul></li>
+<li><input type="checkbox" />Customize profile using CSS.</li>
+</ul></li>
+</ul>
+<p>Mental health related features:</p>
+<ul class="task-list">
+<li><input type="checkbox" />Likes and comments can be restricted and
+disabled.</li>
+<li><input type="checkbox" />Users can be blocked, muted, and
+reported.</li>
+<li><input type="checkbox" />Posts can be reported.</li>
+</ul>
+<h2 id="motivation">Motivation</h2>
+<p>Private.social was developed during the 4th semester of our applied
+computer science bachelor’s program by the following four
+individuals:</p>
+<ul>
+<li><a href="https://github.com/xnacly">xnacly</a></li>
+<li><a href="https://github.com/ellirynbw">ellirynbw</a></li>
+<li><a href="https://github.com/derPhilosoff">derPhilosoff</a></li>
+<li><a href="https://github.com/noschnosch">Nosch</a></li>
+</ul>
+<p>The objective of the semester’s examination was to create and
+document an application that utilizes at least two microservices. One
+microservice had to be programmed by our group, while the other could be
+any publicly available online web service. To earn a mark higher than
+“good,” the group had to create either a frontend web application or a
+mobile application. The task also required the groups to document the
+application interfaces with OpenAPI and keep track of which member was
+responsible for which task.</p>
+<p>At Private.social, we utilize three microservices that we programmed
+ourselves:</p>
+<ul>
+<li><strong>api</strong>: This service allows the web frontend to
+interact with the database.</li>
+<li><strong>cdn</strong>: This service is responsible for storing
+assets.</li>
+<li><strong>web</strong>: This service governs the web interface.</li>
+</ul>
+<p>We also utilize one microservice as a database:</p>
+<ul>
+<li><strong>mongo</strong>: This service is responsible for storing all
+user and post data.</li>
+</ul>
+<p>In addition, we use one external service:</p>
+<ul>
+<li><strong><a href="https://ui-avatars.com/">ui.avatars</a></strong>:
+This service is used to provide new users with a default profile
+picture.</li>
+</ul>
+<h3 id="task-distribution">Task distribution</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Teammember</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>xnacly</td>
+<td>Web and API implementation, docs</td>
+</tr>
+<tr class="even">
+<td>ellirynbw</td>
+<td>Docker, Nginx and mongodb setup, docs</td>
+</tr>
+<tr class="odd">
+<td>derPhilosoff</td>
+<td>Docs, API database wrapper, config package</td>
+</tr>
+<tr class="even">
+<td>Nosch</td>
+<td>CDN, docs and web design</td>
+</tr>
+</tbody>
+</table>
+<h3 id="repo-structure">Repo structure</h3>
+<p>This project is structured into four main directories:</p>
+<ul>
+<li><code>web/</code>: This folder contains the front-end portion of the
+application, which is built with React.js.</li>
+<li><code>api/</code>: This directory contains the back-end of the
+application, which is built with Go.</li>
+<li><code>cdn/</code>: This folder contains the content delivery network
+of the application, which is built with Go. The CDN serves pictures and
+videos.</li>
+<li><code>docs/</code>: This folder contains the documentation for the
+project.</li>
+</ul>
+<h3 id="project-structures">Project structures</h3>
+<p>The following chapter is a short summary of the projects directories
+and what path contains what part of the business logic.</p>
+<h4 id="cdn">CDN</h4>
+<p>The cdn is started via <code>go run .</code> which downloads all the
+dependencies the go compiler needs to create a executable. After
+starting, the cdn checks if the directory <code>./vfs</code> exists, if
+not it creates the directory. The next step is a custom error handler
+which returns a <code>ApiResponse</code> go structure to the user, which
+translated to the following json object:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;success&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">404</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;Not Found&quot;</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="kw">null</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>This structure supports errors (as showcased above) and successful
+responses, such as:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;success&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">201</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;file uploaded successfully&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>This response structure is also used in the <code>api</code> project
+to keep things consistent.</p>
+<p>The cdn uses and registers the <a
+href="https://docs.gofiber.io/api/middleware/cors/">cors</a>, <a
+href="https://docs.gofiber.io/api/middleware/cache/">cache</a> and <a
+href="https://docs.gofiber.io/api/middleware/logger/">logger</a>
+middleware, all provided by the <a href="https://gofiber.io/">fiber</a>
+web server framework. The first one is used to insure cross origin
+resource sharing, the second one is used to aggressively cache assets
+uploaded to the cdn and the third allows for verbose event logging,
+which is incredibly helpful for debugging.</p>
+<p>After the middlewares are registered, the cdn groups the two
+available routes using the <code>v1</code> group, which enables the
+routing using a prefix. This is useful for versioning and supporting
+outdated routes, while innovating.</p>
+<p>The first of the two routes is used to upload a file
+<code>/v1/upload/:file</code>. It only accepts incoming requests if the
+<code>file</code> parameter and the request body are not empty. After a
+request was made, the cdn first determines the MIME type of the incoming
+binary request body and checks if it’s a supported MIME type:</p>
+<ul>
+<li>image/png</li>
+<li>image/jpg</li>
+<li>image/jpeg</li>
+<li>image/gif</li>
+<li>image/webp</li>
+<li>image/heic</li>
+<li>video/mp4</li>
+</ul>
+<p>If this isn’t the case, the cdn responds with an error in the format
+of the <code>ApiResponse</code> go structure. If the mime type is
+supported, the cdn creates a random directory prefix and creates a new
+directory with this name. To prevent vulnerabilities caused by file
+paths in the request parameter which try to escape the <code>vfs</code>
+directory, we use a go std lib function to only get the base of the
+filename. This escaped filename is now converted to its base64
+representation and stored as a file in the previously created directory.
+If everything worked out as intended, the cdn returns the default
+<code>ApiResponse</code> structure with the data containing a
+<code>path</code> key value pair pointing to the uploaded assets:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;success&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">201</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;file uploaded successfully&quot;</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx&quot;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>To request the uploaded asset, simply concatenate the returned path
+and the path the cdn is currently hosted at:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;http://localhost:8080&quot;</span> <span class="op">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx&quot;</span><span class="op">;</span></span></code></pre></div>
+<p>The result, viewed in the browser:</p>
+<figure>
+<img src="assets/cdn-asset-screenshot.png"
+alt="cdn-asset-screenshot.png" />
+<figcaption aria-hidden="true">cdn-asset-screenshot.png</figcaption>
+</figure>
+<p>The second available handler is bound to the <code>v1/asset</code>
+path and is a statically hosted directory mounted to the
+<code>vfs</code> directory. Its cached with a max-age of 3600 seconds
+(60 min / 1h) and returns a 404 <code>ApiResponse</code> structure:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;success&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="dv">404</span><span class="fu">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;Not Found&quot;</span><span class="fu">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="kw">null</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h5 id="directory-content-overview">Directory content overview:</h5>
+<pre class="text"><code>drwxr-xr-x    - teo 10 Mar 14:47 .
+.rw-r--r-- 1.3k teo  9 Mar 11:56 ├── app.go
+.rw-r--r-- 4.5k teo  9 Mar 16:30 ├── cdn-openapi.yaml
+.rw-r--r--  208 teo  6 Mar 10:35 ├── Dockerfile
+.rw-r--r--  896 teo  6 Mar 10:35 ├── go.mod
+.rw-r--r-- 6.3k teo  6 Mar 10:35 ├── go.sum
+drwxr-xr-x    - teo  9 Mar 11:56 ├── handlers
+.rw-r--r-- 1.5k teo  9 Mar 11:56 │  └── file.go
+.rw-r--r--  106 teo  6 Mar 10:35 ├── Readme.md
+drwxr-xr-x    - teo 13 Mar 08:49 ├── tests
+.rw-r--r--  401 teo  6 Mar 10:35 │  └── util_test.go
+drwxr-xr-x    - teo  9 Mar 11:56 ├── util
+.rw-r--r-- 3.6k teo  9 Mar 11:56 │  └── util.go
+drwxr-xr-x    - teo 13 Mar 08:49 └── vfs</code></pre>
+<ul>
+<li><p>app.go:</p>
+<p>This is the main entry point of the application, and contains
+middlewares and restful server setup. It is responsible for setting up
+the different routes that the CDN will expose, and for binding the
+upload handler to POST /v1/upload. Additionally, it serves the vfs
+directory statically with a max-age of 3600.</p></li>
+<li><p>Documentation:</p>
+<p>The directory includes a CDN OpenAPI specification file, which
+describes the different endpoints of the CDN, and a Readme file, which
+provides information on how to use the CDN.</p></li>
+<li><p>Dockerfile:</p>
+<p>This file is used to build a Docker image of the application. This is
+useful for deployment purposes, as it allows the application to be
+easily packaged and deployed on different platforms.</p></li>
+<li><p>Dependency management for Go:</p>
+<p>go.sum and go.mod. These files are used to manage the different
+dependencies required by the application.</p></li>
+<li><p>Handlers:</p>
+<p>This folder contains different handlers that are responsible for
+handling the different requests made to the CDN. The handlers are able
+to interact with the Fiber context, and act as routes for the
+CDN.</p></li>
+<li><p>Tests:</p>
+<p>This folder contains unit tests for the util module.</p></li>
+<li><p>Util:</p>
+<p>This folder contains a utility module for structs and small helper
+methods.</p></li>
+<li><p>Vfs:</p>
+<p>This folder contains the directory that the CDN creates to store
+uploaded assets in.</p></li>
+</ul>
+<h4 id="api">API</h4>
+<p>In a nutshell the api is the layer between the web interface and the
+database with a bit of access security. The API is secured with usage of
+<a href="https://www.rfc-editor.org/rfc/rfc7519">JWT</a> and is at the
+point of writing in no way complete for all features described at <a
+href="#idea">idea</a>.</p>
+<h5 id="directory-content-overview-1">Directory content overview:</h5>
+<pre class="text"><code>drwxr-xr-x    - teo 10 Mar 14:45 .
+.rw-r--r--  106 teo  6 Mar 17:06 ├── .env
+.rw-r--r--   23 teo  6 Mar 10:35 ├── .env.example
+.rw-r--r-- 1.8k teo  6 Mar 10:35 ├── app.go
+drwxr-xr-x    - teo  6 Mar 10:35 ├── config
+.rw-r--r--  951 teo  6 Mar 10:35 │  └── config.go
+drwxr-xr-x    - teo 10 Mar 08:00 ├── database
+.rw-r--r-- 1.2k teo  9 Mar 16:30 │  ├── database.go
+.rw-r--r-- 2.3k teo 10 Mar 08:00 │  ├── posts.go
+.rw-r--r-- 2.4k teo  9 Mar 16:30 │  └── users.go
+.rw-r--r--  208 teo  6 Mar 10:35 ├── Dockerfile
+.rw-r--r-- 1.5k teo  6 Mar 10:35 ├── go.mod
+.rw-r--r--  11k teo  6 Mar 10:35 ├── go.sum
+drwxr-xr-x    - teo 10 Mar 15:10 ├── handlers
+.rw-r--r-- 4.5k teo  7 Mar 13:02 │  ├── auth.go
+.rw-r--r--  314 teo  9 Mar 16:30 │  ├── ping.go
+.rw-r--r-- 3.5k teo 10 Mar 15:10 │  ├── post.go
+.rw-r--r-- 2.8k teo  9 Mar 16:30 │  └── user.go
+drwxr-xr-x    - teo  9 Mar 16:30 ├── models
+.rw-r--r--  424 teo  9 Mar 16:30 │  ├── General.go
+.rw-r--r--  716 teo  9 Mar 16:30 │  ├── Post.go
+.rw-r--r-- 2.2k teo  6 Mar 10:35 │  └── User.go
+.rw-r--r--  17k teo  9 Mar 16:30 ├── openapi3_0.yaml
+.rw-r--r--  873 teo  6 Mar 10:35 ├── Readme.md
+drwxr-xr-x    - teo 10 Mar 14:39 ├── router
+.rw-r--r-- 2.5k teo 10 Mar 14:39 │  └── router.go
+drwxr-xr-x    - teo  6 Mar 10:35 ├── setup
+.rw-r--r-- 1.4k teo  6 Mar 10:35 │  └── setup.go
+drwxr-xr-x    - teo  6 Mar 10:35 ├── tests
+.rw-r--r--  418 teo  6 Mar 10:35 │  ├── config_test.go
+.rw-r--r-- 1.6k teo  6 Mar 10:35 │  └── util_test.go
+
+drwxr-xr-x    - teo  6 Mar 10:35 └── util
+.rw-r--r-- 4.8k teo  6 Mar 10:35    └── util.go</code></pre>
+<p>The project is structured as follows:</p>
+<ul>
+<li><p>app.go:</p>
+<p>This is the main entry point of the application, similar to the CDN.
+It is responsible for starting the server, and setting up the different
+routes that the API will expose.</p></li>
+<li><p>Documentation:</p>
+<p>The project includes an OpenAPI specification file, which describes
+the different endpoints of the API, and a Readme file, which provides
+information on how to use the API.</p></li>
+<li><p>Dockerfile:</p>
+<p>This file is used to build a Docker image of the application. This is
+useful for deployment purposes, as it allows the application to be
+easily packaged and deployed on different platforms.</p></li>
+<li><p>Configuration:</p>
+<p>The project includes a .env file, which contains environment
+variables used by the application, and a .env.example file, which serves
+as an example of how to set up the environment variables.</p></li>
+<li><p>Dependency management for Go:</p>
+<p>go.sum and go.mod. These files are used to manage the different
+dependencies required by the application.</p></li>
+<li><p>Handlers: This folder contains different handlers that are
+responsible for handling the different requests made to the API. The
+handlers are able to interact with the Fiber context, and act as routes
+for the API. The handlers include:</p>
+<ul>
+<li>auth.go: Contains all routes used for authentication to the
+API.</li>
+<li>ping.go: Contains the ping route, which is used to check if the API
+is online.</li>
+<li>post.go: Contains uploading, viewing all posts by the logged in
+user, viewing a post by its ID, and deleting a post by its ID.</li>
+<li>user.go: Contains viewing the currently logged in user, viewing a
+user by their ID, and updating the currently logged in user.</li>
+</ul></li>
+<li><p>Config:</p>
+<p>This folder contains a module that is responsible for loading a dot
+env file, setting the defined environment variables in the process that
+the Go application is running in, and afterwards loading these
+environment variables in a config hashmap.</p></li>
+<li><p>Database:</p>
+<p>This folder contains a module that is responsible for interacting
+with MongoDB. It includes a wrapper for creating the connection,
+managing users and posts.</p></li>
+<li><p>Models:</p>
+<p>This folder contains structures for users, posts, and utility. These
+structures are used to encode from BSON to Go structures to
+JSON.</p></li>
+<li><p>Tests:</p>
+<p>This folder contains tests for utility functions and the config
+module.</p></li>
+<li><p>Util:</p>
+<p>This folder contains utility functions such as getting a timestamp
+for MongoDB, comparing object IDs, and getting the current user from the
+JWT token.</p></li>
+</ul>
+<h2 id="technology-choices">Technology choices</h2>
+<h3 id="frontend">Frontend</h3>
+<p>React is an incredibly powerful and versatile JavaScript library that
+has revolutionized the way we think about building dynamic user
+interfaces. As a developer with experience using React, I believe that
+it is the best choice for building modern web applications, particularly
+when combined with TypeScript and a fast and lightweight bundler like
+Vite.</p>
+<p>One of the main advantages of React is its flexibility and
+scalability. React provides a simple and intuitive way to manage the
+state of a web application, which makes it easy to build complex and
+dynamic user interfaces that can handle a wide range of different use
+cases. Additionally, React’s component-based architecture allows
+developers to easily reuse code across different parts of an
+application, which can save a lot of time and effort when building
+large-scale projects.</p>
+<p>Another key advantage of React is its extensive support for
+TypeScript, a popular and powerful superset of JavaScript that adds type
+checking and other features to the language. With TypeScript, developers
+can catch errors and bugs before they ever make it into production,
+which can help to improve the stability and reliability of a web
+application. And with Vite, a fast and lightweight bundler that supports
+TypeScript out of the box, developers can enjoy lightning-fast build
+times and a streamlined development experience that helps to reduce
+development time and increase productivity.</p>
+<p>In my experience, React has been an incredibly powerful tool for
+building modern web applications, and its support for TypeScript and the
+Vite bundler has only made it more versatile and efficient.</p>
+<h3 id="backend">Backend</h3>
+<p>When it comes to building high-performance, scalable, and reliable
+APIs and CDNs, there are few options better than Go. As someone who was
+eager to learn and use Go for backend development, I believe that it is
+the perfect choice for building fast, efficient, and secure web
+applications, especially when paired with a modern HTTP server framework
+like Go Fiber.</p>
+<p>One of the key advantages of Go is its incredible speed and
+performance. Because Go is a compiled language, it can handle a high
+volume of requests with very low overhead, making it ideal for building
+APIs and CDNs that need to respond quickly and efficiently to user
+requests. Additionally, Go’s built-in concurrency and parallelism
+features make it easy to write scalable code that can handle high
+traffic loads without slowing down.</p>
+<p>Finally, as someone who has experience working with JWT and a dislike
+for Java and a belief that JavaScript can be too slow, Go offers a
+refreshing alternative that is both fast and reliable. With its focus on
+performance and efficiency, Go can handle large amounts of data and
+requests with ease, while still providing the flexibility and
+scalability that developers need to build modern web applications.</p>
+<p>Given my desire to learn and utilize Go for backend development, and
+the advantages of using Go as outlined above, it makes sense for me and
+my team to adopt Go as our primary backend language for building the API
+and the CDN.</p>
+<h2 id="getting-started">Getting started</h2>
+<h3 id="production-env">Production env</h3>
+<h4 id="info">Info</h4>
+<p>The docker-compose configuration file provided in this project is
+designed to spin up four containers: api, cdn, web, and mongodb.</p>
+<p>Each container serves a specific purpose, with the web app built for
+production and served through nginx.</p>
+<p>The mongo database container is configured to use a volume, making
+the data stored in the container persistent.</p>
+<p>The api container is set to listen on port 8000, while the cdn is set
+to listen on port 8080, and the web app is set to listen on port 80.</p>
+<p>Nginx reverse proxy is used to map requests from the web to the
+appropriate container.</p>
+<p>For example, when a request is made to localhost/api, the nginx
+reverse proxy maps the request to the api container running on
+localhost:8000. Similarly, when a request is made to localhost/cdn, the
+nginx reverse proxy maps the request to the cdn container running on
+localhost:8080.</p>
+<p>This docker-compose configuration file is an efficient way to manage
+multiple containers, with each container running a specific service. The
+use of volumes ensures that data is persistent and can be used across
+multiple container instances.</p>
+<h4 id="image-sizes">Image sizes</h4>
+<table>
+<thead>
+<tr class="header">
+<th>image</th>
+<th>size</th>
+<th>base</th>
+<th>tech stack</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>web</td>
+<td>20mb</td>
+<td>nginx:stable-alpine</td>
+<td>typescript, react, vite, nginx</td>
+</tr>
+<tr class="even">
+<td>cdn</td>
+<td>7mb</td>
+<td>scratch</td>
+<td>go, fiber</td>
+</tr>
+<tr class="odd">
+<td>api</td>
+<td>7mb</td>
+<td>scratch</td>
+<td>go, fiber, go mongodb driver</td>
+</tr>
+</tbody>
+</table>
+<h4 id="docker-compose">Docker compose</h4>
+<p>To successfully run the application, the following dependencies must
+be installed on your system:</p>
+<ul>
+<li><a href="https://www.docker.com/">Docker</a>, which is an
+open-source platform for building, shipping, and running applications in
+containers.</li>
+<li><a href="https://docs.docker.com/compose/">Docker-compose</a>, a
+tool for defining and running multi-container Docker applications.</li>
+<li>You must make sure that the Docker service is enabled and started as
+a deamon. This will ensure that the service is running in the background
+and can be accessed by the application.</li>
+</ul>
+<p>It is important to note that Docker and Docker-compose are widely
+used in the software development industry due to their ability to
+simplify the process of building and deploying applications.
+Additionally, they provide a consistent environment across different
+systems, making it easier to test and debug applications.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/xNaCly/private.social.git</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ps.env.example ps.env</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># edit the JWT_SECRET in the ps.env.example</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># choose a fairly complex secret, at least 32 chars long</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up</span></code></pre></div>
+<p>Now navigate to http://localhost and use the application.</p>
+<h5 id="configuration">Configuration</h5>
+<blockquote>
+<p>This can differ from the compose config found in the root of the
+project <code>docker-compose.yml</code></p>
+</blockquote>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">version</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;3.9&quot;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">services</span><span class="kw">:</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">db</span><span class="kw">:</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">hostname</span><span class="kw">:</span><span class="at"> db</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">    # use the offical mongo image</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> mongo</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">    # if the container crashes, restart it</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">restart</span><span class="kw">:</span><span class="at"> always</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> 27017:27017</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">    # what command to execute</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> mongod &gt; /dev/null</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # username and password for the database</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">environment</span><span class="kw">:</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">MONGO_INITDB_ROOT_USERNAME</span><span class="kw">:</span><span class="at"> admin</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">MONGO_INITDB_ROOT_PASSWORD</span><span class="kw">:</span><span class="at"> root</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">    # which volume to persist data to</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> database:/data/db</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">api</span><span class="kw">:</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">    # source Dockerfile from ./api/Dockerfile</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span><span class="at"> ./api</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">hostname</span><span class="kw">:</span><span class="at"> api</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">    # start container after db container is running</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">depends_on</span><span class="kw">:</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> db</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co">    # pass env variables from .env to the container</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">env_file</span><span class="kw">:</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./ps.env</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">    # set the db url to the db container above with username and password</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">environment</span><span class="kw">:</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">MONGO_URL</span><span class="kw">:</span><span class="at"> mongodb://admin:root@db:27017/</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> 8000:8000</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cdn</span><span class="kw">:</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co">    # source Dockerfile from ./cdn/Dockerfile</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span><span class="at"> ./cdn</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">hostname</span><span class="kw">:</span><span class="at"> cdn</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> 8080:8080</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="co">    # what volume and path to persist data to</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> cdn:/vfs</span></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">web</span><span class="kw">:</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a><span class="co">    # source Dockerfile from ./cdn/Dockerfile</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span><span class="at"> ./web</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="co">    # start container after api and cdn container are running</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">depends_on</span><span class="kw">:</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> api</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> cdn</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">ports</span><span class="kw">:</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> 80:3000</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="co">  # define persistent volume for the database</span></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">database</span><span class="kw">:</span></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="co">  # define persistent volume for the cdn</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cdn</span><span class="kw">:</span></span></code></pre></div>
+<h4 id="docker-images">Docker images</h4>
+<p>To reduce the amount of space the docker images occupy we split the
+image creation into two steps:</p>
+<ol type="1">
+<li>Build the service</li>
+<li>Move the build executable to a scratch docker image</li>
+</ol>
+<p>Splitting the image creation into these two stages provides a number
+of benefits, including greater control over the resulting image size and
+the ability to optimize the build process for each stage. By building
+the service first and then moving the executable to a separate image,
+developers can ensure that the final image is as small as possible while
+still containing all of the necessary components.</p>
+<p>Overall, the decision to split the image creation process into two
+stages is a key strategy for reducing the amount of space occupied by
+docker images while also ensuring that the images are optimized for
+performance and ease of use.</p>
+<h5 id="docker-api">Docker API</h5>
+<p>The Api is writting in go using the <a href="https://gofiber.io/">go
+fiber</a> http server library. It also makes heavy use of the go <a
+href="https://www.mongodb.com/docs/drivers/go/current/">mongodb</a>
+database driver for the database interactions.</p>
+<p>The api allows the frontend to interact with the database in a secure
+way. At the point of writing this the Api supports the following
+actions:</p>
+<ul>
+<li>registering to private.social</li>
+<li>logging into private.social</li>
+<li>ping request via <code>/v1/ping</code></li>
+<li>getting user data</li>
+<li>updating logged in user data</li>
+</ul>
+<p>The REST api is well documented in the <a
+href="/api/openapi3_0">openapi3_0.yaml</a> file.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use alpine as the first step images</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> alpine:latest as builder</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /api</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># copy files</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> . .</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># install go using alpines package manager</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apk</span> add <span class="at">--no-cache</span> go</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># build the application with the following flags:</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   CGO_ENABLED=0: disables the usage of cgo (builds dependencies using pure go)</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   -ldflags=&quot;-w -s&quot;:</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#       -s: omit symbol table and debug information</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       -w: omit DWARF symbol table</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="va">CGO_ENABLED</span><span class="op">=</span>0 <span class="ex">go</span> build <span class="at">-ldflags</span><span class="op">=</span><span class="st">&quot;-w -s&quot;</span> <span class="at">-o</span> api_app</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># use an empty image as the final image base</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> scratch</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># copy the executable from the first step</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> <span class="op">--from=builder</span> /api/api_app ./api_app</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co"># execute the executable</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> [<span class="st">&quot;./api_app&quot;</span>]</span></code></pre></div>
+<h5 id="docker-cdn">Docker CDN</h5>
+<p>The cdn uses almost the same Dockerfile as the Api. It is also
+written in go and uses the <a href="https://gofiber.io/">go fiber</a>
+http server library. It does however not require a database
+connection.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use alpine as the first step images</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> alpine:latest as builder</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /cdn</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># copy files</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> . .</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># install go using alpines package manager</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apk</span> add <span class="at">--no-cache</span> go</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># build the application with the following flags:</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   CGO_ENABLED=0: disables the usage of cgo (builds dependencies using pure go)</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   -ldflags=&quot;-w -s&quot;:</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#       -s: omit symbol table and debug information</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#       -w: omit DWARF symbol table</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="va">CGO_ENABLED</span><span class="op">=</span>0 <span class="ex">go</span> build <span class="at">-ldflags</span><span class="op">=</span><span class="st">&quot;-w -s&quot;</span> <span class="at">-o</span> cdn_app</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co"># use an empty image as the final image base</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> scratch</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># copy the executable from the first step</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> <span class="op">--from=builder</span> /cdn/cdn_app ./cdn_app</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># execute the executable</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="kw">CMD</span> [<span class="st">&quot;./cdn_app&quot;</span>]</span></code></pre></div>
+<h5 id="docker-web">Docker WEB</h5>
+<p>Unfortunately, due to our lack of experience with nginx, We some
+challenges when trying to serve the react production build
+statically.</p>
+<p>In order to overcome this, I opted to use the serve package available
+on npm, which requires node to run. Although this is a viable solution,
+I must say that I was quite taken aback by the size of the
+<code>node:lts-alpine</code> image, which is a whopping 200mb in
+size!</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use the offical node alpine image to build the react app</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> node:lts-alpine as builder</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /web</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># copy all files</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> . .</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># install pnpm using npm</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">npm</span> install <span class="at">-g</span> pnpm</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># install depedencies, such as react</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">pnpm</span> install</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># build for production</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">pnpm</span> build</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># use the official nginx alpine image as the final image base</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nginx:stable-alpine</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># copy the build directory to the nginx image</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> <span class="op">--from=builder</span> /web/dist /data/www</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># copy the nginx config</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> ./nginx.conf /etc/nginx/nginx.conf</span></code></pre></div>
+<p>I was able to significantly reduce the size of the image from 200mb
+to a mere 20mb, which translates to a reduction of 90%! This was done by
+splitting the image creation process into smaller, more manageable
+parts. Similar to the process i described before.</p>
+<p>Once I had familiarized myself with nginx, I utilized it to properly
+configure the application.</p>
+<p>The nginx configuration file plays a critical role in serving the web
+app and reverse proxy api and cdn.</p>
+<pre class="nginx"><code>events {}
+http {
+    # we want mime types such as image/png to be known to nginx
+    include mime.types;
+    sendfile on;
+
+    server {
+        # we map port 80 on the host to port 3000 in the container,
+        # therefore we listen on port 3000 here
+        listen 3000;
+
+        # localhost/api should be proxied to the container api with port 8000
+        location /api {
+            proxy_pass http://api:8000;
+            # remove &#39;/api/&#39; from the url
+            rewrite /api/(.*) /$1 break;
+        }
+
+        # localhost/cdn should be proxied to the container cdn with port 8080
+        location /cdn {
+            proxy_pass http://cdn:8080;
+            # remove &#39;/cdn/&#39; from the url
+            rewrite /cdn/(.*) /$1 break;
+        }
+
+        # serve the files at /data/www at localhost port 3000
+        location / {
+            root /data/www;
+            index index.html;
+            # if error 404 occurs, redirect user to index.html
+            error_page 404 =200 /index.html
+        }
+    }
+}</code></pre>
+<h3 id="development-env">Development env</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/xNaCly/private.social.git</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> private.social</span></code></pre></div>
+<h4 id="api-1">API</h4>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> api/</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> .env.example .env</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># edit MONGO_URL and JWT_SECRET</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># choose a fairly complex secret, at least 32 chars long</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> run .</span></code></pre></div>
+<pre class="text"><code>**ascii-art**
+2023/03/13 09:58:08 loaded config key &#39;MONGO_URL&#39; with value &#39;mongodb+srv://***********************************************************&#39; from env
+2023/03/13 09:58:08 loaded config key &#39;JWT_SECRET&#39; with value &#39;**********&#39; from env
+2023/03/13 09:58:08 Establishing connection to database...
+2023/03/13 09:58:09 Connection to database established
+2023/03/13 09:58:09 loaded tables &#39;users&#39;, &#39;posts&#39;
+2023/03/13 09:58:09 Setting up the app...
+2023/03/13 09:58:09 Registering unauthenticated routes...
+2023/03/13 09:58:09 Registered route: [GET] v1/ping
+2023/03/13 09:58:09 Registered route: [POST] v1/auth/register
+2023/03/13 09:58:09 Registered route: [POST] v1/auth/login
+2023/03/13 09:58:09 Registered &#39;3&#39; routes
+2023/03/13 09:58:09 Registering authenticated routes...
+2023/03/13 09:58:09 Registered route: [GET] v1/user/me
+2023/03/13 09:58:09 Registered route: [PUT] v1/user/me
+2023/03/13 09:58:09 Registered route: [GET] v1/user/:id
+2023/03/13 09:58:09 Registered route: [POST] v1/post/
+2023/03/13 09:58:09 Registered route: [GET] v1/post/me
+2023/03/13 09:58:09 Registered route: [DELETE] v1/post/:id
+2023/03/13 09:58:09 Registered route: [GET] v1/post/:id
+2023/03/13 09:58:09 Registered &#39;7&#39; routes
+2023/03/13 09:58:09 Starting the app...
+
+ ┌───────────────────────────────────────────────────┐
+ │                private.social/api                 │
+ │                   Fiber v2.42.0                   │
+ │               http://127.0.0.1:8000               │
+ │       (bound on host 0.0.0.0 and port 8000)       │
+ │                                                   │
+ │ Handlers ............ 15  Processes ........... 1 │
+ │ Prefork ....... Disabled  PID ............. 84468 │
+ └───────────────────────────────────────────────────┘</code></pre>
+<h4 id="web">WEB</h4>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> web/</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> i</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pnpm</span> dev</span></code></pre></div>
+<p>Outputs:</p>
+<pre><code>
+  VITE v4.1.4  ready in 344 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: use --host to expose
+  ➜  press h to show help
+</code></pre>
+<h4 id="cdn-1">CDN</h4>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> cdn</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> run .</span></code></pre></div>
+<p>Outputs:</p>
+<pre class="text"><code>**ascii-art**
+
+ ┌───────────────────────────────────────────────────┐
+ │                private.social/cdn                 │
+ │                   Fiber v2.42.0                   │
+ │               http://127.0.0.1:8080               │
+ │       (bound on host 0.0.0.0 and port 8080)       │
+ │                                                   │
+ │ Handlers ............. 5  Processes ........... 1 │
+ │ Prefork ....... Disabled  PID ............. 83839 │
+ └───────────────────────────────────────────────────┘</code></pre>
+<h3 id="access">Access</h3>
+<p>To ensure that everything is working properly, please navigate to
+http://localhost:3000. If a login box is displayed, you can be confident
+that everything is functioning as it should</p>
+</body>
+</html>
