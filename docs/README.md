@@ -4,47 +4,47 @@
 
 Private.social is designed to be a truly private and secure social network that empowers users to:
 
-- Create an account without requiring an email address or phone number.
-  - Optionally add an email address to the account to enable resetting the account password.
-- Set all accounts to private visibility by default.
-  (Only followers can view profile data and posts from a private account.)
-- Secure all API interactions with JWT tokens.
-- Store passwords in the database hashed with bcrypt.
-- Enforce password requirements:
-  - Minimum of 10 characters.
-  - At least one symbol.
-  - At least one uppercase character.
-  - At least one number.
+- [x] Create an account without requiring an email address or phone number.
+  - [ ] Optionally add an email address to the account to enable resetting the account password.
+- [x] Set all accounts to private visibility by default.
+      (Only followers can view profile data and posts from a private account.)
+- [x] Secure all API interactions with JWT tokens.
+- [x] Store passwords in the database hashed with bcrypt.
+- [x] Enforce password requirements:
+  - [x] Minimum of 10 characters.
+  - [x] At least one symbol.
+  - [x] At least one uppercase character.
+  - [x] At least one number.
 
 Non-privacy related features:
 
-- Self-hostable API, CDN, and web.
-- Home view sorted chronologically.
-- Posts:
-  - Likes:
-    - Private (only the creators can see the number of likes).
-    - Disable (no one can like the post).
-  - Comments:
-    - Restricted (only followers can comment).
-    - Mention-only (only mentioned users can comment).
-    - Disable (no one can comment).
-  - Caption.
-  - Collaboration on posts.
-- Profile:
-  - Biography:
-    - Text biography.
-    - Custom pronouns.
-    - Profile picture.
-    - Profile banner.
-    - Website.
-    - Location.
-  - Customize profile using CSS.
+- [x] Self-hostable API, CDN, and web.
+- [ ] Home view sorted chronologically.
+- [x] Posts:
+  - [ ] Likes:
+    - [ ] Private (only the creators can see the number of likes).
+    - [ ] Disable (no one can like the post).
+  - [ ] Comments:
+    - [ ] Restricted (only followers can comment).
+    - [ ] Mention-only (only mentioned users can comment).
+    - [ ] Disable (no one can comment).
+  - [x] Caption.
+  - [ ] Collaboration on posts.
+- [x] Profile:
+  - [x] Biography:
+    - [x] Text biography.
+    - [ ] Custom pronouns.
+    - [x] Profile picture.
+    - [ ] Profile banner.
+    - [x] Website.
+    - [x] Location.
+  - [ ] Customize profile using CSS.
 
 Mental health related features:
 
-- Likes and comments can be restricted and disabled.
-- Users can be blocked, muted, and reported.
-- Posts can be reported.
+- [ ] Likes and comments can be restricted and disabled.
+- [ ] Users can be blocked, muted, and reported.
+- [ ] Posts can be reported.
 
 ## Motivation
 
