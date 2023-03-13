@@ -1,6 +1,8 @@
-# Private.social
+---
+title: Webservices - private.social
+---
 
-## Idea
+## Idea and Features
 
 Private.social is designed to be a truly private and secure social network that empowers users to:
 
@@ -360,9 +362,9 @@ Given my desire to learn and utilize Go for backend development, and the advanta
 
 ## Getting started
 
-### Production env
+### Production environment
 
-#### Info
+#### About
 
 The docker-compose configuration file provided in this project is designed to spin up four containers: api, cdn, web, and mongodb.
 
@@ -485,7 +487,7 @@ Overall, the decision to split the image creation process into two stages is a k
 
 ##### Docker API
 
-The Api is writting in go using the [go fiber](https://gofiber.io/) http server library. It also makes heavy use of the go [mongodb](https://www.mongodb.com/docs/drivers/go/current/) database driver for the database interactions.
+The Api is written in go using the [go fiber](https://gofiber.io/) http server library. It also makes heavy use of the go [mongodb](https://www.mongodb.com/docs/drivers/go/current/) database driver for the database interactions.
 
 The api allows the frontend to interact with the database in a secure way. At the point of writing this the Api supports the following actions:
 
@@ -550,7 +552,7 @@ CMD ["./cdn_app"]
 
 ##### Docker WEB
 
-Unfortunately, due to our lack of experience with nginx, We some challenges when trying to serve the react production build statically.
+Unfortunately, due to our lack of experience with nginx, We faced some challenges when trying to serve the react production build statically.
 
 In order to overcome this, I opted to use the serve package available on npm, which requires node to run.
 Although this is a viable solution, I must say that I was quite taken aback by the size of the `node:lts-alpine` image, which is a whopping 200mb in size!
@@ -619,7 +621,7 @@ http {
 }
 ```
 
-### Development env
+### Development environment
 
 ```bash
 git clone https://github.com/xNaCly/private.social.git
