@@ -76,7 +76,7 @@ In addition, we use one external service:
 
 - **[ui.avatars](https://ui-avatars.com/)**: This service is used to provide new users with a default profile picture.
 
-### Task distribution
+## Task distribution
 
 | Teammember   | Task                                       |
 | ------------ | ------------------------------------------ |
@@ -85,7 +85,7 @@ In addition, we use one external service:
 | derPhilosoff | Docs, API database wrapper, config package |
 | Nosch        | CDN, docs and web design                   |
 
-### Repo structure
+## Repo structure
 
 This project is structured into four main directories:
 
@@ -94,11 +94,11 @@ This project is structured into four main directories:
 - `cdn/`: This folder contains the content delivery network of the application, which is built with Go. The CDN serves pictures and videos.
 - `docs/`: This folder contains the documentation for the project.
 
-### Project structures
+## Project structures
 
 The following chapter is a short summary of the projects directories and what path contains what part of the business logic.
 
-#### CDN
+### CDN
 
 The cdn is started via `go run .` which downloads all the dependencies the go compiler needs to create a executable.
 After starting, the cdn checks if the directory `./vfs` exists, if not it creates the directory.
@@ -185,7 +185,7 @@ Its cached with a max-age of 3600 seconds (60 min / 1h) and returns a 404 `ApiRe
 }
 ```
 
-##### Directory content overview:
+#### Directory content overview:
 
 ```text
 drwxr-xr-x    - teo 10 Mar 14:47 .
@@ -237,12 +237,146 @@ drwxr-xr-x    - teo 13 Mar 08:49 └── vfs
 
   This folder contains the directory that the CDN creates to store uploaded assets in.
 
-#### API
+### API
 
 In a nutshell the api is the layer between the web interface and the database with a bit of access security.
 The API is secured with usage of [JWT](https://www.rfc-editor.org/rfc/rfc7519) and is at the point of writing in no way complete for all features described at [idea](#idea).
 
-##### Directory content overview:
+As shown below, the api is a lot more structured and split up into modules than the cdn.
+The api also requires a database connection which is fairly complex and therefore abstracted away with a custom database wrapper.
+
+After being started the application looks for the `JWT_SECRET` and the `MONGO_URL` environment variables using the `config.LoadConfig` function, the former is used for signing jwt tokens when a user registers or logs in and the second is used to connect to the database.
+If either of the above are not found in the process context the application throws a fatal error and exits.
+
+After checking for the environment variables, the application calls the `setup.Setup` function,
+which creates the application, registers middlewares (cache, logger, cors) and returns the created instance of an `fiber.App`.
+
+This created application is now passed to the `router.RegisterRoutes` function, which creates all `router.Route` structs in the `router.UnauthenticatedRoutes` array.
+
+Example for a `router.Route` struct and the function call to register it as a route:
+
+```go
+type Route struct {
+	Path        string
+	Method      string
+	Handler     func(*fiber.Ctx) error
+	Middlewares []func(*fiber.Ctx) error
+}
+
+var Routes = []Route{
+    {
+		Path:        "/ping",
+		Method:      "GET",
+		Handler:     func (c *fiber.Ctx) error {
+                                return c.JSON(util.ApiResponse{
+                                    Success: true,
+                                    Message: "pong",
+                                    Code:    200,
+                                    Data:    nil,
+                                })
+                            },
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+}
+
+app := setup.Setup()
+RegisterRoutes(app, "v1", Routes...)
+// running this prints:
+// 2023/03/14 09:33:02 Registered route: [GET] v1/ping
+```
+
+The `router.RegisterRoutes` wrapper simplifies the registering of routes significantly.
+
+Currently the only unauthenticated routes the api supports are the `/auth/login`, `/auth/register` and the `/ping` route.
+
+To make all other routes only accept incoming requests if they contain a jwt in the `Authentication` http header,
+the application registers the jwt middleware with a custom `SuccessHandler` which uses the `util.GetCurrentUser` function to query the database for the id embeded in the jwt. The resulting `models.User` struct is stored in the fiber context using the [ctx.Locals](https://docs.gofiber.io/api/ctx/#locals) function.
+
+If the user couldn't be found by the `SuccessHandler` of the jwt middleware it returns the error response we already know from the cdn:
+
+```json
+{
+  "success": false,
+  "message": "Invalid token",
+  "code": 401
+}
+```
+
+After setting up the jwt middleware and therefore securing the application significantly,
+the application now registers all the other `router.Route` structs in the `router.Routes` array and afterwards binds a `404` error handler to all routes not bound to anything beforehand.
+
+#### Workflow for adding a new Route
+
+Adding a new route to the api requires the following two choices to make:
+
+- should it require authentication
+- what path should the route answer to
+
+For the sake of this example, lets assume we want to add a hello world route to the path `/hello/world`, it doesn't need authentication and returns a simple json object.
+
+To get started we create a new file in the `handlers` directory named `helloworld.go`, in this file we write the following function:
+
+```go
+// handlers/helloworld.go
+package handlers
+
+import (
+	"github.com/xnacly/private.social/api/util"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+func HelloWorld(c *fiber.Ctx) error {
+	return c.JSON(util.ApiResponse{
+		Success: true,
+		Message: "hello world",
+		Code:    200,
+	})
+}
+```
+
+We of course need to import the fiber package for the context parameter in the function and we need to import our utility package to access our `util.ApiResponse` struct we use to keep the api responses consistent.
+
+The response (if it has content) has the status of `200 OK`, we set the `util.ApiResponse.Code` to match this status (the better way is to use `fiber.StatusOk` which maps to 200). The `util.ApiResponse.Message` is set to the string `hello world` and the `util.ApiResponse.Success` is of course `true`.
+
+Currently this route is not registered to the application and therefore won't accept any incoming requests. To change this we need to navigate to the `router` package and open the `router.go` file.
+
+At the top, right after the imports you should see a `Route` structure, which looks something like this:
+
+```go
+// struct representing a route the api should handle and register
+type Route struct {
+	Path        string
+	Method      string
+	Handler     func(*fiber.Ctx) error
+	Middlewares []func(*fiber.Ctx) error
+}
+```
+
+To add your route to the application, simply create a new `Route` structure in the `router.UnauthenticatedRoutes`:
+
+```go
+var UnauthenticatedRoutes = []Route{
+    {
+        Path: "/hello/world",
+        Method: "GET",
+        Handler: handlers.HelloWorld,
+    },
+    // ....
+}
+```
+
+The `handler.HelloWorld` is automatically exported according to the go standard due to the uppercase function name.
+
+Now simply restart the api and use curl to check if your route was registered:
+
+```sh
+curl --request GET \
+  --url http://localhost:8000/v1/hello/world
+# {"success":true,"code":200,"message":"hello world","data":null}
+```
+
+#### Directory content overview:
 
 ```text
 drwxr-xr-x    - teo 10 Mar 14:45 .
@@ -276,7 +410,6 @@ drwxr-xr-x    - teo  6 Mar 10:35 ├── setup
 drwxr-xr-x    - teo  6 Mar 10:35 ├── tests
 .rw-r--r--  418 teo  6 Mar 10:35 │  ├── config_test.go
 .rw-r--r-- 1.6k teo  6 Mar 10:35 │  └── util_test.go
-
 drwxr-xr-x    - teo  6 Mar 10:35 └── util
 .rw-r--r-- 4.8k teo  6 Mar 10:35    └── util.go
 ```
@@ -311,6 +444,10 @@ The project is structured as follows:
   - post.go: Contains uploading, viewing all posts by the logged in user, viewing a post by its ID, and deleting a post by its ID.
   - user.go: Contains viewing the currently logged in user, viewing a user by their ID, and updating the currently logged in user.
 
+- Setup:
+
+  This folder contains the module responsible for setting the error handler, registering the application, cors, cache and the logger
+
 - Config:
 
   This folder contains a module that is responsible for loading a dot env file, setting the defined environment variables in the process that the Go application is running in, and afterwards loading these environment variables in a config hashmap.
@@ -330,6 +467,154 @@ The project is structured as follows:
 - Util:
 
   This folder contains utility functions such as getting a timestamp for MongoDB, comparing object IDs, and getting the current user from the JWT token.
+
+### Web
+
+The web frontend is written using [Typescript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) as the Framework, [Vite](https://vitejs.dev/) as a bundler and dev server, [Tailwind](https://tailwindcss.com/) & [Postcss](https://postcss.org/) as the css framework and [react-router](https://reactrouter.com/en/main) as the routing provider.
+
+The package manager for node is [pnpm](https://pnpm.io/), which is faster than its competitors and stores modules globally.
+
+#### Directory structure
+
+```text
+drwxr-xr-x    - teo 14 Mar 13:51 .
+.rw-r--r--  216 teo  6 Mar 10:35 ├── Dockerfile
+.rw-r--r-- 2.3k teo  6 Mar 10:35 ├── index.html
+.rw-r--r--  473 teo  8 Mar 09:51 ├── nginx.conf
+.rw-r--r--  527 teo  6 Mar 10:35 ├── package.json
+.rw-r--r--  45k teo  6 Mar 10:35 ├── pnpm-lock.yaml
+.rw-r--r--   77 teo  6 Mar 10:35 ├── postcss.config.cjs
+drwxr-xr-x    - teo  6 Mar 10:35 ├── public
+.rw-r--r--  60k teo  6 Mar 10:35 │  ├── icon.ico
+.rw-r--r--  19k teo  6 Mar 10:35 │  └── icon.png
+.rw-r--r--   62 teo  6 Mar 10:35 ├── Readme.md
+drwxr-xr-x    - teo 10 Mar 14:39 ├── src
+.rw-r--r-- 2.3k teo 10 Mar 14:39 │  ├── App.tsx
+drwxr-xr-x    - teo 10 Mar 14:39 │  ├── components
+.rw-r--r-- 2.0k teo 10 Mar 14:39 │  │  ├── Navigation.tsx
+drwxr-xr-x    - teo 14 Mar 13:36 │  │  ├── notification
+.rw-r--r--  944 teo 14 Mar 13:36 │  │  │  ├── Notification.tsx
+.rw-r--r-- 1.9k teo  6 Mar 10:35 │  │  │  └── NotificationModal.tsx
+drwxr-xr-x    - teo 10 Mar 14:39 │  │  ├── post
+.rw-r--r--   61 teo 10 Mar 14:39 │  │  │  └── CreatePostModal.tsx
+drwxr-xr-x    - teo 10 Mar 14:39 │  │  └── profile
+.rw-r--r-- 4.3k teo 10 Mar 14:39 │  │     ├── Edit.tsx
+.rw-r--r-- 2.6k teo 10 Mar 14:39 │  │     └── EditAvatar.tsx
+.rw-r--r--   59 teo  6 Mar 10:35 │  ├── index.css
+.rw-r--r-- 2.9k teo  6 Mar 10:35 │  ├── main.tsx
+drwxr-xr-x    - teo 10 Mar 14:39 │  ├── models
+.rw-r--r--  888 teo 10 Mar 14:39 │  │  ├── Api.ts
+.rw-r--r--  197 teo  6 Mar 10:35 │  │  ├── Notification.ts
+.rw-r--r--  159 teo 10 Mar 14:39 │  │  ├── Post.ts
+.rw-r--r--  308 teo 10 Mar 14:39 │  │  └── User.ts
+drwxr-xr-x    - teo 10 Mar 14:39 │  ├── screens
+.rw-r--r--  400 teo  6 Mar 10:35 │  │  ├── Error.tsx
+.rw-r--r--   90 teo  6 Mar 10:35 │  │  ├── Home.tsx
+.rw-r--r-- 4.1k teo  7 Mar 13:02 │  │  ├── Login.tsx
+.rw-r--r-- 2.3k teo 10 Mar 14:39 │  │  ├── Post.tsx
+.rw-r--r-- 5.3k teo 10 Mar 14:39 │  │  ├── Profile.tsx
+.rw-r--r-- 4.8k teo  6 Mar 17:21 │  │  └── Signup.tsx
+drwxr-xr-x    - teo 10 Mar 14:39 │  ├── util
+.rw-r--r-- 1.8k teo 10 Mar 14:39 │  │  ├── fetch.ts
+.rw-r--r-- 1.8k teo 10 Mar 14:39 │  │  └── util.tsx
+.rw-r--r--   38 teo  6 Mar 10:35 │  └── vite-env.d.ts
+.rw-r--r--  249 teo  6 Mar 17:12 ├── tailwind.config.cjs
+.rw-r--r--  627 teo  6 Mar 10:35 ├── tsconfig.json
+.rw-r--r--  206 teo  6 Mar 10:35 ├── tsconfig.node.json
+.rw-r--r--  396 teo  7 Mar 14:37 └── vite.config.ts
+```
+
+- Configuration and Building
+
+  - Dockerfile:
+
+    The Dockerfile is an essential file used to build a Docker image of the application. It's based on the nginx image and includes a copy of the nginx configuration. This file contains instructions that Docker uses to build the image, including which base image to use, how to install dependencies, and how to configure the environment.
+
+  - package.json:
+
+    The package.json file is used to define the application's dependencies and build scripts. It's a critical file in Node.js development that lists all the required dependencies for the application to run. It also includes scripts for building, testing, and deploying the application.
+
+  - pnpm-lock.yaml:
+
+    The pnpm-lock.yaml file is a dependency lock file used to ensure the application's dependencies remain consistent across different environments. It's similar to package-lock.json in NPM and yarn.lock in Yarn.
+
+  - tailwind.config.cjs:
+
+    The tailwind.config.cjs file is used to configure and customize Tailwind, a popular utility-first CSS framework. It includes various settings such as colors, fonts, and breakpoints.
+
+  - vite.config.ts:
+
+    The vite.config.ts file is used to configure the development server and proxy settings in Vite, a build tool used for frontend web development. It allows developers to define the proxy settings for different environments, making it easier to test the application locally.
+
+  - postcss.config.js:
+
+    The postcss.config.js file is used to configure PostCSS, a CSS preprocessor. It defines various plugins and their options, such as autoprefixer and cssnano, to transform and optimize the CSS code.
+
+  - tsconfig.json:
+
+    The tsconfig.json file is a configuration file for the TypeScript transpiler. It specifies how TypeScript should compile the application's source code to JavaScript. It includes settings such as the target environment, module system, and source map generation.
+
+  - tsconfig.node.json:
+
+    The tsconfig.node.json file is a configuration file for TypeScript's integration with Node.js. It includes settings specific to Node.js, such as the target environment and module system.
+
+  - nginx.conf:
+
+    The nginx.conf file is an nginx configuration file used for serving and reverse proxying. It's a critical file for web servers that define how requests are handled and which files are served for each request. It's also used to configure SSL and other security-related settings.
+
+- Assets:
+
+  - public/:
+
+    The public/ directory contains the favicon and the image of private.social. These assets are typically available to the public and are served statically by the web server. In this case, the directory includes a favicon.ico file and a cowboy emoji image, both used to enhance the application's visual appearance.
+
+  - index.html:
+
+    The index.html file is an HTML document that serves as the entry point for the React application. It's the initial HTML that the browser loads, and it includes a script tag that loads the React application's JavaScript code. The React app inserts itself into this HTML document by rendering the app's root component in a designated HTML element, typically with an ID of "root." The index.html file may also include other tags, such as meta tags, links to external stylesheets, and scripts for analytics or other third-party services.
+
+- Source code: src/
+
+  - index.css:
+
+    The index.css file contains definitions for Tailwind CSS, a utility-first CSS framework that allows developers to rapidly build custom user interfaces. It includes classes for common styling tasks such as layout, typography, and color.
+
+  - app.tsx:
+
+    The app.tsx file is the main entry point for the application. It contains the React Router rendering logic, which is responsible for rendering the appropriate screen based on the current URL. The file may also include other logic related to app-wide state management or user authentication.
+
+  - main.tsx:
+
+    The main.tsx file renders the React application into the root index.html file. It's responsible for mounting the React application to the DOM, typically in a div element with an ID of "root".
+
+  - components/:
+
+    The components/ directory contains reusable components that get used at multiple points in the application. These components are typically small, modular pieces of code that can be composed together to build more complex user interfaces.
+
+  - screens/:
+
+    The screens/ directory contains one source file for every screen/site in the application. Each file represents a different screen or view that the user can navigate to, and typically includes the logic and rendering code for that screen.
+
+  - models/:
+
+    The models/ directory contains interfaces for API and CDN interactions, as well as for Users and Posts. These interfaces define the shape of the data returned by the API or CDN, making it easier for the application to consume and manipulate the data.
+
+  - util/:
+
+    The util/ directory contains utility methods for calculating elapsed time, a fetch wrapper, and other miscellaneous functions used throughout the application. These utility methods are typically small, reusable functions that are used in multiple places throughout the codebase.
+
+#### Screenshots:
+
+![signup page screenshot](assets/signup.png)
+
+![login page screenshot](assets/login.png)
+
+![login page with error screenshot](assets/login-with-error.png)
+
+![profile page screenshot](assets/profile.png)
+
+![profile settings screenshot](assets/profile-settings.png)
+
+![change avatar screenshot](assets/profile-change-avatar.png)
 
 ## Technology choices
 
@@ -363,8 +648,6 @@ Given my desire to learn and utilize Go for backend development, and the advanta
 ## Getting started
 
 ### Production environment
-
-#### About
 
 The docker-compose configuration file provided in this project is designed to spin up four containers: api, cdn, web, and mongodb.
 
@@ -488,14 +771,6 @@ Overall, the decision to split the image creation process into two stages is a k
 ##### Docker API
 
 The Api is written in go using the [go fiber](https://gofiber.io/) http server library. It also makes heavy use of the go [mongodb](https://www.mongodb.com/docs/drivers/go/current/) database driver for the database interactions.
-
-The api allows the frontend to interact with the database in a secure way. At the point of writing this the Api supports the following actions:
-
-- registering to private.social
-- logging into private.social
-- ping request via `/v1/ping`
-- getting user data
-- updating logged in user data
 
 The REST api is well documented in the [openapi3_0.yaml](/api/openapi3_0) file.
 
@@ -621,6 +896,8 @@ http {
 }
 ```
 
+To check if everything works navigate to [http://localhost](http://localhost).
+
 ### Development environment
 
 ```bash
@@ -727,6 +1004,4 @@ Outputs:
  └───────────────────────────────────────────────────┘
 ```
 
-### Access
-
-To ensure that everything is working properly, please navigate to http://localhost:3000. If a login box is displayed, you can be confident that everything is functioning as it should
+To ensure that everything is working properly, please navigate to [http://localhost:3000](http://localhost:3000). If a login box is displayed, you can be confident that everything is functioning as it should
