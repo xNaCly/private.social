@@ -8,75 +8,64 @@ import (
 
 // struct representing a route the api should handle and register
 type Route struct {
-	Path        string                   // path, examples: "/", "/user/:id"
-	Method      string                   // method, index is "GET", "POST", "PUT", "DELETE"
-	Handler     func(*fiber.Ctx) error   // handler function, example: func(c *fiber.Ctx) error { return c.SendString("Hello, World!") }
-	Middlewares []func(*fiber.Ctx) error // middlewares, such as authentication, rate limiting or logging
+	Path    string                 // path, examples: "/", "/user/:id"
+	Method  string                 // method, index is "GET", "POST", "PUT", "DELETE"
+	Handler func(*fiber.Ctx) error // handler function, example: func(c *fiber.Ctx) error { return c.SendString("Hello, World!") }
 }
 
 var UnauthenticatedRoutes = []Route{
 	{
-		Path:        "/ping",
-		Method:      "GET",
-		Handler:     handlers.Ping,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/ping",
+		Method:  "GET",
+		Handler: handlers.Ping,
 	},
 	{
-		Path:        "/auth/register",
-		Method:      "POST",
-		Handler:     handlers.Register,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/auth/register",
+		Method:  "POST",
+		Handler: handlers.Register,
 	},
 	{
-		Path:        "/auth/login",
-		Method:      "POST",
-		Handler:     handlers.Login,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/auth/login",
+		Method:  "POST",
+		Handler: handlers.Login,
 	},
 }
 
 var Routes = []Route{
 	{
-		Path:        "/user/me",
-		Method:      "GET",
-		Handler:     handlers.GetMe,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/user/me",
+		Method:  "GET",
+		Handler: handlers.GetMe,
 	},
 	{
-		Path:        "/user/me",
-		Method:      "PUT",
-		Handler:     handlers.UpdateMe,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/user/me",
+		Method:  "PUT",
+		Handler: handlers.UpdateMe,
 	},
 	{
-		Path:        "/user/:id",
-		Method:      "GET",
-		Handler:     handlers.GetUserById,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/user/:id",
+		Method:  "GET",
+		Handler: handlers.GetUserById,
 	},
 	{
-		Path:        "/post/",
-		Method:      "POST",
-		Handler:     handlers.CreatePost,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/post/",
+		Method:  "POST",
+		Handler: handlers.CreatePost,
 	},
 	{
-		Path:        "/post/me",
-		Method:      "GET",
-		Handler:     handlers.GetPosts,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/post/me",
+		Method:  "GET",
+		Handler: handlers.GetPosts,
 	},
 	{
-		Path:        "/post/:id",
-		Method:      "DELETE",
-		Handler:     handlers.DeletePost,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/post/:id",
+		Method:  "DELETE",
+		Handler: handlers.DeletePost,
 	},
 	{
-		Path:        "/post/:id",
-		Method:      "GET",
-		Handler:     handlers.GetPostById,
-		Middlewares: []func(*fiber.Ctx) error{},
+		Path:    "/post/:id",
+		Method:  "GET",
+		Handler: handlers.GetPostById,
 	},
 }
 
@@ -84,7 +73,7 @@ var Routes = []Route{
 func RegisterRoutes(app *fiber.App, groupPrefix string, routes ...Route) {
 	group := app.Group(groupPrefix)
 	for _, route := range routes {
-		group.Add(route.Method, route.Path, append(route.Middlewares, route.Handler)...)
+		group.Add(route.Method, route.Path, route.Handler)
 		log.Printf("Registered route: [%s] %s%s\n", route.Method, groupPrefix, route.Path)
 	}
 	log.Printf("Registered '%d' routes\n", len(routes))
