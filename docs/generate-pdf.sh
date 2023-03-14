@@ -1,9 +1,8 @@
+# https://jdhao.github.io/2019/05/30/markdown2pdf_pandoc/ add more stuff
 echo "generating pdf documentation"
 pandoc README.md \
     --pdf-engine=xelatex \
     --standalone \
-    --toc \
-    --toc-depth=6 \
-    -V geometry:margin=30mm \
-    -V monofont="Iosevka Nerd Font Mono" \
+    --highlight-style=zenburn \
+    -H header.tex \
     -o Readme.pdf
