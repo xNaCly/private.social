@@ -1,10 +1,54 @@
 ---
-title: Webservices - private.social
+title: Private.social - Documentation
+subtitle: Privacy by default, Open-Source social network
+lang: en
+geometry: a4paper
+numbersections: yes
+documentclass: "article"
+author:
+  - xnacly
+  - ellirynbw
+  - derPhilosoff
+  - noschnosch
+date: 14.03.2023
+fontsize: 16pt
+monofont: "Iosevka Nerd Font Mono"
+toc: true
+toc-depth: 3
+colorlinks: true
 ---
 
-## Idea and Features
+# Idea
 
-Private.social is designed to be a truly private and secure social network that empowers users to:
+Private.social is a revolutionary social network that aims to put privacy and security at the forefront of its design.
+It is a platform where users can create an account without having to provide their email address or phone number, thereby keeping their personal information safe from prying eyes.
+
+One of the most unique features of Private.social is that all accounts are set to private visibility by default, meaning that only those who follow a user can see their profile data and posts.
+This ensures that users have complete control over who can access their content and who can't.
+Additionally, Private.social stores passwords in the database hashed with bcrypt, making it extremely difficult for hackers to access them.
+
+In order to further safeguard user data, Private.social secures all API interactions with JWT tokens.
+This adds an extra layer of security, ensuring that only authorized users can access the API.
+Password requirements are also enforced, with a minimum of 10 characters, at least one symbol, one uppercase character, and one number, making it extremely difficult for anyone to guess a user's password.
+
+The platform also offers a number of non-privacy related features.
+For instance, users can create posts with captions and choose whether to allow likes and comments.
+They can also choose who can comment on their posts.
+Profiles on Private.social can include a text biography, profile picture, website, location, and more.
+This allows users to create a personalized profile that reflects their unique personality.
+
+Private.social also includes a number of mental health-related features, such as the ability to restrict and disable likes and comments.
+Users can also block, mute, and report others.
+Posts can be reported as well, making it a safe and supportive platform for all users.
+These features are especially important given the impact that social media can have on mental health, and Private.social is committed to making sure that its users feel safe and supported at all times.
+
+Overall, Private.social is an innovative and user-friendly social network that prioritizes privacy and security.
+Its unique features make it stand out from other social media platforms, and its commitment to mental health is commendable.
+Whether you're looking to share your thoughts and ideas with the world or simply connect with like-minded individuals, Private.social is the perfect platform for you.
+
+# Features and their status
+
+Privacy related features:
 
 - [x] Create an account without requiring an email address or phone number.
   - [ ] Optionally add an email address to the account to enable resetting the account password.
@@ -48,7 +92,7 @@ Mental health related features:
 - [ ] Users can be blocked, muted, and reported.
 - [ ] Posts can be reported.
 
-## Motivation
+# Motivation
 
 Private.social was developed during the 4th semester of our applied computer science bachelor's program by the following four individuals:
 
@@ -76,16 +120,20 @@ In addition, we use one external service:
 
 - **[ui.avatars](https://ui-avatars.com/)**: This service is used to provide new users with a default profile picture.
 
-## Task distribution
+# Task distribution
 
-| Teammember   | Task                                       |
-| ------------ | ------------------------------------------ |
-| xnacly       | Web and API implementation, docs           |
-| ellirynbw    | Docker, Nginx and mongodb setup, docs      |
-| derPhilosoff | Docs, API database wrapper, config package |
-| Nosch        | CDN, docs and web design                   |
+| Teammember | Task                                       |
+| ---------- | ------------------------------------------ |
+| 9525469    | Web and API implementation, docs           |
+| 9197785    | Docker, Nginx and mongodb setup, docs      |
+| 8478190    | Docs, API database wrapper, config package |
+| 1823169    | CDN, docs and web design                   |
 
-## Repo structure
+# Project structures
+
+The following chapter is a short summary of the projects directories and what path contains what part of the business logic.
+
+## Repository structure
 
 This project is structured into four main directories:
 
@@ -94,11 +142,7 @@ This project is structured into four main directories:
 - `cdn/`: This folder contains the content delivery network of the application, which is built with Go. The CDN serves pictures and videos.
 - `docs/`: This folder contains the documentation for the project.
 
-## Project structures
-
-The following chapter is a short summary of the projects directories and what path contains what part of the business logic.
-
-### CDN
+## CDN
 
 The cdn is started via `go run .` which downloads all the dependencies the go compiler needs to create a executable.
 After starting, the cdn checks if the directory `./vfs` exists, if not it creates the directory.
@@ -185,7 +229,7 @@ Its cached with a max-age of 3600 seconds (60 min / 1h) and returns a 404 `ApiRe
 }
 ```
 
-#### Directory content overview:
+### Directory content:
 
 ```text
 drwxr-xr-x    - teo 10 Mar 14:47 .
@@ -237,7 +281,7 @@ drwxr-xr-x    - teo 13 Mar 08:49 └── vfs
 
   This folder contains the directory that the CDN creates to store uploaded assets in.
 
-### API
+## API
 
 In a nutshell the api is the layer between the web interface and the database with a bit of access security.
 The API is secured with usage of [JWT](https://www.rfc-editor.org/rfc/rfc7519) and is at the point of writing in no way complete for all features described at [idea](#idea).
@@ -268,13 +312,13 @@ var Routes = []Route{
 		Path:        "/ping",
 		Method:      "GET",
 		Handler:     func (c *fiber.Ctx) error {
-                                return c.JSON(util.ApiResponse{
-                                    Success: true,
-                                    Message: "pong",
-                                    Code:    200,
-                                    Data:    nil,
-                                })
-                            },
+                        return c.JSON(util.ApiResponse{
+                            Success: true,
+                            Message: "pong",
+                            Code:    200,
+                            Data:    nil,
+                        })
+                    },
 		Middlewares: []func(*fiber.Ctx) error{},
 	},
 }
@@ -305,7 +349,7 @@ If the user couldn't be found by the `SuccessHandler` of the jwt middleware it r
 After setting up the jwt middleware and therefore securing the application significantly,
 the application now registers all the other `router.Route` structs in the `router.Routes` array and afterwards binds a `404` error handler to all routes not bound to anything beforehand.
 
-#### Workflow for adding a new Route
+### Workflow for adding a new Route
 
 Adding a new route to the api requires the following two choices to make:
 
@@ -376,7 +420,7 @@ curl --request GET \
 # {"success":true,"code":200,"message":"hello world","data":null}
 ```
 
-#### Directory content overview:
+### Directory content:
 
 ```text
 drwxr-xr-x    - teo 10 Mar 14:45 .
@@ -468,13 +512,13 @@ The project is structured as follows:
 
   This folder contains utility functions such as getting a timestamp for MongoDB, comparing object IDs, and getting the current user from the JWT token.
 
-### Web
+## Web
 
 The web frontend is written using [Typescript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) as the Framework, [Vite](https://vitejs.dev/) as a bundler and dev server, [Tailwind](https://tailwindcss.com/) & [Postcss](https://postcss.org/) as the css framework and [react-router](https://reactrouter.com/en/main) as the routing provider.
 
 The package manager for node is [pnpm](https://pnpm.io/), which is faster than its competitors and stores modules globally.
 
-#### Directory structure
+### Directory content
 
 ```text
 drwxr-xr-x    - teo 14 Mar 13:51 .
@@ -602,7 +646,7 @@ drwxr-xr-x    - teo 10 Mar 14:39 │  ├── util
 
     The util/ directory contains utility methods for calculating elapsed time, a fetch wrapper, and other miscellaneous functions used throughout the application. These utility methods are typically small, reusable functions that are used in multiple places throughout the codebase.
 
-#### Screenshots:
+### Screenshots:
 
 ![signup page screenshot](assets/signup.png)
 
@@ -616,9 +660,9 @@ drwxr-xr-x    - teo 10 Mar 14:39 │  ├── util
 
 ![change avatar screenshot](assets/profile-change-avatar.png)
 
-## Technology choices
+# Technology choices
 
-### Frontend
+## Frontend
 
 React is an incredibly powerful and versatile JavaScript library that has revolutionized the way we think about building dynamic user interfaces.
 As a developer with experience using React, I believe that it is the best choice for building modern web applications, particularly when combined with TypeScript and a fast and lightweight bundler like Vite.
@@ -632,7 +676,7 @@ With TypeScript, developers can catch errors and bugs before they ever make it i
 
 In my experience, React has been an incredibly powerful tool for building modern web applications, and its support for TypeScript and the Vite bundler has only made it more versatile and efficient.
 
-### Backend
+## Backend
 
 When it comes to building high-performance, scalable, and reliable APIs and CDNs, there are few options better than Go.
 As someone who was eager to learn and use Go for backend development, I believe that it is the perfect choice for building fast, efficient, and secure web applications, especially when paired with a modern HTTP server framework like Go Fiber.
@@ -645,9 +689,9 @@ Finally, as someone who has experience working with JWT and a dislike for Java a
 
 Given my desire to learn and utilize Go for backend development, and the advantages of using Go as outlined above, it makes sense for me and my team to adopt Go as our primary backend language for building the API and the CDN.
 
-## Getting started
+# Getting started
 
-### Production environment
+## Production environment
 
 The docker-compose configuration file provided in this project is designed to spin up four containers: api, cdn, web, and mongodb.
 
@@ -664,7 +708,7 @@ Similarly, when a request is made to localhost/cdn, the nginx reverse proxy maps
 
 This docker-compose configuration file is an efficient way to manage multiple containers, with each container running a specific service. The use of volumes ensures that data is persistent and can be used across multiple container instances.
 
-#### Image sizes
+### Image sizes
 
 | image | size | base                | tech stack                     |
 | ----- | ---- | ------------------- | ------------------------------ |
@@ -672,7 +716,7 @@ This docker-compose configuration file is an efficient way to manage multiple co
 | cdn   | 7mb  | scratch             | go, fiber                      |
 | api   | 7mb  | scratch             | go, fiber, go mongodb driver   |
 
-#### Docker compose
+### Docker compose
 
 To successfully run the application, the following dependencies must be installed on your system:
 
@@ -692,7 +736,7 @@ docker compose up
 
 Now navigate to http://localhost and use the application.
 
-##### Configuration
+#### Configuration
 
 > This can differ from the compose config found in the root of the project `docker-compose.yml`
 
@@ -757,7 +801,7 @@ volumes:
   cdn:
 ```
 
-#### Docker images
+### Docker images
 
 To reduce the amount of space the docker images occupy we split the image creation into two steps:
 
@@ -768,7 +812,7 @@ Splitting the image creation into these two stages provides a number of benefits
 
 Overall, the decision to split the image creation process into two stages is a key strategy for reducing the amount of space occupied by docker images while also ensuring that the images are optimized for performance and ease of use.
 
-##### Docker API
+#### Docker API
 
 The Api is written in go using the [go fiber](https://gofiber.io/) http server library. It also makes heavy use of the go [mongodb](https://www.mongodb.com/docs/drivers/go/current/) database driver for the database interactions.
 
@@ -797,7 +841,7 @@ COPY --from=builder /api/api_app ./api_app
 CMD ["./api_app"]
 ```
 
-##### Docker CDN
+#### Docker CDN
 
 The cdn uses almost the same Dockerfile as the Api. It is also written in go and uses the [go fiber](https://gofiber.io/) http server library.
 It does however not require a database connection.
@@ -825,7 +869,7 @@ COPY --from=builder /cdn/cdn_app ./cdn_app
 CMD ["./cdn_app"]
 ```
 
-##### Docker WEB
+#### Docker WEB
 
 Unfortunately, due to our lack of experience with nginx, We faced some challenges when trying to serve the react production build statically.
 
@@ -898,14 +942,14 @@ http {
 
 To check if everything works navigate to [http://localhost](http://localhost).
 
-### Development environment
+## Development environment
 
 ```bash
 git clone https://github.com/xNaCly/private.social.git
 cd private.social
 ```
 
-#### API
+### API
 
 ```bash
 cd api/
@@ -915,47 +959,7 @@ mv .env.example .env
 go run .
 ```
 
-```text
-██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗                    █████╗ ██████╗ ██╗
-██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝   ██╔════╝██╔═══██╗██╔════╝██║██╔══██╗██║                   ██╔══██╗██╔══██╗██║
-██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗     ███████╗██║   ██║██║     ██║███████║██║         █████╗    ███████║██████╔╝██║
-██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝     ╚════██║██║   ██║██║     ██║██╔══██║██║         ╚════╝    ██╔══██║██╔═══╝ ██║
-██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗██╗███████║╚██████╔╝╚██████╗██║██║  ██║███████╗              ██║  ██║██║     ██║
-╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═╝  ╚═╝╚══════╝              ╚═╝  ╚═╝╚═╝     ╚═╝
-2023/03/13 09:58:08 loaded config key 'MONGO_URL' with value 'mongodb+srv://***********************************************************' from env
-2023/03/13 09:58:08 loaded config key 'JWT_SECRET' with value 'JWT_SECRET' from env
-2023/03/13 09:58:08 Establishing connection to database...
-2023/03/13 09:58:09 Connection to database established
-2023/03/13 09:58:09 loaded tables 'users', 'posts'
-2023/03/13 09:58:09 Setting up the app...
-2023/03/13 09:58:09 Registering unauthenticated routes...
-2023/03/13 09:58:09 Registered route: [GET] v1/ping
-2023/03/13 09:58:09 Registered route: [POST] v1/auth/register
-2023/03/13 09:58:09 Registered route: [POST] v1/auth/login
-2023/03/13 09:58:09 Registered '3' routes
-2023/03/13 09:58:09 Registering authenticated routes...
-2023/03/13 09:58:09 Registered route: [GET] v1/user/me
-2023/03/13 09:58:09 Registered route: [PUT] v1/user/me
-2023/03/13 09:58:09 Registered route: [GET] v1/user/:id
-2023/03/13 09:58:09 Registered route: [POST] v1/post/
-2023/03/13 09:58:09 Registered route: [GET] v1/post/me
-2023/03/13 09:58:09 Registered route: [DELETE] v1/post/:id
-2023/03/13 09:58:09 Registered route: [GET] v1/post/:id
-2023/03/13 09:58:09 Registered '7' routes
-2023/03/13 09:58:09 Starting the app...
-
- ┌───────────────────────────────────────────────────┐
- │                private.social/api                 │
- │                   Fiber v2.42.0                   │
- │               http://127.0.0.1:8000               │
- │       (bound on host 0.0.0.0 and port 8000)       │
- │                                                   │
- │ Handlers ............ 15  Processes ........... 1 │
- │ Prefork ....... Disabled  PID ............. 84468 │
- └───────────────────────────────────────────────────┘
-```
-
-#### WEB
+### WEB
 
 ```bash
 cd web/
@@ -963,45 +967,11 @@ pnpm i
 pnpm dev
 ```
 
-Outputs:
-
-```
-
-  VITE v4.1.4  ready in 344 ms
-
-  ➜  Local:   http://localhost:3000/
-  ➜  Network: use --host to expose
-  ➜  press h to show help
-
-```
-
-#### CDN
+### CDN
 
 ```bash
 cd cdn
 go run .
-```
-
-Outputs:
-
-```text
-
-██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗                    ██████╗██████╗ ███╗   ██╗
-██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝   ██╔════╝██╔═══██╗██╔════╝██║██╔══██╗██║                   ██╔════╝██╔══██╗████╗  ██║
-██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗     ███████╗██║   ██║██║     ██║███████║██║         █████╗    ██║     ██║  ██║██╔██╗ ██║
-██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝     ╚════██║██║   ██║██║     ██║██╔══██║██║         ╚════╝    ██║     ██║  ██║██║╚██╗██║
-██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗██╗███████║╚██████╔╝╚██████╗██║██║  ██║███████╗              ╚██████╗██████╔╝██║ ╚████║
-╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═╝  ╚═╝╚══════╝               ╚═════╝╚═════╝ ╚═╝  ╚═══╝
-
- ┌───────────────────────────────────────────────────┐
- │                private.social/cdn                 │
- │                   Fiber v2.42.0                   │
- │               http://127.0.0.1:8080               │
- │       (bound on host 0.0.0.0 and port 8080)       │
- │                                                   │
- │ Handlers ............. 5  Processes ........... 1 │
- │ Prefork ....... Disabled  PID ............. 83839 │
- └───────────────────────────────────────────────────┘
 ```
 
 To ensure that everything is working properly, please navigate to [http://localhost:3000](http://localhost:3000). If a login box is displayed, you can be confident that everything is functioning as it should
