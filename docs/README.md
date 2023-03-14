@@ -242,6 +242,140 @@ drwxr-xr-x    - teo 13 Mar 08:49 └── vfs
 In a nutshell the api is the layer between the web interface and the database with a bit of access security.
 The API is secured with usage of [JWT](https://www.rfc-editor.org/rfc/rfc7519) and is at the point of writing in no way complete for all features described at [idea](#idea).
 
+As shown below, the api is a lot more structured and split up into modules than the cdn.
+The api also requires a database connection which is fairly complex and therefore abstracted away with a custom database wrapper.
+
+After being started the application looks for the `JWT_SECRET` and the `MONGO_URL` environment variables using the `config.LoadConfig` function, the former is used for signing jwt tokens when a user registers or logs in and the second is used to connect to the database.
+If either of the above are not found in the process context the application throws a fatal error and exits.
+
+After checking for the environment variables, the application calls the `setup.Setup` function,
+which creates the application, registers middlewares (cache, logger, cors) and returns the created instance of an `fiber.App`.
+
+This created application is now passed to the `router.RegisterRoutes` function, which creates all `router.Route` structs in the `router.UnauthenticatedRoutes` array.
+
+Example for a `router.Route` struct and the function call to register it as a route:
+
+```go
+type Route struct {
+	Path        string
+	Method      string
+	Handler     func(*fiber.Ctx) error
+	Middlewares []func(*fiber.Ctx) error
+}
+
+var Routes = []Route{
+    {
+		Path:        "/ping",
+		Method:      "GET",
+		Handler:     func (c *fiber.Ctx) error {
+                                return c.JSON(util.ApiResponse{
+                                    Success: true,
+                                    Message: "pong",
+                                    Code:    200,
+                                    Data:    nil,
+                                })
+                            },
+		Middlewares: []func(*fiber.Ctx) error{},
+	},
+}
+
+app := setup.Setup()
+RegisterRoutes(app, "v1", Routes...)
+// running this prints:
+// 2023/03/14 09:33:02 Registered route: [GET] v1/ping
+```
+
+The `router.RegisterRoutes` wrapper simplifies the registering of routes significantly.
+
+Currently the only unauthenticated routes the api supports are the `/auth/login`, `/auth/register` and the `/ping` route.
+
+To make all other routes only accept incoming requests if they contain a jwt in the `Authentication` http header,
+the application registers the jwt middleware with a custom `SuccessHandler` which uses the `util.GetCurrentUser` function to query the database for the id embeded in the jwt. The resulting `models.User` struct is stored in the fiber context using the [ctx.Locals](https://docs.gofiber.io/api/ctx/#locals) function.
+
+If the user couldn't be found by the `SuccessHandler` of the jwt middleware it returns the error response we already know from the cdn:
+
+```json
+{
+  "success": false,
+  "message": "Invalid token",
+  "code": 401
+}
+```
+
+After setting up the jwt middleware and therefore securing the application significantly,
+the application now registers all the other `router.Route` structs in the `router.Routes` array and afterwards binds a `404` error handler to all routes not bound to anything beforehand.
+
+##### Workflow for adding a new Route
+
+Adding a new route to the api requires the following two choices to make:
+
+- should it require authentication
+- what path should the route answer to
+
+For the sake of this example, lets assume we want to add a hello world route to the path `/hello/world`, it doesn't need authentication and returns a simple json object.
+
+To get started we create a new file in the `handlers` directory named `helloworld.go`, in this file we write the following function:
+
+```go
+// handlers/helloworld.go
+package handlers
+
+import (
+	"github.com/xnacly/private.social/api/util"
+
+	"github.com/gofiber/fiber/v2"
+)
+
+func HelloWorld(c *fiber.Ctx) error {
+	return c.JSON(util.ApiResponse{
+		Success: true,
+		Message: "hello world",
+		Code:    200,
+	})
+}
+```
+
+We of course need to import the fiber package for the context parameter in the function and we need to import our utility package to access our `util.ApiResponse` struct we use to keep the api responses consistent.
+
+The response (if it has content) has the status of `200 OK`, we set the `util.ApiResponse.Code` to match this status (the better way is to use `fiber.StatusOk` which maps to 200). The `util.ApiResponse.Message` is set to the string `hello world` and the `util.ApiResponse.Success` is of course `true`.
+
+Currently this route is not registered to the application and therefore won't accept any incoming requests. To change this we need to navigate to the `router` package and open the `router.go` file.
+
+At the top, right after the imports you should see a `Route` structure, which looks something like this:
+
+```go
+// struct representing a route the api should handle and register
+type Route struct {
+	Path        string
+	Method      string
+	Handler     func(*fiber.Ctx) error
+	Middlewares []func(*fiber.Ctx) error
+}
+```
+
+To add your route to the application, simply create a new `Route` structure in the `router.UnauthenticatedRoutes`:
+
+```go
+var UnauthenticatedRoutes = []Route{
+    {
+        Path: "/hello/world",
+        Method: "GET",
+        Handler: handlers.HelloWorld,
+    },
+    // ....
+}
+```
+
+The `handler.HelloWorld` is automatically exported according to the go standard due to the uppercase function name.
+
+Now simply restart the api and use curl to check if your route was registered:
+
+```sh
+curl --request GET \
+  --url http://localhost:8000/v1/hello/world
+# {"success":true,"code":200,"message":"hello world","data":null}
+```
+
 ##### Directory content overview:
 
 ```text
@@ -276,7 +410,6 @@ drwxr-xr-x    - teo  6 Mar 10:35 ├── setup
 drwxr-xr-x    - teo  6 Mar 10:35 ├── tests
 .rw-r--r--  418 teo  6 Mar 10:35 │  ├── config_test.go
 .rw-r--r-- 1.6k teo  6 Mar 10:35 │  └── util_test.go
-
 drwxr-xr-x    - teo  6 Mar 10:35 └── util
 .rw-r--r-- 4.8k teo  6 Mar 10:35    └── util.go
 ```
@@ -311,6 +444,10 @@ The project is structured as follows:
   - post.go: Contains uploading, viewing all posts by the logged in user, viewing a post by its ID, and deleting a post by its ID.
   - user.go: Contains viewing the currently logged in user, viewing a user by their ID, and updating the currently logged in user.
 
+- Setup:
+
+  This folder contains the module responsible for setting the error handler, registering the application, cors, cache and the logger
+
 - Config:
 
   This folder contains a module that is responsible for loading a dot env file, setting the defined environment variables in the process that the Go application is running in, and afterwards loading these environment variables in a config hashmap.
@@ -330,6 +467,10 @@ The project is structured as follows:
 - Util:
 
   This folder contains utility functions such as getting a timestamp for MongoDB, comparing object IDs, and getting the current user from the JWT token.
+
+#### Web
+
+The web frontend is written using [Typescript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) as the Framework, [Vite](https://vitejs.dev/) as a bundler and dev server, [Tailwind](https://tailwindcss.com/) & [Postcss](https://postcss.org/) as the css framework and [react-router](https://reactrouter.com/en/main) as the routing provider.
 
 ## Technology choices
 
