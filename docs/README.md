@@ -6,10 +6,10 @@ geometry: a4paper
 numbersections: yes
 documentclass: "article"
 author:
-    - xnacly
-    - ellirynbw
-    - derPhilosoff
-    - noschnosch
+  - xnacly
+  - ellirynbw
+  - derPhilosoff
+  - noschnosch
 date: 14.03.2023
 fontsize: 16pt
 monofont: "Iosevka Nerd Font Mono"
@@ -50,56 +50,56 @@ Whether you're looking to share your thoughts and ideas with the world or simply
 
 Privacy related features:
 
--   [x] Create an account without requiring an email address or phone number.
-    -   [ ] Optionally add an email address to the account to enable resetting the account password.
--   [x] Set all accounts to private visibility by default.
-        (Only followers can view profile data and posts from a private account.)
--   [x] Secure all API interactions with JWT tokens.
--   [x] Store passwords in the database hashed with bcrypt.
--   [x] Enforce password requirements:
-    -   [x] Minimum of 10 characters.
-    -   [x] At least one symbol.
-    -   [x] At least one uppercase character.
-    -   [x] At least one number.
+- [x] Create an account without requiring an email address or phone number.
+  - [ ] Optionally add an email address to the account to enable resetting the account password.
+- [x] Set all accounts to private visibility by default.
+      (Only followers can view profile data and posts from a private account.)
+- [x] Secure all API interactions with JWT tokens.
+- [x] Store passwords in the database hashed with bcrypt.
+- [x] Enforce password requirements:
+  - [x] Minimum of 10 characters.
+  - [x] At least one symbol.
+  - [x] At least one uppercase character.
+  - [x] At least one number.
 
 Non-privacy related features:
 
--   [x] Self-hostable API, CDN, and web.
--   [ ] Home view sorted chronologically.
--   [x] Posts:
-    -   [ ] Likes:
-        -   [ ] Private (only the creators can see the number of likes).
-        -   [ ] Disable (no one can like the post).
-    -   [ ] Comments:
-        -   [ ] Restricted (only followers can comment).
-        -   [ ] Mention-only (only mentioned users can comment).
-        -   [ ] Disable (no one can comment).
-    -   [x] Caption.
-    -   [ ] Collaboration on posts.
--   [x] Profile:
-    -   [x] Biography:
-        -   [x] Text biography.
-        -   [ ] Custom pronouns.
-        -   [x] Profile picture.
-        -   [ ] Profile banner.
-        -   [x] Website.
-        -   [x] Location.
-    -   [ ] Customize profile using CSS.
+- [x] Self-hostable API, CDN, and web.
+- [ ] Home view sorted chronologically.
+- [x] Posts:
+  - [ ] Likes:
+    - [ ] Private (only the creators can see the number of likes).
+    - [ ] Disable (no one can like the post).
+  - [ ] Comments:
+    - [ ] Restricted (only followers can comment).
+    - [ ] Mention-only (only mentioned users can comment).
+    - [ ] Disable (no one can comment).
+  - [x] Caption.
+  - [ ] Collaboration on posts.
+- [x] Profile:
+  - [x] Biography:
+    - [x] Text biography.
+    - [ ] Custom pronouns.
+    - [x] Profile picture.
+    - [ ] Profile banner.
+    - [x] Website.
+    - [x] Location.
+  - [ ] Customize profile using CSS.
 
 Mental health related features:
 
--   [ ] Likes and comments can be restricted and disabled.
--   [ ] Users can be blocked, muted, and reported.
--   [ ] Posts can be reported.
+- [ ] Likes and comments can be restricted and disabled.
+- [ ] Users can be blocked, muted, and reported.
+- [ ] Posts can be reported.
 
 # Motivation
 
 Private.social was developed during the 4th semester of our applied computer science bachelor's program by the following four individuals:
 
--   [9525469](https://github.com/xnacly)
--   [9197785](https://github.com/ellirynbw)
--   [8478190](https://github.com/derPhilosoff)
--   [1823169](https://github.com/noschnosch)
+- [9525469](https://github.com/xnacly)
+- [9197785](https://github.com/ellirynbw)
+- [8478190](https://github.com/derPhilosoff)
+- [1823169](https://github.com/noschnosch)
 
 The objective of the semester's examination was to create and document an application that utilizes at least two microservices.
 One microservice had to be programmed by our group, while the other could be any publicly available online web service.
@@ -108,17 +108,17 @@ The task also required the groups to document the application interfaces with Op
 
 At Private.social, we utilize three microservices that we programmed ourselves:
 
--   **api**: This service allows the web frontend to interact with the database.
--   **cdn**: This service is responsible for storing assets.
--   **web**: This service governs the web interface.
+- **api**: This service allows the web frontend to interact with the database.
+- **cdn**: This service is responsible for storing assets.
+- **web**: This service governs the web interface.
 
 We also utilize one microservice as a database:
 
--   **mongo**: This service is responsible for storing all user and post data.
+- **mongo**: This service is responsible for storing all user and post data.
 
 In addition, we use one external service:
 
--   **[ui.avatars](https://ui-avatars.com/)**: This service is used to provide new users with a default profile picture.
+- **[ui.avatars](https://ui-avatars.com/)**: This service is used to provide new users with a default profile picture.
 
 # Application Screenshots
 
@@ -147,10 +147,10 @@ The following chapter is a short summary of the projects directories and what pa
 
 This project is structured into four main directories:
 
--   `web/`: This folder contains the front-end portion of the application, which is built with React.js.
--   `api/`: This directory contains the back-end of the application, which is built with Go.
--   `cdn/`: This folder contains the content delivery network of the application, which is built with Go. The CDN serves pictures and videos.
--   `docs/`: This folder contains the documentation for the project.
+- `web/`: This folder contains the front-end portion of the application, which is built with React.js.
+- `api/`: This directory contains the back-end of the application, which is built with Go.
+- `cdn/`: This folder contains the content delivery network of the application, which is built with Go. The CDN serves pictures and videos.
+- `docs/`: This folder contains the documentation for the project.
 
 ## CDN
 
@@ -160,10 +160,10 @@ The next step is a custom error handler which returns a `ApiResponse` go structu
 
 ```json
 {
-    "success": false,
-    "code": 404,
-    "message": "Not Found",
-    "data": null
+  "success": false,
+  "code": 404,
+  "message": "Not Found",
+  "data": null
 }
 ```
 
@@ -171,12 +171,12 @@ This structure supports errors (as showcased above) and successful responses, su
 
 ```json
 {
-    "success": true,
-    "code": 201,
-    "message": "file uploaded successfully",
-    "data": {
-        "path": "/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx"
-    }
+  "success": true,
+  "code": 201,
+  "message": "file uploaded successfully",
+  "data": {
+    "path": "/v1/asset/LHGyWsDknFdttJFzhHCprZHUhekCTTWH/dGVzdC5wbmdx"
+  }
 }
 ```
 
@@ -191,13 +191,13 @@ This is useful for versioning and supporting outdated routes, while innovating.
 The first of the two routes is used to upload a file `/v1/upload/:file`.
 It only accepts incoming requests if the `file` parameter and the request body are not empty. After a request was made, the cdn first determines the MIME type of the incoming binary request body and checks if it's a supported MIME type:
 
--   image/png
--   image/jpg
--   image/jpeg
--   image/gif
--   image/webp
--   image/heic
--   video/mp4
+- image/png
+- image/jpg
+- image/jpeg
+- image/gif
+- image/webp
+- image/heic
+- video/mp4
 
 If this isn't the case, the cdn responds with an error in the format of the `ApiResponse` go structure.
 If the mime type is supported, the cdn creates a random directory prefix and creates a new directory with this name.
@@ -207,12 +207,12 @@ If everything worked out as intended, the cdn returns the default `ApiResponse` 
 
 ```json
 {
-    "success": true,
-    "code": 201,
-    "message": "file uploaded successfully",
-    "data": {
-        "path": "/v1/asset/PXKjmgzuhCKOsxcFMxnEpZqSpTKTqNEF/dGVzdC5wbmdx"
-    }
+  "success": true,
+  "code": 201,
+  "message": "file uploaded successfully",
+  "data": {
+    "path": "/v1/asset/PXKjmgzuhCKOsxcFMxnEpZqSpTKTqNEF/dGVzdC5wbmdx"
+  }
 }
 ```
 
@@ -220,7 +220,7 @@ To request the uploaded asset, simply concatenate the returned path and the path
 
 ```js
 "http://localhost:8080" +
-    "/v1/asset/PXKjmgzuhCKOsxcFMxnEpZqSpTKTqNEF/dGVzdC5wbmdx";
+  "/v1/asset/PXKjmgzuhCKOsxcFMxnEpZqSpTKTqNEF/dGVzdC5wbmdx";
 ```
 
 The result, viewed in the browser:
@@ -232,10 +232,10 @@ Its cached with a max-age of 3600 seconds (60 min / 1h) and returns a 404 `ApiRe
 
 ```json
 {
-    "success": false,
-    "code": 404,
-    "message": "Not Found",
-    "data": null
+  "success": false,
+  "code": 404,
+  "message": "Not Found",
+  "data": null
 }
 ```
 
@@ -258,38 +258,38 @@ drwxr-xr-x    - teo  9 Mar 11:56 ├── util
 drwxr-xr-x    - teo 13 Mar 08:49 └── vfs
 ```
 
--   app.go:
+- app.go:
 
-    This is the main entry point of the application, and contains middlewares and restful server setup. It is responsible for setting up the different routes that the CDN will expose, and for binding the upload handler to POST /v1/upload. Additionally, it serves the vfs directory statically with a max-age of 3600.
+  This is the main entry point of the application, and contains middlewares and restful server setup. It is responsible for setting up the different routes that the CDN will expose, and for binding the upload handler to POST /v1/upload. Additionally, it serves the vfs directory statically with a max-age of 3600.
 
--   Documentation:
+- Documentation:
 
-    The directory includes a CDN OpenAPI specification file, which describes the different endpoints of the CDN, and a Readme file, which provides information on how to use the CDN.
+  The directory includes a CDN OpenAPI specification file, which describes the different endpoints of the CDN, and a Readme file, which provides information on how to use the CDN.
 
--   Dockerfile:
+- Dockerfile:
 
-    This file is used to build a Docker image of the application. This is useful for deployment purposes, as it allows the application to be easily packaged and deployed on different platforms.
+  This file is used to build a Docker image of the application. This is useful for deployment purposes, as it allows the application to be easily packaged and deployed on different platforms.
 
--   Dependency management for Go:
+- Dependency management for Go:
 
-    go.sum and go.mod.
-    These files are used to manage the different dependencies required by the application.
+  go.sum and go.mod.
+  These files are used to manage the different dependencies required by the application.
 
--   Handlers:
+- Handlers:
 
-    This folder contains different handlers that are responsible for handling the different requests made to the CDN. The handlers are able to interact with the Fiber context, and act as routes for the CDN.
+  This folder contains different handlers that are responsible for handling the different requests made to the CDN. The handlers are able to interact with the Fiber context, and act as routes for the CDN.
 
--   Tests:
+- Tests:
 
-    This folder contains unit tests for the util module.
+  This folder contains unit tests for the util module.
 
--   Util:
+- Util:
 
-    This folder contains a utility module for structs and small helper methods.
+  This folder contains a utility module for structs and small helper methods.
 
--   Vfs:
+- Vfs:
 
-    This folder contains the directory that the CDN creates to store uploaded assets in.
+  This folder contains the directory that the CDN creates to store uploaded assets in.
 
 ## API
 
@@ -350,9 +350,9 @@ If the user couldn't be found by the `SuccessHandler` of the jwt middleware it r
 
 ```json
 {
-    "success": false,
-    "message": "Invalid token",
-    "code": 401
+  "success": false,
+  "message": "Invalid token",
+  "code": 401
 }
 ```
 
@@ -363,8 +363,8 @@ the application now registers all the other `router.Route` structs in the `route
 
 Adding a new route to the api requires the following two choices to make:
 
--   should it require authentication
--   what path should the route answer to
+- should it require authentication
+- what path should the route answer to
 
 For the sake of this example, lets assume we want to add a hello world route to the path `/hello/world`, it doesn't need authentication and returns a simple json object.
 
@@ -470,57 +470,57 @@ drwxr-xr-x    - teo  6 Mar 10:35 └── util
 
 The project is structured as follows:
 
--   app.go:
+- app.go:
 
-    This is the main entry point of the application, similar to the CDN. It is responsible for starting the server, and setting up the different routes that the API will expose.
+  This is the main entry point of the application, similar to the CDN. It is responsible for starting the server, and setting up the different routes that the API will expose.
 
--   Documentation:
+- Documentation:
 
-    The project includes an OpenAPI specification file, which describes the different endpoints of the API, and a Readme file, which provides information on how to use the API.
+  The project includes an OpenAPI specification file, which describes the different endpoints of the API, and a Readme file, which provides information on how to use the API.
 
--   Dockerfile:
+- Dockerfile:
 
-    This file is used to build a Docker image of the application. This is useful for deployment purposes, as it allows the application to be easily packaged and deployed on different platforms.
+  This file is used to build a Docker image of the application. This is useful for deployment purposes, as it allows the application to be easily packaged and deployed on different platforms.
 
--   Configuration:
+- Configuration:
 
-    The project includes a .env file, which contains environment variables used by the application, and a .env.example file, which serves as an example of how to set up the environment variables.
+  The project includes a .env file, which contains environment variables used by the application, and a .env.example file, which serves as an example of how to set up the environment variables.
 
--   Dependency management for Go:
+- Dependency management for Go:
 
-    go.sum and go.mod.
-    These files are used to manage the different dependencies required by the application.
+  go.sum and go.mod.
+  These files are used to manage the different dependencies required by the application.
 
--   Handlers: This folder contains different handlers that are responsible for handling the different requests made to the API. The handlers are able to interact with the Fiber context, and act as routes for the API. The handlers include:
+- Handlers: This folder contains different handlers that are responsible for handling the different requests made to the API. The handlers are able to interact with the Fiber context, and act as routes for the API. The handlers include:
 
-    -   auth.go: Contains all routes used for authentication to the API.
-    -   ping.go: Contains the ping route, which is used to check if the API is online.
-    -   post.go: Contains uploading, viewing all posts by the logged in user, viewing a post by its ID, and deleting a post by its ID.
-    -   user.go: Contains viewing the currently logged in user, viewing a user by their ID, and updating the currently logged in user.
+  - auth.go: Contains all routes used for authentication to the API.
+  - ping.go: Contains the ping route, which is used to check if the API is online.
+  - post.go: Contains uploading, viewing all posts by the logged in user, viewing a post by its ID, and deleting a post by its ID.
+  - user.go: Contains viewing the currently logged in user, viewing a user by their ID, and updating the currently logged in user.
 
--   Setup:
+- Setup:
 
-    This folder contains the module responsible for setting the error handler, registering the application, cors, cache and the logger
+  This folder contains the module responsible for setting the error handler, registering the application, cors, cache and the logger
 
--   Config:
+- Config:
 
-    This folder contains a module that is responsible for loading a dot env file, setting the defined environment variables in the process that the Go application is running in, and afterwards loading these environment variables in a config hashmap.
+  This folder contains a module that is responsible for loading a dot env file, setting the defined environment variables in the process that the Go application is running in, and afterwards loading these environment variables in a config hashmap.
 
--   Database:
+- Database:
 
-    This folder contains a module that is responsible for interacting with MongoDB. It includes a wrapper for creating the connection, managing users and posts.
+  This folder contains a module that is responsible for interacting with MongoDB. It includes a wrapper for creating the connection, managing users and posts.
 
--   Models:
+- Models:
 
-    This folder contains structures for users, posts, and utility. These structures are used to encode from BSON to Go structures to JSON.
+  This folder contains structures for users, posts, and utility. These structures are used to encode from BSON to Go structures to JSON.
 
--   Tests:
+- Tests:
 
-    This folder contains tests for utility functions and the config module.
+  This folder contains tests for utility functions and the config module.
 
--   Util:
+- Util:
 
-    This folder contains utility functions such as getting a timestamp for MongoDB, comparing object IDs, and getting the current user from the JWT token.
+  This folder contains utility functions such as getting a timestamp for MongoDB, comparing object IDs, and getting the current user from the JWT token.
 
 ## Web
 
@@ -578,83 +578,83 @@ drwxr-xr-x    - teo 10 Mar 14:39 │  ├── util
 .rw-r--r--  396 teo  7 Mar 14:37 └── vite.config.ts
 ```
 
--   Configuration and Building
+- Configuration and Building
 
-    -   Dockerfile:
+  - Dockerfile:
 
-        The Dockerfile is an essential file used to build a Docker image of the application. It's based on the nginx image and includes a copy of the nginx configuration. This file contains instructions that Docker uses to build the image, including which base image to use, how to install dependencies, and how to configure the environment.
+    The Dockerfile is an essential file used to build a Docker image of the application. It's based on the nginx image and includes a copy of the nginx configuration. This file contains instructions that Docker uses to build the image, including which base image to use, how to install dependencies, and how to configure the environment.
 
-    -   package.json:
+  - package.json:
 
-        The package.json file is used to define the application's dependencies and build scripts. It's a critical file in Node.js development that lists all the required dependencies for the application to run. It also includes scripts for building, testing, and deploying the application.
+    The package.json file is used to define the application's dependencies and build scripts. It's a critical file in Node.js development that lists all the required dependencies for the application to run. It also includes scripts for building, testing, and deploying the application.
 
-    -   pnpm-lock.yaml:
+  - pnpm-lock.yaml:
 
-        The pnpm-lock.yaml file is a dependency lock file used to ensure the application's dependencies remain consistent across different environments. It's similar to package-lock.json in NPM and yarn.lock in Yarn.
+    The pnpm-lock.yaml file is a dependency lock file used to ensure the application's dependencies remain consistent across different environments. It's similar to package-lock.json in NPM and yarn.lock in Yarn.
 
-    -   tailwind.config.cjs:
+  - tailwind.config.cjs:
 
-        The tailwind.config.cjs file is used to configure and customize Tailwind, a popular utility-first CSS framework. It includes various settings such as colors, fonts, and breakpoints.
+    The tailwind.config.cjs file is used to configure and customize Tailwind, a popular utility-first CSS framework. It includes various settings such as colors, fonts, and breakpoints.
 
-    -   vite.config.ts:
+  - vite.config.ts:
 
-        The vite.config.ts file is used to configure the development server and proxy settings in Vite, a build tool used for frontend web development. It allows developers to define the proxy settings for different environments, making it easier to test the application locally.
+    The vite.config.ts file is used to configure the development server and proxy settings in Vite, a build tool used for frontend web development. It allows developers to define the proxy settings for different environments, making it easier to test the application locally.
 
-    -   postcss.config.js:
+  - postcss.config.js:
 
-        The postcss.config.js file is used to configure PostCSS, a CSS preprocessor. It defines various plugins and their options, such as autoprefixer and cssnano, to transform and optimize the CSS code.
+    The postcss.config.js file is used to configure PostCSS, a CSS preprocessor. It defines various plugins and their options, such as autoprefixer and cssnano, to transform and optimize the CSS code.
 
-    -   tsconfig.json:
+  - tsconfig.json:
 
-        The tsconfig.json file is a configuration file for the TypeScript transpiler. It specifies how TypeScript should compile the application's source code to JavaScript. It includes settings such as the target environment, module system, and source map generation.
+    The tsconfig.json file is a configuration file for the TypeScript transpiler. It specifies how TypeScript should compile the application's source code to JavaScript. It includes settings such as the target environment, module system, and source map generation.
 
-    -   tsconfig.node.json:
+  - tsconfig.node.json:
 
-        The tsconfig.node.json file is a configuration file for TypeScript's integration with Node.js. It includes settings specific to Node.js, such as the target environment and module system.
+    The tsconfig.node.json file is a configuration file for TypeScript's integration with Node.js. It includes settings specific to Node.js, such as the target environment and module system.
 
-    -   nginx.conf:
+  - nginx.conf:
 
-        The nginx.conf file is an nginx configuration file used for serving and reverse proxying. It's a critical file for web servers that define how requests are handled and which files are served for each request. It's also used to configure SSL and other security-related settings.
+    The nginx.conf file is an nginx configuration file used for serving and reverse proxying. It's a critical file for web servers that define how requests are handled and which files are served for each request. It's also used to configure SSL and other security-related settings.
 
--   Assets:
+- Assets:
 
-    -   public/:
+  - public/:
 
-        The public/ directory contains the favicon and the image of private.social. These assets are typically available to the public and are served statically by the web server. In this case, the directory includes a favicon.ico file and a cowboy emoji image, both used to enhance the application's visual appearance.
+    The public/ directory contains the favicon and the image of private.social. These assets are typically available to the public and are served statically by the web server. In this case, the directory includes a favicon.ico file and a cowboy emoji image, both used to enhance the application's visual appearance.
 
-    -   index.html:
+  - index.html:
 
-        The index.html file is an HTML document that serves as the entry point for the React application. It's the initial HTML that the browser loads, and it includes a script tag that loads the React application's JavaScript code. The React app inserts itself into this HTML document by rendering the app's root component in a designated HTML element, typically with an ID of "root." The index.html file may also include other tags, such as meta tags, links to external stylesheets, and scripts for analytics or other third-party services.
+    The index.html file is an HTML document that serves as the entry point for the React application. It's the initial HTML that the browser loads, and it includes a script tag that loads the React application's JavaScript code. The React app inserts itself into this HTML document by rendering the app's root component in a designated HTML element, typically with an ID of "root." The index.html file may also include other tags, such as meta tags, links to external stylesheets, and scripts for analytics or other third-party services.
 
--   Source code: src/
+- Source code: src/
 
-    -   index.css:
+  - index.css:
 
-        The index.css file contains definitions for Tailwind CSS, a utility-first CSS framework that allows developers to rapidly build custom user interfaces. It includes classes for common styling tasks such as layout, typography, and color.
+    The index.css file contains definitions for Tailwind CSS, a utility-first CSS framework that allows developers to rapidly build custom user interfaces. It includes classes for common styling tasks such as layout, typography, and color.
 
-    -   app.tsx:
+  - app.tsx:
 
-        The app.tsx file is the main entry point for the application. It contains the React Router rendering logic, which is responsible for rendering the appropriate screen based on the current URL. The file may also include other logic related to app-wide state management or user authentication.
+    The app.tsx file is the main entry point for the application. It contains the React Router rendering logic, which is responsible for rendering the appropriate screen based on the current URL. The file may also include other logic related to app-wide state management or user authentication.
 
-    -   main.tsx:
+  - main.tsx:
 
-        The main.tsx file renders the React application into the root index.html file. It's responsible for mounting the React application to the DOM, typically in a div element with an ID of "root".
+    The main.tsx file renders the React application into the root index.html file. It's responsible for mounting the React application to the DOM, typically in a div element with an ID of "root".
 
-    -   components/:
+  - components/:
 
-        The components/ directory contains reusable components that get used at multiple points in the application. These components are typically small, modular pieces of code that can be composed together to build more complex user interfaces.
+    The components/ directory contains reusable components that get used at multiple points in the application. These components are typically small, modular pieces of code that can be composed together to build more complex user interfaces.
 
-    -   screens/:
+  - screens/:
 
-        The screens/ directory contains one source file for every screen/site in the application. Each file represents a different screen or view that the user can navigate to, and typically includes the logic and rendering code for that screen.
+    The screens/ directory contains one source file for every screen/site in the application. Each file represents a different screen or view that the user can navigate to, and typically includes the logic and rendering code for that screen.
 
-    -   models/:
+  - models/:
 
-        The models/ directory contains interfaces for API and CDN interactions, as well as for Users and Posts. These interfaces define the shape of the data returned by the API or CDN, making it easier for the application to consume and manipulate the data.
+    The models/ directory contains interfaces for API and CDN interactions, as well as for Users and Posts. These interfaces define the shape of the data returned by the API or CDN, making it easier for the application to consume and manipulate the data.
 
-    -   util/:
+  - util/:
 
-        The util/ directory contains utility methods for calculating elapsed time, a fetch wrapper, and other miscellaneous functions used throughout the application. These utility methods are typically small, reusable functions that are used in multiple places throughout the codebase.
+    The util/ directory contains utility methods for calculating elapsed time, a fetch wrapper, and other miscellaneous functions used throughout the application. These utility methods are typically small, reusable functions that are used in multiple places throughout the codebase.
 
 # Technology choices
 
@@ -716,9 +716,9 @@ This docker-compose configuration file is an efficient way to manage multiple co
 
 To successfully run the application, the following dependencies must be installed on your system:
 
--   [Docker](https://www.docker.com/), which is an open-source platform for building, shipping, and running applications in containers.
--   [Docker-compose](https://docs.docker.com/compose/), a tool for defining and running multi-container Docker applications.
--   You must make sure that the Docker service is enabled and started as a deamon. This will ensure that the service is running in the background and can be accessed by the application.
+- [Docker](https://www.docker.com/), which is an open-source platform for building, shipping, and running applications in containers.
+- [Docker-compose](https://docs.docker.com/compose/), a tool for defining and running multi-container Docker applications.
+- You must make sure that the Docker service is enabled and started as a deamon. This will ensure that the service is running in the background and can be accessed by the application.
 
 It is important to note that Docker and Docker-compose are widely used in the software development industry due to their ability to simplify the process of building and deploying applications. Additionally, they provide a consistent environment across different systems, making it easier to test and debug applications.
 
@@ -739,62 +739,62 @@ Now navigate to http://localhost and use the application.
 ```yaml
 version: "3.9"
 services:
-    db:
-        hostname: db
-        # use the offical mongo image
-        image: mongo
-        # if the container crashes, restart it
-        restart: always
-        ports:
-            - 27017:27017
-        # what command to execute
-        command: mongod > /dev/null
-        # username and password for the database
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: admin
-            MONGO_INITDB_ROOT_PASSWORD: root
-        # which volume to persist data to
-        volumes:
-            - database:/data/db
-    api:
-        # source Dockerfile from ./api/Dockerfile
-        build: ./api
-        hostname: api
-        # start container after db container is running
-        depends_on:
-            - db
-        # pass env variables from .env to the container
-        env_file:
-            - ./ps.env
-        # set the db url to the db container above with username and password
-        environment:
-            MONGO_URL: mongodb://admin:root@db:27017/
-        ports:
-            - 8000:8000
-    cdn:
-        # source Dockerfile from ./cdn/Dockerfile
-        build: ./cdn
-        hostname: cdn
-        ports:
-            - 8080:8080
-        # what volume and path to persist data to
-        volumes:
-            - cdn:/vfs
-    web:
-        # source Dockerfile from ./cdn/Dockerfile
-        build: ./web
-        # start container after api and cdn container are running
-        depends_on:
-            - api
-            - cdn
-        ports:
-            - 80:3000
+  db:
+    hostname: db
+    # use the offical mongo image
+    image: mongo
+    # if the container crashes, restart it
+    restart: always
+    ports:
+      - 27017:27017
+    # what command to execute
+    command: mongod > /dev/null
+    # username and password for the database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: root
+    # which volume to persist data to
+    volumes:
+      - database:/data/db
+  api:
+    # source Dockerfile from ./api/Dockerfile
+    build: ./api
+    hostname: api
+    # start container after db container is running
+    depends_on:
+      - db
+    # pass env variables from .env to the container
+    env_file:
+      - ./ps.env
+    # set the db url to the db container above with username and password
+    environment:
+      MONGO_URL: mongodb://admin:root@db:27017/
+    ports:
+      - 8000:8000
+  cdn:
+    # source Dockerfile from ./cdn/Dockerfile
+    build: ./cdn
+    hostname: cdn
+    ports:
+      - 8080:8080
+    # what volume and path to persist data to
+    volumes:
+      - cdn:/vfs
+  web:
+    # source Dockerfile from ./cdn/Dockerfile
+    build: ./web
+    # start container after api and cdn container are running
+    depends_on:
+      - api
+      - cdn
+    ports:
+      - 80:3000
 
 volumes:
-    # define persistent volume for the database
-    database:
-    # define persistent volume for the cdn
-    cdn:
+  # define persistent volume for the database
+  database:
+  # define persistent volume for the cdn
+  cdn:
 ```
 
 ### Docker images
@@ -940,12 +940,23 @@ To check if everything works navigate to [http://localhost](http://localhost).
 
 ## Development environment
 
+We generally recommend against running each project on its own if not hacking around at the source code.
+Please use the docker compose setup.
+
+`git` is required to download the project:
+
 ```bash
 git clone https://github.com/xNaCly/private.social.git
 cd private.social
 ```
 
 ### API
+
+To start the API firstly `go` and mongodb must be installed and mongodb must be started locally.
+
+An easier way to access a database is to use mongoDB [atlas](https://www.mongodb.com/atlas) to create a new database and connect to it.
+
+After acquiring the database connection URL, simply append the url right of the `MONGO_URL` in the `.env` file and insert a random `JWT_SECRET`.
 
 ```bash
 cd api/
