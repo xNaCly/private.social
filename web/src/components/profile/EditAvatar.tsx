@@ -40,7 +40,7 @@ export default function EditAvatar({
 					avatar: path,
 				});
 			};
-			f1().then(() => window.location.reload());
+			f1();
 			closeEditAvatarModal();
 		}
 	}

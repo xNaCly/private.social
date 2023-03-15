@@ -18,7 +18,7 @@ export const ROUTES = {
  * - options.method: The HTTP method to use
  * - options.body: The body to send to the endpoint. If the body is an object, it will be stringified
  * - options.token: The token to send to the endpoint, xfetch will automatically add the Bearer prefix to the Authorization header
- * @returns {Promise<ApiResponse>} - the promise of json
+ * @returns {Promise<IResponse>} - the promise of json
  */
 export async function xfetch(
 	path: string,

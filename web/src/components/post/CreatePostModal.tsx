@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { uploadCdn } from "../../util/fetch";
+import { uploadCdn, xfetch, ROUTES } from "../../util/fetch";
+import { getToken } from "../../util/util";
+import { ICreatePostRequest } from "../../models/Api";
 import { Image } from "react-feather";
 
 export default function CreatePostModal({
@@ -8,6 +10,29 @@ export default function CreatePostModal({
 	closeUploadModal: () => void;
 }) {
 	const [imagePath, setImagePath] = useState("");
+	const [description, setDescription] = useState("");
+	const [error, setError] = useState("");
+
+	function uploadPost() {
+		let data: ICreatePostRequest = {
+			description,
+			url: imagePath,
+		};
+		let req = async () => {
+			let res = await xfetch(ROUTES.post, {
+				body: data,
+				method: "POST",
+				token: getToken() || "",
+			});
+
+			if (!res.success) return setError(res.message);
+			else {
+				closeUploadModal();
+				window.location.reload();
+			}
+		};
+		req();
+	}
 
 	function uploadPhotoToCdn(e: EventTarget) {
 		let element = e as HTMLInputElement;
@@ -38,26 +63,51 @@ export default function CreatePostModal({
 					<div className="border-b-[1px] mb-4 py-4 w-full flex items-center justify-center">
 						<h1 className="text-xl select-none">Create new post</h1>
 					</div>
-					<div className="flex justify-center items-center mb-4">
-						{imagePath ? (
-							<img
-								src={imagePath}
-								alt="uploaded image"
-								className="border w-32 h-32 lg:w-64 lg:h-64 rounded-md"
-							/>
-						) : (
-							<div className="border bg-gray-100 w-32 h-32 lg:w-64 lg:h-64 rounded-md text-gray-400 flex items-center justify-center">
-								<Image size={64} className="stroke-1" />
-							</div>
-						)}
-					</div>
+					{error ? (
+						<div className="my-2 mb-6 rounded border p-2 bg-red-100 border-red-300 w-1/2 text-center">
+							<h3>An Error occured:</h3>
+							<p className="text-gray-500">{error}</p>
+						</div>
+					) : (
+						<div className="flex justify-center items-center mb-4">
+							{imagePath ? (
+								<img
+									src={imagePath}
+									alt="uploaded image"
+									className="border w-32 h-32 lg:w-64 lg:h-64 rounded-md"
+								/>
+							) : (
+								<div className="border bg-gray-100 w-32 h-32 lg:w-64 lg:h-64 rounded-md text-gray-400 flex items-center justify-center">
+									<Image size={64} className="stroke-1" />
+								</div>
+							)}
+						</div>
+					)}
 					{imagePath && (
-						<button
-							className="text-center cursor-pointer font-bold text-red-500 text-lg py-4 border-t-[1px] border-gray-300 w-full"
-							onClick={() => setImagePath("")}
-						>
-							Remove Photo
-						</button>
+						<div className="w-full">
+							<label className="text-center cursor-pointer font-bold text-lg py-4 border-t-[1px] border-gray-300 w-full">
+								<input
+									type="text"
+									className="p-2 px-4 w-full"
+									onChange={(e: any) =>
+										setDescription(e.target.value)
+									}
+									placeholder="post description"
+								/>
+							</label>
+							<button
+								className="text-center cursor-pointer font-bold text-red-500 text-lg py-4 border-t-[1px] border-gray-300 w-full"
+								onClick={() => setImagePath("")}
+							>
+								Remove Photo
+							</button>
+							<button
+								className="text-center cursor-pointer font-bold text-blue-500 text-lg py-4 border-t-[1px] border-gray-300 w-full"
+								onClick={() => uploadPost()}
+							>
+								Create Post
+							</button>
+						</div>
 					)}
 					{!imagePath && (
 						<label

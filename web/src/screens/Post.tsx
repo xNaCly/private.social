@@ -11,7 +11,6 @@ export default function Post() {
 	const { postId } = useParams();
 	const [post, setPost] = useState<IPost | undefined>();
 	const [user, setUser] = useState<IUser | undefined>();
-	const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
 	useEffect(() => {
 		let postReq = async () => {
@@ -40,39 +39,30 @@ export default function Post() {
 		<>
 			{post ? (
 				<>
-					{deleteModalOpen && <div>test</div>}
-					<div className="mt-24 w-full flex justify-center items-center">
-						<div className="border flex lg:w-1/2">
-							<img src={post?.url}></img>
-							<div className="flex flex-col items-center justify-start w-full">
-								<div
-									className="flex flex-col items-start p-4 w-full"
-									style={{ borderBottomWidth: "1px" }}
-								>
-									<div className="flex items-center">
-										<div className="flex items-center">
-											<img
-												className="rounded-full w-10 h-10 mr-4 mr-4"
-												src={user?.avatar}
-											></img>
-											<h3 className="font-bold">
-												{user?.display_name}
-											</h3>
-										</div>
-									</div>
-									<span
-										className="pt-4 max-w-xs"
-										style={{
-											inlineSize: "max-content",
-											overflowWrap: "break-word",
-										}}
-									>
-										{post?.description}
-									</span>
-									<span className="mt-2 text-gray-500 text-sm">
-										{formatDate(post.created_at)}
-									</span>
+					<div className="mb-8 mt-4 w-full flex justify-center items-center">
+						<div className="border flex flex-col lg:w-1/2 items-start justify-start">
+							<div className="flex items-center p-4">
+								<div className="flex items-center ">
+									<img
+										className="rounded-full w-10 h-10 mr-4 mr-4"
+										src={user?.avatar}
+									></img>
+									<h3 className="font-bold">
+										{user?.display_name}
+									</h3>
 								</div>
+							</div>
+							<img
+								src={post?.url}
+								className="max-w-1/2 border-y-[1px]"
+							></img>
+							<div className="flex flex-col items-start p-4">
+								<span className="pt-2 pr-4 break-all">
+									{post?.description}
+								</span>
+								<span className="mt-2 text-gray-500 text-sm w-full">
+									{formatDate(post.created_at)}
+								</span>
 							</div>
 						</div>
 					</div>
