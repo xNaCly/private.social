@@ -113,7 +113,7 @@ export default function Profile() {
 						<div className="flex flex-col">
 							<div className="flex my-1 items-center">
 								<span className="mr-2">
-									@{user?.display_name}
+									{user?.display_name}
 								</span>
 								<span className="mx-2 text-gray-400">
 									{user?.bio.pronouns}
@@ -140,7 +140,6 @@ export default function Profile() {
 						</div>
 					</div>
 				</div>
-				<div className="flex justify-center w-full"></div>
 				<div className="flex items-start justify-center w-full">
 					{!posts.length ? (
 						<div className="flex flex-col justify-center items-center w-1/2">
@@ -156,16 +155,16 @@ export default function Profile() {
 						</div>
 					) : (
 						<div
-							className="pt-8 grid grid-cols-3 mt-6 lg:w-3/4 xl:w-1/2 w-full lg:px-8 lg:gap-8 md:gap-4 sm:gap-2 gap-1 place-items-center"
+							className="pt-8 grid lg:grid-cols-3 grid-cols-2 mt-6 lg:w-3/4 xl:w-1/2 w-full lg:px-8 lg:gap-8 md:gap-4 sm:gap-2 gap-1 place-items-center"
 							style={{
 								borderTopWidth: "1px",
-								gridTemplateRows: "auto",
+								gridTemplateRows: "1fr min-content",
 							}}
 						>
 							{posts.map((p) => (
 								<Link to={`/post/${p.id}`}>
 									<img
-										className="lg:w-80 md:w-60 min-w-40 min-h-40 cursor-pointer hover:saturate-0"
+										className="border-[1px] lg:w-80 md:w-60 min-w-40 min-h-40 cursor-pointer aspect-square object-cover"
 										src={p.url}
 										alt={p.description}
 										key={p.id}
