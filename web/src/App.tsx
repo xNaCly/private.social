@@ -1,5 +1,5 @@
 import {
-	BrowserRouter as Router,
+	HashRouter as Router,
 	Routes,
 	Route,
 	Navigate,
@@ -18,6 +18,7 @@ import Home from "./screens/Home";
 import "./index.css";
 
 export default function App() {
+	// TODO: fetch user object and check if valid
 	const [bearer, setBearer] = useState<string | null>(getToken());
 	const [backendAvailable, setBackendAvailable] = useState<boolean>(true);
 
@@ -65,19 +66,19 @@ export default function App() {
 								<>
 									<Route index element={<Home />} />
 									<Route
-										path="profile"
+										path="/profile"
 										element={<Profile />}
 									/>
 									<Route
-										path="post/:postId"
+										path="/post/:postId"
 										element={<Post />}
 									/>
 									<Route
-										path="login"
+										path="/login"
 										element={<Navigate to="/" replace />}
 									/>
 									<Route
-										path="signup"
+										path="/signup"
 										element={<Navigate to="/" replace />}
 									/>
 									<Route path="*" element={<Error />} />
