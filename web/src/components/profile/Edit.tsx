@@ -43,11 +43,11 @@ export default function Edit({
 
 	return (
 		<div
-			className="fixed z-1 top-0 left-0 min-w-full min-h-full flex justify-center items-center bg-gray-900 bg-opacity-70"
+			className="fixed z-1 top-0 left-0 min-w-full min-h-full w-full flex justify-center items-center bg-gray-900 bg-opacity-70"
 			onClick={closeSettingsModal}
 		>
 			<div
-				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 lg:w-1/2 w-3/4 shadow-2xl max-w-lg"
+				className="bg-white flex flex-col justify-center items-center rounded-md border p-4 lg:w-1/2 w-4/5 shadow-2xl max-w-lg"
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className="flex justify-center items-center w-full">

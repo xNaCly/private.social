@@ -12,11 +12,13 @@ export default function EditAvatar({
 	updateUser: (u: IUser) => void;
 	closeEditAvatarModal: () => void;
 }) {
+	/**
+	 * @description uploads the avatar to the CDN, sends the asset url to the api and updates the user state
+	 * @param {EventTarget} e
+	 */
 	function uploadPhoto(e: EventTarget) {
 		let element = e as HTMLInputElement;
-		if (element.files?.length === 0) {
-			return;
-		}
+		if (element.files?.length === 0) return;
 		let file = element.files?.[0]!;
 		if (file) {
 			let f1 = async () => {
@@ -43,6 +45,9 @@ export default function EditAvatar({
 		}
 	}
 
+	/**
+	 * @description removes the path to the asset from the User object, sends the new user object to the api and updates the user state
+	 */
 	function removePhoto() {
 		let f = async () => {
 			await xfetch(ROUTES.me, {
