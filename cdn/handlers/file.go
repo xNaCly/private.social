@@ -9,6 +9,8 @@ import (
 	"github.com/xnacly/private.social/cdn/util"
 )
 
+// TODO: crop image to 1:1
+// TODO: resize to 1024x1024
 func AcceptIncomingFile(c *fiber.Ctx) error {
 	file := c.Params("file")
 

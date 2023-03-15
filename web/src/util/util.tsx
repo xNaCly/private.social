@@ -44,7 +44,7 @@ export function formatDate(date: Date): string {
 		return "less than a minute ago";
 	} else if (calc < hour) {
 		let minutes = Math.floor(calc / minute);
-		return `${minutes} minutes${minutes > 1 ? "s" : ""} ago`;
+		return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
 	} else if (calc < day) {
 		let hours = Math.floor(calc / hour);
 		return `${hours} hour${hours > 1 ? "s" : ""} ago`;

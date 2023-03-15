@@ -1,18 +1,25 @@
 import { useState } from "react";
 import { PlusCircle, User, Home } from "react-feather";
 import { NavLink } from "react-router-dom";
-import NotificationModal from "./notification/NotificationModal";
+// import NotificationModal from "./notification/NotificationModal";
+import CreatePostModal from "./post/CreatePostModal";
 
 export default function Navigation() {
-	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
+	// const [notificationModalOpen, setNotificationModalOpen] = useState(false);
+	const [uploadModalOpen, setUploadModalOpen] = useState(false);
 
 	return (
 		<>
-			{notificationModalOpen && (
+			{/*notificationModalOpen && (
 				<NotificationModal
 					closeNotificationModal={() =>
 						setNotificationModalOpen(false)
 					}
+				/>
+			)*/}
+			{uploadModalOpen && (
+				<CreatePostModal
+					closeUploadModal={() => setUploadModalOpen(false)}
 				/>
 			)}
 			<nav className="flex justify-between items-center p-1 pt-2 mx-4">
@@ -57,9 +64,12 @@ export default function Navigation() {
 					<button className="m-1 p-3 hover:bg-gray-200 rounded">
 						<Send size={22} />
 					</button>*/}
-					<div className="bg-trantlabs hover:shadow-lg hover:shadow-trantlabs/40 cursor-pointer m-1 p-2 px-4 flex justify-center items-center rounded text-white transition-all">
+					<div
+						className="bg-trantlabs hover:shadow-lg hover:shadow-trantlabs/40 cursor-pointer m-1 p-2 px-4 flex justify-center items-center rounded text-white transition-all"
+						onClick={() => setUploadModalOpen(!uploadModalOpen)}
+					>
 						<PlusCircle size={22} className="mr-2" />
-						<span className="text-lg">Upload</span>
+						<span className="text-lg select-none">Upload</span>
 					</div>
 				</div>
 			</nav>

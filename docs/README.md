@@ -120,16 +120,6 @@ In addition, we use one external service:
 
 -   **[ui.avatars](https://ui-avatars.com/)**: This service is used to provide new users with a default profile picture.
 
-# Application Screenshots
-
-![signup page screenshot](assets/signup.png)
-![login page screenshot](assets/login.png)
-![login page with error screenshot](assets/login-with-error.png)
-![profile page screenshot](assets/profile.png)
-![profile settings screenshot](assets/profile-settings.png)
-![change avatar screenshot](assets/profile-change-avatar.png)
-![post page screenshot](assets/post-screen.png)
-
 # Task distribution
 
 | Teammember | Task                                       |
@@ -527,6 +517,201 @@ The project is structured as follows:
 The web frontend is written using [Typescript](https://www.typescriptlang.org/), [React.js](https://reactjs.org/) as the Framework, [Vite](https://vitejs.dev/) as a bundler and dev server, [Tailwind](https://tailwindcss.com/) & [Postcss](https://postcss.org/) as the css framework and [react-router](https://reactrouter.com/en/main) as the routing provider.
 
 The package manager for node is [pnpm](https://pnpm.io/), which is faster than its competitors and stores modules globally.
+
+After being accessed the frontend application firstly makes sure if the api is accessable using the `web/src/util/fetch.xfetch` wrapper wrapped in the `web/src/util/util.isBackendAvailable` function:
+
+```typescript
+// web/util/fetch.ts
+export async function xfetch(
+    path: string,
+    options: { body?: {}; method?: string; token?: string } = {}
+): Promise<IResponse> {
+    let response = await fetch(path, {
+        body: options.body ? JSON.stringify(options.body) : null,
+        method: options.method ?? "GET",
+        signal: AbortSignal.timeout(5000),
+        headers: {
+            "Content-Type": "application/json",
+            ...(options?.token && { Authorization: `Bearer ${options.token}` }),
+        },
+    });
+
+    let json = await response.json();
+
+    return json;
+}
+
+// web/util/util.ts
+export async function isBackendAvailable(): Promise<boolean> {
+    try {
+        return (await xfetch(ROUTES.ping, {})).success;
+    } catch {
+        return false;
+    }
+}
+```
+
+If the `web/src/util/util.isBackendAvailable` function returns false, the frontend stops all operation and displays the following error message:
+
+![error message backend unavailable](assets/error-backend-unavailable.png)
+
+If the function returns true everything commences normally and the frontend displays a login page:
+
+![login page screenshot](assets/login.png)
+
+If the user does not have an account and wishes to sign up, clicking on the `Sign up instead` button redirects to the following Signup page:
+
+![signup page screenshot](assets/signup.png)
+
+If the user however decides to login and an error occurs the web application displays the error in a box highlighted with a red background and border:
+
+![login page with error screenshot](assets/login-with-error.png)
+
+After successfully logging in, the user can either change their profile picture by clicking on the image on the left of their username:
+
+![profile page screenshot](assets/profile.png)
+
+![change avatar screenshot](assets/profile-change-avatar.png)
+
+or edit his profile by clicking the `edit` button:
+
+![profile settings screenshot](assets/profile-settings.png)
+
+To upload a picture the user clicks the bright green `+ Upload` button in the top right of the screen, this opens the following input:
+
+![upload post dialog](assets/upload-post-dialog.png)
+
+After clicking the `Upload Post` the user selects a picture and is prompted to input a description and has the choice of either removing the photo and choosing a different one of creating the post:
+
+![upload post dialog with image](assets/upload-post-dialog-with-picture.png)
+
+After the post is successfully created the post can be viewed by clicking on its preview in the profile screen, after that the following is displayed:
+
+![post page screenshot](assets/post-screen.png)
+
+As stated before, the routing is done by `react-router` which allows the application to route and redirect without reloading the page.
+
+The main routing logic is located in the `web/src/App.tsx` file:
+
+```typescript
+// imports...
+export default function App() {
+    // define two reactive variables
+    const [bearer, setBearer] = useState<string | null>(getToken());
+    const [backendAvailable, setBackendAvailable] = useState<boolean>(true);
+
+    function updateBearer(bearer: string | null) {
+        setBearer(bearer);
+    }
+
+    useEffect(() => {
+        (async () => {
+            setBackendAvailable(await isBackendAvailable());
+        })();
+    }, []);
+
+    return (
+        <>
+            {backendAvailable ? (
+                <Router>
+                    <div className="lg:mx-6 md:mx-6 sm:mx-0">
+                        {bearer && <Navigation />}
+                        <Routes>
+                            {!bearer ? (
+                                <>
+                                    <Route
+                                        index
+                                        element={
+                                            <Login
+                                                bearerUpdater={updateBearer}
+                                            />
+                                        }
+                                    />
+                                    <Route
+                                        path="/signup"
+                                        element={
+                                            <Signup
+                                                bearerUpdater={updateBearer}
+                                            />
+                                        }
+                                    />
+                                    <Route
+                                        path="*"
+                                        element={<Navigate to="/" replace />}
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <Route index element={<Home />} />
+                                    <Route
+                                        path="profile"
+                                        element={<Profile />}
+                                    />
+                                    <Route
+                                        path="post/:postId"
+                                        element={<Post />}
+                                    />
+                                    <Route
+                                        path="login"
+                                        element={<Navigate to="/" replace />}
+                                    />
+                                    <Route
+                                        path="signup"
+                                        element={<Navigate to="/" replace />}
+                                    />
+                                    <Route path="*" element={<Error />} />
+                                </>
+                            )}
+                        </Routes>
+                    </div>
+                </Router>
+            ) : (
+                <>
+                    <div className="flex flex-col items-center justify-center h-screen">
+                        <h1 className="text-4xl font-bold">
+                            Backend is not available, the instance hoster did
+                            not configure private.social correctly!
+                        </h1>
+                    </div>
+                </>
+            )}
+        </>
+    );
+}
+```
+
+The exported `App` function is then imported into the `web/src/main.tsx` file which renders the application into the `web/index.html` file
+
+```typescript
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+
+console.info(`
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                          │
+│   ██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗   ███████╗ ██████╗  ██████╗██╗ █████╗ ██╗        │
+│   ██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝   ██╔════╝██╔═══██╗██╔════╝██║██╔══██╗██║        │
+│   ██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗     ███████╗██║   ██║██║     ██║███████║██║        │
+│   ██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝     ╚════██║██║   ██║██║     ██║██╔══██║██║        │
+│   ██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗██╗███████║╚██████╔╝╚██████╗██║██║  ██║███████╗   │
+│   ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝╚══════╝ ╚═════╝  ╚═════╝╚═╝╚═╝  ╚═╝╚══════╝   │
+│                                                                                                          │
+│   The private, selfhostable and customizable social network - https://github.com/xnacly/private.social   │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+`);
+console.log("Creating the application...");
+
+ReactDOM.createRoot(document.getElementById("app") as HTMLElement).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+);
+```
+
+The console logs result in the following output upon opening the development tools:
+
+![information logs](assets/console-output.png)
 
 ### Directory content
 
@@ -940,12 +1125,23 @@ To check if everything works navigate to [http://localhost](http://localhost).
 
 ## Development environment
 
+We generally recommend against running each project on its own if not hacking around at the source code.
+Please use the docker compose setup.
+
+`git` is required to download the project:
+
 ```bash
 git clone https://github.com/xNaCly/private.social.git
 cd private.social
 ```
 
 ### API
+
+To start the API firstly `go` and mongodb must be installed and mongodb must be started locally.
+
+An easier way to access a database is to use mongoDB [atlas](https://www.mongodb.com/atlas) to create a new database and connect to it.
+
+After acquiring the database connection URL, simply append the url right of the `MONGO_URL` in the `.env` file and insert a random `JWT_SECRET`.
 
 ```bash
 cd api/
