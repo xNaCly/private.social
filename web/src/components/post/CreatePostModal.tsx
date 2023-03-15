@@ -28,7 +28,6 @@ export default function CreatePostModal({
 			if (!res.success) return setError(res.message);
 			else {
 				closeUploadModal();
-				window.location.reload();
 			}
 		};
 		req();
@@ -63,26 +62,25 @@ export default function CreatePostModal({
 					<div className="border-b-[1px] mb-4 py-4 w-full flex items-center justify-center">
 						<h1 className="text-xl select-none">Create new post</h1>
 					</div>
-					{error ? (
+					{error && (
 						<div className="my-2 mb-6 rounded border p-2 bg-red-100 border-red-300 w-1/2 text-center">
 							<h3>An Error occured:</h3>
 							<p className="text-gray-500">{error}</p>
 						</div>
-					) : (
-						<div className="flex justify-center items-center mb-4">
-							{imagePath ? (
-								<img
-									src={imagePath}
-									alt="uploaded image"
-									className="border w-32 h-32 lg:w-64 lg:h-64 rounded-md"
-								/>
-							) : (
-								<div className="border bg-gray-100 w-32 h-32 lg:w-64 lg:h-64 rounded-md text-gray-400 flex items-center justify-center">
-									<Image size={64} className="stroke-1" />
-								</div>
-							)}
-						</div>
 					)}
+					<div className="flex justify-center items-center mb-4">
+						{imagePath ? (
+							<img
+								src={imagePath}
+								alt="uploaded image"
+								className="border w-32 h-32 lg:w-64 lg:h-64 rounded-md object-cover"
+							/>
+						) : (
+							<div className="border bg-gray-100 w-32 h-32 lg:w-64 lg:h-64 rounded-md text-gray-400 flex items-center justify-center">
+								<Image size={64} className="stroke-1" />
+							</div>
+						)}
+					</div>
 					{imagePath && (
 						<div className="w-full">
 							<label className="text-center cursor-pointer font-bold text-lg py-4 border-t-[1px] border-gray-300 w-full">
