@@ -90,7 +90,7 @@ export default function Profile() {
 								Edit Profile
 							</button>
 						</div>
-						<div className="flex my-4">
+						<div className="flex my-4 flex-col md:flex-row">
 							<div className="flex mr-4 items-center">
 								<h3 className="font-bold mr-1">
 									{user?.stats.posts}
@@ -110,7 +110,7 @@ export default function Profile() {
 								<p>Following</p>
 							</div>
 						</div>
-						<div className="flex flex-col">
+						<div className="flex flex-col max-w-[15rem] lg:max-w-xs break-all">
 							<div className="flex my-1 items-center">
 								<span className="mr-2">
 									{user?.display_name}
@@ -125,9 +125,7 @@ export default function Profile() {
 									{user?.bio.location}
 								</div>
 							</div>
-							<span className="my-1 max-w-lg">
-								{user?.bio.text}
-							</span>
+							<span className="my-1">{user?.bio.text}</span>
 							<span>
 								<a
 									className="my-1 text-trantlabs hover:text-gray-500"
@@ -155,7 +153,7 @@ export default function Profile() {
 						</div>
 					) : (
 						<div
-							className="pt-8 grid lg:grid-cols-3 grid-cols-2 mt-6 lg:w-3/4 xl:w-1/2 w-full lg:px-8 lg:gap-8 md:gap-4 sm:gap-2 gap-1 place-items-center"
+							className="pt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-6 lg:w-3/4 xl:w-1/2 w-full lg:px-8 lg:gap-8 md:gap-4 sm:gap-2 gap-1 place-items-center"
 							style={{
 								borderTopWidth: "1px",
 								gridTemplateRows: "1fr min-content",
@@ -164,7 +162,7 @@ export default function Profile() {
 							{posts.map((p) => (
 								<Link to={`/post/${p.id}`}>
 									<img
-										className="border-[1px] lg:w-80 md:w-60 min-w-40 min-h-40 cursor-pointer aspect-square object-cover"
+										className="border-[1px] lg:w-80 md:w-60 min-w-40 min-h-40 max-h-80 cursor-pointer aspect-square object-cover"
 										src={p.url}
 										alt={p.description}
 										key={p.id}

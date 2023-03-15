@@ -40,7 +40,7 @@ export default function Post() {
 			{post ? (
 				<>
 					<div className="mb-8 mt-4 w-full flex justify-center items-center">
-						<div className="border flex flex-col lg:w-1/2 items-start justify-start">
+						<div className="border flex flex-col lg:w-1/2 items-start justify-start max-w-fit">
 							<div className="flex items-center flex-col p-4">
 								<div className="flex items-center">
 									<img
