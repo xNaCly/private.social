@@ -610,93 +610,42 @@ After the post is successfully created the post can be viewed by clicking on its
 
 As stated before, the routing is done by `react-router` which allows the application to route and redirect without reloading the page.
 
-The main routing logic is located in the `web/src/App.tsx` file:
+The main routing logic is located in the `web/src/App.tsx` file. This file exports the `App` function which contains a `Routes` react-router component which in it self includes a lot of `Route` components which tell the router to map certain routes to components.
 
-```typescript
-// imports...
+For example:
+
+```jsx
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
+} from "react-router-dom";
+
 export default function App() {
-    // define two reactive variables
-    const [bearer, setBearer] = useState<string | null>(getToken());
-    const [backendAvailable, setBackendAvailable] = useState<boolean>(true);
-
-    function updateBearer(bearer: string | null) {
-        setBearer(bearer);
-    }
-
-    useEffect(() => {
-        (async () => {
-            setBackendAvailable(await isBackendAvailable());
-        })();
-    }, []);
-
     return (
         <>
-            {backendAvailable ? (
-                <Router>
-                    <div className="lg:mx-6 md:mx-6 sm:mx-0">
-                        {bearer && <Navigation />}
-                        <Routes>
-                            {!bearer ? (
-                                <>
-                                    <Route
-                                        index
-                                        element={
-                                            <Login
-                                                bearerUpdater={updateBearer}
-                                            />
-                                        }
-                                    />
-                                    <Route
-                                        path="/signup"
-                                        element={
-                                            <Signup
-                                                bearerUpdater={updateBearer}
-                                            />
-                                        }
-                                    />
-                                    <Route
-                                        path="*"
-                                        element={<Navigate to="/" replace />}
-                                    />
-                                </>
-                            ) : (
-                                <>
-                                    <Route index element={<Home />} />
-                                    <Route
-                                        path="profile"
-                                        element={<Profile />}
-                                    />
-                                    <Route
-                                        path="post/:postId"
-                                        element={<Post />}
-                                    />
-                                    <Route
-                                        path="login"
-                                        element={<Navigate to="/" replace />}
-                                    />
-                                    <Route
-                                        path="signup"
-                                        element={<Navigate to="/" replace />}
-                                    />
-                                    <Route path="*" element={<Error />} />
-                                </>
-                            )}
-                        </Routes>
-                    </div>
-                </Router>
-            ) : (
-                <>
-                    <div className="flex flex-col items-center justify-center h-screen">
-                        <h1 className="text-4xl font-bold">
-                            Backend is not available, the instance hoster did
-                            not configure private.social correctly!
-                        </h1>
-                    </div>
-                </>
-            )}
+            <Router>
+                <Routes>
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/post/:postId" element={<Post />} />
+                </Routes>
+            </Router>
         </>
     );
 }
+```
+
+The imported `Router` which is the alias for `BrowserRouter` is used to contain the whole routing logic.
+The `Routes` component works like a switch case statement, it matches for the path specified and returns the component specified in the `element` property.
+
+The example above renders the `Profile` component if the browser location matches the `/profile` string.
+The second example showcases dynamic url parameters. A url parameter is prefixed with `:` and can be accessed in the Component using the [`useParams`](https://reactrouter.com/en/main/hooks/use-params) hook, like so:
+
+<!--TODO:-->
+
+```
+
 ```
 
 The exported `App` function is then imported into the `web/src/main.tsx` file which renders the application into the `web/index.html` file
