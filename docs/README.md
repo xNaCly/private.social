@@ -4,7 +4,7 @@ subtitle: Privacy by default, Open-Source social network
 lang: en
 geometry: a4paper
 numbersections: yes
-documentclass: "article"
+documentclass: "book"
 author:
     - xnacly
     - ellirynbw
@@ -128,6 +128,16 @@ In addition, we use one external service:
 | 9197785    | Docker, Nginx and mongodb setup, docs      |
 | 8478190    | Docs, API database wrapper, config package |
 | 1823169    | CDN, docs and web design                   |
+
+# Project architecture
+
+```mermaid
+flowchart TB
+    Z[Incoming request] --> A
+    A[Nginx] --redirects /api to--> B[API]
+    A --redirects /cdn to--> C[CDN]
+    B --interacts--> D[Database]
+```
 
 # Project structures
 
@@ -563,31 +573,40 @@ If the user does not have an account and wishes to sign up, clicking on the `Sig
 
 ![signup page screenshot](assets/signup.png)
 
+\newpage
+
 If the user however decides to login and an error occurs the web application displays the error in a box highlighted with a red background and border:
 
 ![login page with error screenshot](assets/login-with-error.png)
+\newpage
 
 After successfully logging in, the user can either change their profile picture by clicking on the image on the left of their username:
 
 ![profile page screenshot](assets/profile.png)
+\newpage
 
 ![change avatar screenshot](assets/profile-change-avatar.png)
 
 or edit his profile by clicking the `edit` button:
 
 ![profile settings screenshot](assets/profile-settings.png)
+\newpage
 
 To upload a picture the user clicks the bright green `+ Upload` button in the top right of the screen, this opens the following input:
 
 ![upload post dialog](assets/upload-post-dialog.png)
+\newpage
 
 After clicking the `Upload Post` the user selects a picture and is prompted to input a description and has the choice of either removing the photo and choosing a different one of creating the post:
 
 ![upload post dialog with image](assets/upload-post-dialog-with-picture.png)
+\newpage
 
 After the post is successfully created the post can be viewed by clicking on its preview in the profile screen, after that the following is displayed:
 
 ![post page screenshot](assets/post-screen.png)
+
+\newpage
 
 As stated before, the routing is done by `react-router` which allows the application to route and redirect without reloading the page.
 
