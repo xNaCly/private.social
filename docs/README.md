@@ -642,11 +642,17 @@ The `Routes` component works like a switch case statement, it matches for the pa
 The example above renders the `Profile` component if the browser location matches the `/profile` string.
 The second example showcases dynamic url parameters. A url parameter is prefixed with `:` and can be accessed in the Component using the [`useParams`](https://reactrouter.com/en/main/hooks/use-params) hook, like so:
 
-<!--TODO:-->
+```jsx
+import { useParams } from "react-router-dom";
 
+export default function Post() {
+    const { postId } = useParams();
+
+    return <>{postId}</>;
+}
 ```
 
-```
+This renders the `postId` parameter.
 
 The exported `App` function is then imported into the `web/src/main.tsx` file which renders the application into the `web/index.html` file
 
