@@ -129,6 +129,8 @@ In addition, we use one external service:
 | 8478190    | Docs, API database wrapper, config package |
 | 1823169    | CDN, docs and web design                   |
 
+# Processes
+
 # Project architecture
 
 ```mermaid
