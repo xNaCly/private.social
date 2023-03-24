@@ -194,9 +194,9 @@ This project is structured into four main directories:
 
 ## CDN
 
-The cdn is started via `go run .` which downloads all the dependencies the go compiler needs to create a executable.
+The cdn is started via `go run .`, this downloads all the dependencies the go compiler needs to create an executable.
 After starting, the cdn checks if the directory `./vfs` exists, if not it creates the directory.
-The next step is a custom error handler which returns a `ApiResponse` go structure to the user, which translated to the following json object:
+The next step is a custom error handler which returns a `ApiResponse` go structure to the user, which translates to the following json object:
 
 ```json
 {
