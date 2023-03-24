@@ -133,13 +133,7 @@ In addition, we use one external service:
 
 # Project architecture
 
-```mermaid
-flowchart TB
-    Z[Incoming request] --> A
-    A[Nginx] --redirects /api to--> B[API]
-    A --redirects /cdn to--> C[CDN]
-    B --interacts--> D[Database]
-```
+![project architecture](assets/architecture.png){height=200px; width=200px}
 
 # Project structures
 
