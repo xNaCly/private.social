@@ -354,7 +354,6 @@ type Route struct {
 	Path        string
 	Method      string
 	Handler     func(*fiber.Ctx) error
-	Middlewares []func(*fiber.Ctx) error
 }
 
 var Routes = []Route{
@@ -369,7 +368,6 @@ var Routes = []Route{
                             Data:    nil,
                         })
                     },
-		Middlewares: []func(*fiber.Ctx) error{},
 	},
 }
 
@@ -443,7 +441,6 @@ type Route struct {
 	Path        string
 	Method      string
 	Handler     func(*fiber.Ctx) error
-	Middlewares []func(*fiber.Ctx) error
 }
 ```
 
