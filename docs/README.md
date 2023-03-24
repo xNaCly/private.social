@@ -1,6 +1,13 @@
 ---
 title: Private.social - Documentation
 subtitle: Privacy by default, Open-Source social network
+description: Private.social is a revolutionary social network that aims to put privacy and security at the forefront of its design.
+keywords:
+    - go
+    - react
+	- vite
+	- privacy
+	- social network
 lang: en
 geometry: a4paper
 numbersections: yes
@@ -14,11 +21,14 @@ date: 14.03.2023
 fontsize: 16pt
 monofont: "Iosevka Nerd Font Mono"
 toc: true
+lof: true
 toc-depth: 3
 colorlinks: true
 ---
 
 # Idea
+
+> GitHub project page: [https://github.com/xnacly/private.social](https://github.com/xnacly/private.social)
 
 Private.social is a revolutionary social network that aims to put privacy and security at the forefront of its design.
 It is a platform where users can create an account without having to provide their email address or phone number, thereby keeping their personal information safe from prying eyes.
@@ -128,6 +138,40 @@ In addition, we use one external service:
 | 9197785    | Docker, Nginx and mongodb setup, docs      |
 | 8478190    | Docs, API database wrapper, config package |
 | 1823169    | CDN, docs and web design                   |
+
+## Statistics:
+
+In sum, the team spent ca. 250 hours working on this project. After completing the project, around 300 commits, 4400 LOC (lines of code), 900 lines of documentation and 1880 lines of Open API documentation have amassed.
+
+For a quick summary, take a look at the following [cloc](https://github.com/AlDanial/cloc) output:
+
+```console
+$ cloc . --vcs=git
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+YAML                             5            186              0           1876
+TypeScript                      22             67             79           1355
+Go                              21            245             99           1039
+Markdown                         5            315              0            903
+JSON                             3              0              0             56
+Dockerfile                       3              3              0             25
+JavaScript                       2              0              1             18
+HTML                             1              1             10             13
+Bourne Shell                     1              2              1             10
+TeX                              1              1              0              5
+CSS                              1              0              0              3
+-------------------------------------------------------------------------------
+SUM:                            65            820            190           5303
+```
+
+Or the total changes made to the git project:
+
+```terminal
+$ git count-lines
+added lines: 11564, removed lines: 4962, total lines: 6602
+```
+
+> `count-lines` alias taken from [stack-overflow](https://stackoverflow.com/questions/1265040/how-to-count-total-lines-changed-by-a-specific-author-in-a-git-repository)
 
 # Processes
 
