@@ -42,6 +42,7 @@ func (db Database) GetPostById(id string, author_id primitive.ObjectID) (models.
 	return post, err
 }
 
+// returns true if a post with the given id is in the database, otherwise false
 func (db Database) DoesPostExist(id string) bool {
 	// returning early saves us 45ms, from 45ms down to 0ms
 	if !primitive.IsValidObjectID(id) {
@@ -57,6 +58,7 @@ func (db Database) DoesPostExist(id string) bool {
 	return err == nil
 }
 
+// returns all posts of a user, returns an empty array if the user has no posts
 func (db Database) GetAllPostsByUserId(id primitive.ObjectID) ([]models.Post, error) {
 	var posts []models.Post
 
@@ -69,6 +71,7 @@ func (db Database) GetAllPostsByUserId(id primitive.ObjectID) ([]models.Post, er
 	return posts, nil
 }
 
+// deletes a post by its id, returns an error if the post does not exist and could therefore not be deleted
 func (db Database) DeletePostById(id string, author_id primitive.ObjectID) error {
 	if !primitive.IsValidObjectID(id) {
 		return errors.New("invalid id")

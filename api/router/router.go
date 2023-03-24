@@ -13,6 +13,7 @@ type Route struct {
 	Handler func(*fiber.Ctx) error // handler function, example: func(c *fiber.Ctx) error { return c.SendString("Hello, World!") }
 }
 
+// contains all routes which need to be accessed without authentication
 var UnauthenticatedRoutes = []Route{
 	{
 		Path:    "/ping",
@@ -31,6 +32,7 @@ var UnauthenticatedRoutes = []Route{
 	},
 }
 
+// contains all routes which need to be accessed with authentication
 var Routes = []Route{
 	{
 		Path:    "/user/me",

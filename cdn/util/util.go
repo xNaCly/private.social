@@ -40,6 +40,7 @@ var SUPPORTED_FORMATS_STR = func() string {
 	return strings.Join(keys, ", ")
 }()
 
+// generates a random string of the given length
 func RandomString(length int) string {
 	rand.Seed(time.Now().UnixNano())
 	b := make([]byte, length)
@@ -49,10 +50,12 @@ func RandomString(length int) string {
 	return string(b)
 }
 
+// encodes the given string to base64
 func EncodeFileName(fileName string) string {
 	return base64.StdEncoding.EncodeToString([]byte(fileName))
 }
 
+// creates the 'vfs' directory if it doesn't exist
 func CreateVfsIfNotFound() {
 	if _, err := os.Stat("./vfs"); os.IsNotExist(err) {
 		os.Mkdir("./vfs", 0777)

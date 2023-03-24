@@ -34,6 +34,7 @@ type ApiResponse struct {
 	Data    fiber.Map `json:"data"`    // additional data to send to the client
 }
 
+// generates a new timestamp for the given time in the mongodb format
 func GetTimeStamp() primitive.DateTime {
 	return primitive.NewDateTimeFromTime(time.Now())
 }

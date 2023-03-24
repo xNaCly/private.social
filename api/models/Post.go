@@ -10,7 +10,7 @@ type CreatePost struct {
 }
 
 type Post struct {
-	Id            primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Id            primitive.ObjectID `bson:"_id,omitempty" json:"id"` // is is a primitive.ObjectID, created by mongoDB
 	Url           string             `bson:"url" json:"url"`
 	Description   string             `bson:"description" json:"description"`
 	CreatedAt     primitive.DateTime `bson:"created_at" json:"created_at"`
