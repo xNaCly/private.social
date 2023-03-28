@@ -1,0 +1,19 @@
+{
+    "color_output": true,
+    "commands": [
+        {
+            "cwd": "api",
+            "cmd": "go run ."
+        },
+        {
+            "cwd": "cdn",
+            "cmd": "go run ."
+        },
+        {
+            "cwd": "web",
+            "cmd": "pnpm dev"
+        }
+    ],
+    "log_file": "",
+    "surpress_output": false
+}
