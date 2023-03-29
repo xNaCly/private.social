@@ -42,6 +42,7 @@ func LoadDotEnv() {
 	}
 }
 
+// loads all the environment variables defined in CONFIG_KEYS and sets their values in the Config map
 func LoadConfig() {
 	for _, key := range CONFIG_KEYS {
 		if val, ok := os.LookupEnv(key); ok {

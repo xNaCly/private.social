@@ -1,24 +1,29 @@
 ---
 title: Private.social - Documentation
 subtitle: Privacy by default, Open-Source social network
+description: Private.social is a revolutionary social network that aims to put privacy and security at the forefront of its design.
+keywords:
+    - go
+    - react
+	- vite
+	- privacy
+	- social network
 lang: en
 geometry: a4paper
 numbersections: yes
-documentclass: "article"
-author:
-    - xnacly
-    - ellirynbw
-    - derPhilosoff
-    - noschnosch
+documentclass: "book"
 date: 14.03.2023
 fontsize: 16pt
 monofont: "Iosevka Nerd Font Mono"
 toc: true
+lof: true
 toc-depth: 3
 colorlinks: true
 ---
 
 # Idea
+
+> GitHub project page: [https://github.com/xnacly/private.social](https://github.com/xnacly/private.social)
 
 Private.social is a revolutionary social network that aims to put privacy and security at the forefront of its design.
 It is a platform where users can create an account without having to provide their email address or phone number, thereby keeping their personal information safe from prying eyes.
@@ -129,6 +134,44 @@ In addition, we use one external service:
 | 8478190    | Docs, API database wrapper, config package |
 | 1823169    | CDN, docs and web design                   |
 
+## Statistics:
+
+In sum, the team spent ca. 250 hours working on this project. After completing the project, around 300 commits, 4400 LOC (lines of code), 900 lines of documentation and 1880 lines of Open API documentation have amassed.
+
+For a quick summary, take a look at the following [cloc](https://github.com/AlDanial/cloc) output:
+
+```console
+$ cloc . --vcs=git
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+YAML                             5            186              0           1876
+TypeScript                      22             67             79           1355
+Go                              21            245             99           1039
+Markdown                         5            315              0            903
+JSON                             3              0              0             56
+Dockerfile                       3              3              0             25
+JavaScript                       2              0              1             18
+HTML                             1              1             10             13
+Bourne Shell                     1              2              1             10
+TeX                              1              1              0              5
+CSS                              1              0              0              3
+-------------------------------------------------------------------------------
+SUM:                            65            820            190           5303
+```
+
+Or the total changes made to the git project:
+
+```terminal
+$ git count-lines
+added lines: 11564, removed lines: 4962, total lines: 6602
+```
+
+> `count-lines` alias taken from [stack-overflow](https://stackoverflow.com/questions/1265040/how-to-count-total-lines-changed-by-a-specific-author-in-a-git-repository)
+
+# Project architecture
+
+![project architecture](assets/architecture.png){height=400px; width=400px}
+
 # Project structures
 
 The following chapter is a short summary of the projects directories and what path contains what part of the business logic.
@@ -144,9 +187,9 @@ This project is structured into four main directories:
 
 ## CDN
 
-The cdn is started via `go run .` which downloads all the dependencies the go compiler needs to create a executable.
+The cdn is started via `go run .`, this downloads all the dependencies the go compiler needs to create an executable.
 After starting, the cdn checks if the directory `./vfs` exists, if not it creates the directory.
-The next step is a custom error handler which returns a `ApiResponse` go structure to the user, which translated to the following json object:
+The next step is a custom error handler which returns a `ApiResponse` go structure to the user, which translates to the following json object:
 
 ```json
 {
@@ -304,7 +347,6 @@ type Route struct {
 	Path        string
 	Method      string
 	Handler     func(*fiber.Ctx) error
-	Middlewares []func(*fiber.Ctx) error
 }
 
 var Routes = []Route{
@@ -319,7 +361,6 @@ var Routes = []Route{
                             Data:    nil,
                         })
                     },
-		Middlewares: []func(*fiber.Ctx) error{},
 	},
 }
 
@@ -393,7 +434,6 @@ type Route struct {
 	Path        string
 	Method      string
 	Handler     func(*fiber.Ctx) error
-	Middlewares []func(*fiber.Ctx) error
 }
 ```
 
@@ -563,122 +603,86 @@ If the user does not have an account and wishes to sign up, clicking on the `Sig
 
 ![signup page screenshot](assets/signup.png)
 
+\newpage
+
 If the user however decides to login and an error occurs the web application displays the error in a box highlighted with a red background and border:
 
 ![login page with error screenshot](assets/login-with-error.png)
+\newpage
 
 After successfully logging in, the user can either change their profile picture by clicking on the image on the left of their username:
 
 ![profile page screenshot](assets/profile.png)
+\newpage
 
 ![change avatar screenshot](assets/profile-change-avatar.png)
 
 or edit his profile by clicking the `edit` button:
 
 ![profile settings screenshot](assets/profile-settings.png)
+\newpage
 
 To upload a picture the user clicks the bright green `+ Upload` button in the top right of the screen, this opens the following input:
 
 ![upload post dialog](assets/upload-post-dialog.png)
+\newpage
 
 After clicking the `Upload Post` the user selects a picture and is prompted to input a description and has the choice of either removing the photo and choosing a different one of creating the post:
 
 ![upload post dialog with image](assets/upload-post-dialog-with-picture.png)
+\newpage
 
 After the post is successfully created the post can be viewed by clicking on its preview in the profile screen, after that the following is displayed:
 
 ![post page screenshot](assets/post-screen.png)
 
+\newpage
+
 As stated before, the routing is done by `react-router` which allows the application to route and redirect without reloading the page.
 
-The main routing logic is located in the `web/src/App.tsx` file:
+The main routing logic is located in the `web/src/App.tsx` file. This file exports the `App` function which contains a `Routes` react-router component which in it self includes a lot of `Route` components which tell the router to map certain routes to components.
 
-```typescript
-// imports...
+For example:
+
+```jsx
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    Navigate,
+} from "react-router-dom";
+
 export default function App() {
-    // define two reactive variables
-    const [bearer, setBearer] = useState<string | null>(getToken());
-    const [backendAvailable, setBackendAvailable] = useState<boolean>(true);
-
-    function updateBearer(bearer: string | null) {
-        setBearer(bearer);
-    }
-
-    useEffect(() => {
-        (async () => {
-            setBackendAvailable(await isBackendAvailable());
-        })();
-    }, []);
-
     return (
         <>
-            {backendAvailable ? (
-                <Router>
-                    <div className="lg:mx-6 md:mx-6 sm:mx-0">
-                        {bearer && <Navigation />}
-                        <Routes>
-                            {!bearer ? (
-                                <>
-                                    <Route
-                                        index
-                                        element={
-                                            <Login
-                                                bearerUpdater={updateBearer}
-                                            />
-                                        }
-                                    />
-                                    <Route
-                                        path="/signup"
-                                        element={
-                                            <Signup
-                                                bearerUpdater={updateBearer}
-                                            />
-                                        }
-                                    />
-                                    <Route
-                                        path="*"
-                                        element={<Navigate to="/" replace />}
-                                    />
-                                </>
-                            ) : (
-                                <>
-                                    <Route index element={<Home />} />
-                                    <Route
-                                        path="profile"
-                                        element={<Profile />}
-                                    />
-                                    <Route
-                                        path="post/:postId"
-                                        element={<Post />}
-                                    />
-                                    <Route
-                                        path="login"
-                                        element={<Navigate to="/" replace />}
-                                    />
-                                    <Route
-                                        path="signup"
-                                        element={<Navigate to="/" replace />}
-                                    />
-                                    <Route path="*" element={<Error />} />
-                                </>
-                            )}
-                        </Routes>
-                    </div>
-                </Router>
-            ) : (
-                <>
-                    <div className="flex flex-col items-center justify-center h-screen">
-                        <h1 className="text-4xl font-bold">
-                            Backend is not available, the instance hoster did
-                            not configure private.social correctly!
-                        </h1>
-                    </div>
-                </>
-            )}
+            <Router>
+                <Routes>
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/post/:postId" element={<Post />} />
+                </Routes>
+            </Router>
         </>
     );
 }
 ```
+
+The imported `Router` which is the alias for `BrowserRouter` is used to contain the whole routing logic.
+The `Routes` component works like a switch case statement, it matches for the path specified and returns the component specified in the `element` property.
+
+The example above renders the `Profile` component if the browser location matches the `/profile` string.
+The second example showcases dynamic url parameters. A url parameter is prefixed with `:` and can be accessed in the Component using the [`useParams`](https://reactrouter.com/en/main/hooks/use-params) hook, like so:
+
+```jsx
+import { useParams } from "react-router-dom";
+
+export default function Post() {
+    const { postId } = useParams();
+
+    return <>{postId}</>;
+}
+```
+
+This renders the `postId` parameter.
 
 The exported `App` function is then imported into the `web/src/main.tsx` file which renders the application into the `web/index.html` file
 
@@ -869,6 +873,21 @@ Additionally, Go's built-in concurrency and parallelism features make it easy to
 Finally, as someone who has experience working with JWT and a dislike for Java and a belief that JavaScript can be too slow, Go offers a refreshing alternative that is both fast and reliable. With its focus on performance and efficiency, Go can handle large amounts of data and requests with ease, while still providing the flexibility and scalability that developers need to build modern web applications.
 
 Given my desire to learn and utilize Go for backend development, and the advantages of using Go as outlined above, it makes sense for me and my team to adopt Go as our primary backend language for building the API and the CDN.
+
+## Database
+
+MongoDB is an outstanding choice for our go backend due to its impressive speed, scalability, and ability to handle large datasets.
+MongoDB's query language is more efficient than traditional SQL, making it ideal for quickly and easily retrieving information from large datasets.
+Furthermore, MongoDB provides great flexibility for modifying and updating data structures with ease.
+This makes MongoDB an optimal choice for our go backend, as it can handle massive data sets with the speed and accuracy required for our application.
+Additionally, MongoDB is capable of handling concurrent operations, ensuring that our application remains responsive and reliable even under substantial load.
+
+## Webserver
+
+We have chosen to use Nginx for serving our web application and reverse proxying certain requests to services for handling these requests for a few reasons.
+First, Nginx is a highly reliable, high performance, and lightweight web server and reverse proxy solution.
+It is designed to handle a large number of concurrent connections, making it ideal for serving web applications.
+Secondly, Nginx provides easy-to-configure rules for reverse proxying requests to services, allowing us to quickly route requests to services that are best suited for handling them.
 
 # Getting started
 

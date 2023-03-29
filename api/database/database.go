@@ -12,9 +12,9 @@ import (
 var Db Database
 
 type Database struct {
-	connection *mongo.Client
-	users      *mongo.Collection
-	posts      *mongo.Collection
+	connection *mongo.Client     // database connection
+	users      *mongo.Collection // database users collection
+	posts      *mongo.Collection // database posts collection
 }
 
 // establishes a connection to the database, failes if the connection cannot be established or the database is not reachable
