@@ -12,11 +12,6 @@ lang: en
 geometry: a4paper
 numbersections: yes
 documentclass: "book"
-author:
-    - xnacly
-    - ellirynbw
-    - derPhilosoff
-    - noschnosch
 date: 14.03.2023
 fontsize: 16pt
 monofont: "Iosevka Nerd Font Mono"
@@ -173,11 +168,9 @@ added lines: 11564, removed lines: 4962, total lines: 6602
 
 > `count-lines` alias taken from [stack-overflow](https://stackoverflow.com/questions/1265040/how-to-count-total-lines-changed-by-a-specific-author-in-a-git-repository)
 
-# Processes
-
 # Project architecture
 
-![project architecture](assets/architecture.png){height=200px; width=200px}
+![project architecture](assets/architecture.png){height=400px; width=400px}
 
 # Project structures
 
@@ -880,6 +873,21 @@ Additionally, Go's built-in concurrency and parallelism features make it easy to
 Finally, as someone who has experience working with JWT and a dislike for Java and a belief that JavaScript can be too slow, Go offers a refreshing alternative that is both fast and reliable. With its focus on performance and efficiency, Go can handle large amounts of data and requests with ease, while still providing the flexibility and scalability that developers need to build modern web applications.
 
 Given my desire to learn and utilize Go for backend development, and the advantages of using Go as outlined above, it makes sense for me and my team to adopt Go as our primary backend language for building the API and the CDN.
+
+## Database
+
+MongoDB is an outstanding choice for our go backend due to its impressive speed, scalability, and ability to handle large datasets.
+MongoDB's query language is more efficient than traditional SQL, making it ideal for quickly and easily retrieving information from large datasets.
+Furthermore, MongoDB provides great flexibility for modifying and updating data structures with ease.
+This makes MongoDB an optimal choice for our go backend, as it can handle massive data sets with the speed and accuracy required for our application.
+Additionally, MongoDB is capable of handling concurrent operations, ensuring that our application remains responsive and reliable even under substantial load.
+
+## Webserver
+
+We have chosen to use Nginx for serving our web application and reverse proxying certain requests to services for handling these requests for a few reasons.
+First, Nginx is a highly reliable, high performance, and lightweight web server and reverse proxy solution.
+It is designed to handle a large number of concurrent connections, making it ideal for serving web applications.
+Secondly, Nginx provides easy-to-configure rules for reverse proxying requests to services, allowing us to quickly route requests to services that are best suited for handling them.
 
 # Getting started
 
