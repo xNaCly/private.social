@@ -1,43 +1,47 @@
 version: "3.9"
 services:
-  db:
-    hostname: db
-    image: mongo
-    restart: always
-    ports:
-      - 27017:27017
-    command: mongod > /dev/null
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: root
-    volumes:
-      - database:/data/db
-  api:
-    build: ./api
-    hostname: api
-    depends_on:
-      - db
-    env_file:
-      - ./ps.env
-    environment:
-      MONGO_URL: mongodb://admin:root@db:27017/
-    ports:
-      - 8000:8000
-  cdn:
-    build: ./cdn
-    hostname: cdn
-    ports:
-      - 8080:8080
-    volumes:
-      - cdn:/vfs
-  web:
-    build: ./web
-    depends_on:
-      - api
-      - cdn
-    ports:
-      - 80:3000
+    db:
+        hostname: db
+        # for cpus without avx support
+        # image: mongo:4.4.18
+
+        # for everyone else
+        image: mongo
+        restart: always
+        ports:
+            - 27017:27017
+        command: mongod > /dev/null
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: root
+        volumes:
+            - database:/data/db
+    api:
+        build: ./api
+        hostname: api
+        depends_on:
+            - db
+        env_file:
+            - ./ps.env
+        environment:
+            MONGO_URL: mongodb://admin:root@db:27017/
+        ports:
+            - 8000:8000
+    cdn:
+        build: ./cdn
+        hostname: cdn
+        ports:
+            - 8080:8080
+        volumes:
+            - cdn:/vfs
+    web:
+        build: ./web
+        depends_on:
+            - api
+            - cdn
+        ports:
+            - 80:3000
 
 volumes:
-  database:
-  cdn:
+    database:
+    cdn:
