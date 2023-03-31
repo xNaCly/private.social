@@ -5,9 +5,9 @@ description: Private.social is a revolutionary social network that aims to put p
 keywords:
     - go
     - react
-	- vite
-	- privacy
-	- social network
+    - vite
+    - privacy
+    - social network
 lang: en
 geometry: a4paper
 numbersections: yes
