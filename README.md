@@ -1,10 +1,11 @@
 # private.social 🤠
 
-Private is the privacy respecting, unique and open source social network. Private was first created over the course of the 4th semester in the web services module.
+Private is a POC of a privacy respecting, unique and open source social network.
+Private was first created over the course of the 4th semester in the web services module.
 
 -   [Documentation](/docs/)
 
-## Getting started
+## Quickstart
 
 1. copy the `api/.env.example` file as `api/.env` and edit the values inside:
     - `MONGO_URL`: create a database using mongodb atlas and insert its connection uri
